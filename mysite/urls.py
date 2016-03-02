@@ -15,13 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.contrib.auth.views import login
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', 'mysite.views.home', name='home'),
 
     # Login / logout.
-    url(r'^login/$', 'django.contrib.auth.views.login'),
+    url(r'^login/$', login),
     url(r'^logout/$', 'mysite.views.logout_page', name='logout_page'),
 
     # Web portal.
