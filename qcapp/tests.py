@@ -34,5 +34,6 @@ class MyTest(TestCase):
         response = index(request)
         print(response)
 
-        # TODO: Test the response status code here, verify it is a redirect
-        # ...
+        # Test the response status code here, verify it is a redirect
+        print(response.status_code)
+        self.assertEqual(response.status_code, 302)
