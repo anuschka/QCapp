@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AnonymousUser
 from django.test import TestCase, RequestFactory
+from django.test import Client
 
 from qcapp.models import SimpleItem
 from qcapp.views import index
@@ -37,3 +38,14 @@ class MyTest(TestCase):
         # Test the response status code here, verify it is a redirect
         print(response.status_code)
         self.assertEqual(response.status_code, 302)
+
+    def setUp(self):
+        # Every test needs a client.
+        self.client = Client()
+
+    def test_with_client(self):
+        # Issue a GET request. Making a GET request to the same directory as above /qcapp/
+        response = self.client.get('/qcapp/')
+
+        # Check that the response is 404 instead of 302 since the view /qcapp/ does not exist.
+        self.assertEqual(response.status_code, 404)
