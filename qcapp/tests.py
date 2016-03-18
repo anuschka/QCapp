@@ -1,8 +1,9 @@
+from django.db.utils import IntegrityError
 from django.contrib.auth.models import AnonymousUser
 from django.test import TestCase, RequestFactory
 from django.test import Client
 
-from qcapp.models import SimpleItem
+from qcapp.models import Cell, SimpleItem
 from qcapp.views import index
 
 
@@ -49,3 +50,35 @@ class MyTest(TestCase):
 
         # Check that the response is 404 instead of 302 since the view /qcapp/ does not exist.
         self.assertEqual(response.status_code, 404)
+
+
+class ModelTest(TestCase):
+    def test_cell(self):
+        cell1 = Cell.objects.create(number=1, type='Something', lot='Lot')
+
+        with self.assertRaises(IntegrityError):
+            cell2 = Cell.objects.create(number=3, type='Something', lot='Lot')
+
+    def test_cell2(self):
+        cell1 = Cell.objects.create(number=1, type='Something', lot='Lot')
+
+        cell2 = Cell.objects.create(number=3, type='Something2', lot='Lot')
+        cell2.type = 'Something'
+
+        with self.assertRaises(IntegrityError):
+            cell2.save()
+
+
+def ProfileTest(TestCase):
+    def test_simple(self):
+        user = User.objects.create_user('drwho', 'drwho@email.com', 'password')
+        profile = Profile.objects.create(user=user, role='A')
+
+        # There should be one user in the db
+        assert len(User.objects.all()) == 1
+
+        # Find drwho
+        drwho = User.objects.get(username='drwho')
+
+        # Verify drwho is an admin
+        assert drwho.profile.role == 'A'

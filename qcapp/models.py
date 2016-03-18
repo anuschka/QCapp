@@ -70,11 +70,16 @@ class Essey(models.Model):
     type = models.CharField(max_length=100, blank=False)
     reagent = models.ForeignKey(Reagent)
     control = models.ForeignKey(Control)
-    technician = models.ForeignKey(User, related_name='name1')
-    doctor = models.ForeignKey(User, related_name='name2')
+    technician = models.ForeignKey(User, related_name='esseys_as_technician')
+    doctor = models.ForeignKey(User, related_name='esseys_as_doctor')
     remark = models.CharField(max_length=200)
     consequence = models.CharField(max_length=1, choices=[('P', 'OK'), ('N', 'NOT OK')])
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         unique_together = ('type', 'created_at', 'technician')
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User)
+    roles = models.CharField(max_length=1, choices=[('T', 'Technician'), ('D', 'Doctor'), ('A', 'Admin')])
