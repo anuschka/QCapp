@@ -3,25 +3,12 @@ from django.contrib.auth.models import AnonymousUser
 from django.test import TestCase, RequestFactory
 from django.test import Client
 
-from qcapp.models import Cell, SimpleItem
+from qcapp.models import Cell
 from qcapp.views import index
 
 
 # Create your tests here.
 class MyTest(TestCase):
-    def test_item(self):
-        # Verify 0 object found:
-        all_objects = SimpleItem.objects.all()
-        assert len(all_objects) == 0
-
-        # Create a simple object (and save to dabase)
-        my_object = SimpleItem.objects.create(name="My item")
-        assert my_object.name == "My item"
-
-        # Verify 1 object found:
-        all_objects = SimpleItem.objects.all()
-        assert len(all_objects) == 1
-
     def test_our_view(self):
         factory = RequestFactory()
 
@@ -54,10 +41,23 @@ class MyTest(TestCase):
 
 class ModelTest(TestCase):
     def test_cell(self):
-        cell1 = Cell.objects.create(number=1, type='Something', lot='Lot')
+        cell1 = Cell.objects.create(number=1, type='ID-DiaPanel 1', lot='06171.75.1', expiry='2016-03-14')
+        cell2 = Cell.objects.create(number=2, type='ID-DiaPanel 2', lot='06171.75.1', expiry='2016-03-14')
+        cell3 = Cell.objects.create(number=3, type='ID-DiaPanel 3', lot='06171.75.1', expiry='2016-03-14')
+        cell4 = Cell.objects.create(number=4, type='ID-DiaPanel 4', lot='06171.75.1', expiry='2016-03-14')
+        cell5 = Cell.objects.create(number=5, type='ID-DiaPanel 5', lot='06171.75.1', expiry='2016-03-14')
+        cell6 = Cell.objects.create(number=6, type='ID-DiaPanel 6', lot='06171.75.1', expiry='2016-03-14')
 
+        # Verify 6 object found.
+        all_objects = Cell.objects.all()
+        assert len(all_objects) == 6
+
+        # Verify that the cell expiry date is correct > this test raises an error / I believe it shouldn't
+        assert cell1.expiry == "2016-03-14"
+
+        # Test that an exception is raised when someone tries to enter one instance twice.
         with self.assertRaises(IntegrityError):
-            cell2 = Cell.objects.create(number=3, type='Something', lot='Lot')
+            cell7 = Cell.objects.create(number=4, type='ID-DiaPanel 3', lot='06171.75.1')
 
     def test_cell2(self):
         cell1 = Cell.objects.create(number=1, type='Something', lot='Lot')
