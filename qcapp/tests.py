@@ -52,7 +52,7 @@ class ModelTest(TestCase):
         all_objects = Cell.objects.all()
         assert len(all_objects) == 6
 
-        # Verify that the cell expiry date is correct > this test raises an error / I believe it shouldn't
+        # Verify that the cell expiry date is correct.
         assert cell1.expiry == "2016-03-14"
 
         # Test that an exception is raised when someone tries to enter one instance twice.

@@ -7,7 +7,7 @@ class Cell(models.Model):
     number = models.IntegerField()
     type = models.CharField(max_length=100, blank=False)
     lot = models.CharField(max_length=100, blank=False)
-    expiry = models.DateTimeField(auto_now_add=True, null=True)
+    expiry = models.DateTimeField(null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
 
     class Meta:
@@ -19,7 +19,7 @@ class CellPanel(models.Model):
     type = models.CharField(max_length=100, blank=False)
     manufacturer = models.CharField(max_length=100, blank=False)
     lot = models.CharField(max_length=100, blank=False)
-    expiry = models.DateTimeField(auto_now_add=True, null=True)
+    expiry = models.DateTimeField(null=True)
     sheet = models.BinaryField()
     cell = models.ForeignKey(Cell)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
@@ -32,7 +32,7 @@ class CellPanel(models.Model):
 class Reagent(models.Model):
     type = models.CharField(max_length=100, blank=False)
     lot = models.CharField(max_length=100, blank=False)
-    expiry = models.DateTimeField(auto_now_add=True, null=True)
+    expiry = models.DateTimeField(null=True)
     manufacturer = models.CharField(max_length=100, blank=False)
     requiresIDcard = models.BooleanField(default=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
@@ -45,7 +45,7 @@ class Reagent(models.Model):
 class IDcard(models.Model):
     type = models.CharField(max_length=100, blank=False)
     lot = models.CharField(max_length=100, blank=False)
-    expiry = models.DateTimeField(auto_now_add=True, null=True)
+    expiry = models.DateTimeField(null=True)
     manufacturer = models.CharField(max_length=100, blank=False)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
 
