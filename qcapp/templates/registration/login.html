@@ -10,15 +10,15 @@
 {% block body %}
   <header>
     <h1>Django application</h1>
-    <h2>Login Page</h2>
   </header>
 
   <section>
+    <!-- <h2>Login Page</h2>
     {% if form.errors %}
       <p>Your username and password didn't match, please try again.</p>
-    {% endif %}
+    {% endif %} -->
 
-    <form method="post" action=".">
+    <!-- <form method="post" action=".">
       {% csrf_token %}
       <p>
         <label for="id_username">Username:</label>
@@ -34,7 +34,17 @@
         <input type="hidden" name="next" value="/portal/" />
       {% endif %}
       <input type="submit" value="login" />
+    </form> -->
+
+    <h2>Register</h2>
+
+    <form method="post" action="/register/">
+      {% csrf_token %}
+      <table>
+        {{ form }}
+      </table>
+      <input type="submit" value="Register">
     </form>
-      <h2>Register</h2>
+
   </section>
 {% endblock %}
