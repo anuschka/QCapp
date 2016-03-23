@@ -3,7 +3,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.test import TestCase, RequestFactory
 from django.test import Client
 
-from qcapp.models import Cell
+from qcapp.models import Cell, CellPanel
 from qcapp.views import index
 
 
@@ -65,9 +65,13 @@ class ModelTest(TestCase):
         cell2 = Cell.objects.create(number=3, type='Something2', lot='Lot')
         cell2.type = 'Something'
 
+        # Test that an exception is raised when someone tries to enter non unuque data.
         with self.assertRaises(IntegrityError):
             cell2.save()
 
+    def test_cellpanel(self):
+        cellpanel1 = CellPanel.objects.create(type='ID-DiaCell I-II-III', manufacturer='BIO-RAD', lot='45184.06.1')
+        cell = cell1
 
 def ProfileTest(TestCase):
     def test_simple(self):
