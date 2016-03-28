@@ -31,6 +31,9 @@ def login_page(request):
 
     return TemplateResponse(request, 'registration/login.html', context)
 
+def portal_page(request):
+    return TemplateResponse(request, 'qcapp/index.html', {})
+
 
 def register_page(request):
     form = RegistrationForm(request.POST)
@@ -42,7 +45,7 @@ def register_page(request):
 
         user = User.objects.create_user(username, email, password)
 
-        return HttpResponseRedirect('/login/')
+        return HttpResponseRedirect('/portal/')
     else:
         return HttpResponseRedirect('/login/')
 
