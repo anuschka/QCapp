@@ -70,8 +70,9 @@ class ModelTest(TestCase):
             cell2.save()
 
     def test_cellpanel(self):
-        cellpanel1 = CellPanel.objects.create(type='ID-DiaCell I-II-III', manufacturer='BIO-RAD', lot='45184.06.1')
-        cell = cell1
+        cell1 = Cell.objects.create(number=1, type='Something', lot='Lot')
+        cellpanel1 = CellPanel.objects.create(cell=cell1, type='ID-DiaCell I-II-III', manufacturer='BIO-RAD', lot='45184.06.1')
+
 
 def ProfileTest(TestCase):
     def test_simple(self):
