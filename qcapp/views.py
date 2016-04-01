@@ -1,10 +1,10 @@
 from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from django.contrib.auth import logout
+from django.contrib.auth import logout, authenticate, login
 # from qcapp.models import UserProfile
 from django.contrib.auth.models import User
-from qcapp.forms import RegistrationForm
+from qcapp.forms import RegistrationForm, LoginForm
 from django.template.response import TemplateResponse
 # import datetime
 
@@ -15,7 +15,7 @@ def index(request):
     If users are authenticated, direct them to the main page. Otherwise, take
     them to the login page.
     """
-    return TemplateResponse('qcapp/index.html')
+    return TemplateResponse(request, 'qcapp/index.html', {})
 
 
 def logout_page(request):
@@ -26,10 +26,27 @@ def logout_page(request):
 
 def login_page(request):
     context = {}
-    form = RegistrationForm()
+    form = LoginForm()
     context['form'] = form
 
     return TemplateResponse(request, 'registration/login.html', context)
+
+
+def auth_page(request):
+    form = LoginForm(request.POST)
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(username=username, password=password)
+    if user is not None:
+        if user.is_active:
+            login(request, user)
+            return TemplateResponse(request, 'qcapp/index.html', {})
+        else:
+            # Return a 'disabled account' error message
+            ...
+    else:
+        # Return an 'invalid login' error message.
+        ...
 
 def portal_page(request):
     return TemplateResponse(request, 'qcapp/index.html', {})
