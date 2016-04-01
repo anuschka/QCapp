@@ -40,16 +40,24 @@ def auth_page(request):
     if user is not None:
         if user.is_active:
             login(request, user)
-            return TemplateResponse(request, 'qcapp/index.html', {})
+            return TemplateResponse(request, 'qcapp/index.html', {'user': request.user})
         else:
             # Return a 'disabled account' error message
-            ...
+            context = {}
+            form = LoginForm()
+            context['form'] = form
+
+            return TemplateResponse(request, 'registration/disabled.html', context)
     else:
         # Return an 'invalid login' error message.
-        ...
+        context = {}
+        form = RegistrationForm()
+        context['form'] = form
+
+        return TemplateResponse(request, 'registration/invalid.html', context)
 
 def portal_page(request):
-    return TemplateResponse(request, 'qcapp/index.html', {})
+    return TemplateResponse(request, 'qcapp/index.html', {'user': request.user})
 
 
 def register_page(request):
