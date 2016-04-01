@@ -1,6 +1,6 @@
 from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import logout, authenticate, login
 # from qcapp.models import UserProfile
 from django.contrib.auth.models import User
@@ -95,3 +95,34 @@ def register(request):
     else:
         errors = new_data = {}
     return render_to_response('register.html', {'form': form})
+
+
+def new_login_view(request):
+    if request.user.is_authenticated():
+        # User is already logged in
+        return HttpResponseRedirect('/portal/')
+    if request.method == 'GET':
+        form = LoginForm()
+        return TemplateResponse(request, 'new_login.html', {'form': form})
+    elif request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(username=username, password=password)
+            if user is None:
+                context = {
+                    'form': form,
+                    'error': 'No such user!'
+                }
+                return TemplateResponse(request, 'new_login.html', context)
+            if not user.is_active:
+                context = {
+                    'form': form,
+                    'error': 'Inactive user!'
+                }
+                return TemplateResponse(request, 'new_login.html', context)
+            login(request, user)
+            return HttpResponseRedirect('/portal/')
+        else:
+            return TemplateResponse(request, 'new_login.html', {'form': form})

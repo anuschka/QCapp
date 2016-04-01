@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% comment %}
+  Main page to authenticate users.
+{% endcomment %}
+
+{% block head %}
+  <title>Django application| Login</title>
+{% endblock %}
+
+{% block body %}
+  <header>
+    <h1>Django application</h1>
+  </header>
+
+  <section>
+    <h2>Login</h2>
+
+    {% if error %}
+
+      <div>
+        There were errors: {{ error }}
+      </div>
+
+    {% endif %}
+
+    <form method="post" action="/new_login/">
+      {% csrf_token %}
+      <table>
+        {{ form }}
+      </table>
+      <input type="submit" value="Some text here">
+    </form>
+
+  </section>
+{% endblock %}
