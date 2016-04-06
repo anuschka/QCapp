@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% comment %}
-  Main page to authenticate users.
+  Main page to register new users.
 {% endcomment %}
 
 {% block head %}
-  <title>Django application| Login</title>
+  <title>Django application| Register</title>
 {% endblock %}
 
 {% block body %}
@@ -13,7 +13,7 @@
   </header>
 
   <section>
-    <h2>Login</h2>
+    <h2>Register</h2>
 
     {% if error %}
 
@@ -23,13 +23,15 @@
 
     {% endif %}
 
-    <form method="post" action="/new_login/">
+    <form method="post" action="/register/">
       {% csrf_token %}
       <table>
         {{ form }}
       </table>
-      <input type="submit" value="Some text here">
+      <input type="submit" value="Register">
     </form>
 
+
+  
   </section>
 {% endblock %}

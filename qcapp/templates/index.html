@@ -1,18 +1,15 @@
-{% extends "base.html" %}
+{% extends "portal.html" %}
 {% comment %}
-  Main page of django_consultant's website.
+  Main page of the portal.
 {% endcomment %}
 
-{% block head %}
-  <title>Django Test Portal</title>
+{% block title %}
+  Portal
 {% endblock %}
 
-{% block body %}
-  <header>
-      <h1>Django Test Portal</h1>
-  </header>
-
+{% block content %}
   <section>
-      <p>Welcome to the django test portal. Please click <a href="/qcapp/">here</a> to log into the portal.</p>
+    <h2>Welcome, {{ user.username}}</h2>
+    <p>This is the main page of the web application. You can access this page only after you login.</p>
   </section>
 {% endblock %}

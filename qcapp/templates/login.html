@@ -15,13 +15,28 @@
   <section>
     <h2>Login</h2>
 
-    <form method="post" action="/auth/">
+    {% if error %}
+
+      <div>
+        There were errors: {{ error }}
+      </div>
+
+    {% endif %}
+
+    <form method="post" action="/login/">
       {% csrf_token %}
       <table>
         {{ form }}
       </table>
       <input type="submit" value="Login">
     </form>
+
+
+    <div>
+      <p>
+      Are you new to the app? <a href="/register/">Register here>></a>
+    </p>
+    </div>
 
   </section>
 {% endblock %}

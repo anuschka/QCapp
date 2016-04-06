@@ -15,95 +15,22 @@ def index(request):
     If users are authenticated, direct them to the main page. Otherwise, take
     them to the login page.
     """
-    return TemplateResponse(request, 'qcapp/index.html', {})
+    return TemplateResponse(request, 'index.html', {})
 
 
-def logout_page(request):
+def logout_view(request):
     """Log users out and re-direct them to the main page."""
     logout(request)
     return HttpResponseRedirect('/')
 
 
-def login_page(request):
-    context = {}
-    form = LoginForm()
-    context['form'] = form
-
-    return TemplateResponse(request, 'registration/login.html', context)
-
-
-def auth_page(request):
-    form = LoginForm(request.POST)
-    username = request.POST['username']
-    password = request.POST['password']
-    user = authenticate(username=username, password=password)
-    if user is not None:
-        if user.is_active:
-            login(request, user)
-            return TemplateResponse(request, 'qcapp/index.html', {'user': request.user})
-        else:
-            # Return a 'disabled account' error message
-            context = {}
-            form = LoginForm()
-            context['form'] = form
-
-            return TemplateResponse(request, 'registration/disabled.html', context)
-    else:
-        # Return an 'invalid login' error message.
-        context = {}
-        form = RegistrationForm()
-        context['form'] = form
-
-        return TemplateResponse(request, 'registration/invalid.html', context)
-
-def portal_page(request):
-    return TemplateResponse(request, 'qcapp/index.html', {'user': request.user})
-
-
-def register_page(request):
-    form = RegistrationForm(request.POST)
-
-    if form.is_valid():
-        username = form.cleaned_data['username']
-        email = form.cleaned_data['email']
-        password = form.cleaned_data['password1']
-
-        user = User.objects.create_user(username, email, password)
-
-        return HttpResponseRedirect('/portal/')
-    else:
-        return HttpResponseRedirect('/login/')
-
-
-def register(request):
-    if request.user.is_authenticated():
-        # They already have an account; don't let them register again
-        return render_to_response('register.html', {'has_account': True})
-    form = RegistrationForm()
-    if request.POST:
-        new_data = request.POST.copy()
-        errors = form.get_validation_errors(new_data)
-        if not errors:
-
-            # # Create and save their profile
-            # new_profile = UserProfile(user=new_user,
-            #                           activation_key=activation_key,
-            #                           key_expires=key_expires)
-            # new_profile.save()
-
-            return render_to_response('register.html', {'created': True})
-    else:
-        errors = new_data = {}
-    return render_to_response('register.html', {'form': form})
-
-
-def new_login_view(request):
+def login_view(request):
     if request.user.is_authenticated():
         # User is already logged in
         return HttpResponseRedirect('/portal/')
     if request.method == 'GET':
         form = LoginForm()
-        return TemplateResponse(request, 'new_login.html', {'form': form})
+        return TemplateResponse(request, 'login.html', {'form': form})
     elif request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -115,14 +42,56 @@ def new_login_view(request):
                     'form': form,
                     'error': 'No such user!'
                 }
-                return TemplateResponse(request, 'new_login.html', context)
+                return TemplateResponse(request, 'login.html', context)
             if not user.is_active:
                 context = {
                     'form': form,
                     'error': 'Inactive user!'
                 }
-                return TemplateResponse(request, 'new_login.html', context)
+                return TemplateResponse(request, 'login.html', context)
             login(request, user)
             return HttpResponseRedirect('/portal/')
         else:
-            return TemplateResponse(request, 'new_login.html', {'form': form})
+            return TemplateResponse(request, 'login.html', {'form': form})
+
+
+def portal_view(request):
+    return TemplateResponse(request, 'index.html', {'user': request.user})
+
+
+def register_view(request):
+    if request.user.is_authenticated():
+    # User is already logged in
+        return HttpResponseRedirect('/portal/')
+    if request.method == 'GET':
+        form = RegistrationForm()
+        return TemplateResponse(request, 'register.html', {'form': form})
+    elif request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
+            password1 = form.cleaned_data['password1']
+            password2 = form.cleaned_data['password2']
+
+            if User.objects.filter(username=form.cleaned_data['username']).exists():
+                # Username exists
+                context = {
+                'form': form,
+                'error': 'Username exists!'
+                }
+                return TemplateResponse(request, 'register.html', context)
+
+            if password1 != password2:
+                # Password is not equal
+                context = {
+                'form': form,
+                'error': 'Passwords do not match!'
+                }
+                return TemplateResponse(request, 'register.html', context)
+
+
+            user = User.objects.create_user(username, email, password1)
+            return HttpResponseRedirect('/portal/')
+        else:
+            return TemplateResponse(request, 'register.html', {'form': form})
