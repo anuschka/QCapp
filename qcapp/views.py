@@ -8,6 +8,8 @@ from qcapp.forms import RegistrationForm, LoginForm
 from django.template.response import TemplateResponse
 # import datetime
 
+from qcapp.models import Cell
+
 
 @login_required
 def index(request):
@@ -55,8 +57,15 @@ def login_view(request):
             return TemplateResponse(request, 'login.html', {'form': form})
 
 
+@login_required
 def portal_view(request):
-    return TemplateResponse(request, 'index.html', {'user': request.user})
+    cells = Cell.objects.all()
+
+    context = {
+        'user': request.user,
+        'cells': cells
+    }
+    return TemplateResponse(request, 'index.html', context)
 
 
 def register_view(request):
@@ -90,8 +99,9 @@ def register_view(request):
                 }
                 return TemplateResponse(request, 'register.html', context)
 
-
-            user = User.objects.create_user(username, email, password1)
+            with transaction.atomic(): # TODO
+                user = User.objects.create_user(username, email, password1)
+                profile = Profile.objects.create(...) # TODO
             return HttpResponseRedirect('/portal/')
         else:
             return TemplateResponse(request, 'register.html', {'form': form})

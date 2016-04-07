@@ -19,7 +19,24 @@
     </ul>
   </section>
 
-  {% block content %}{% endblock %}
+  {% block content %}
+    <h2>Cells</h2>
+
+    {% for cell in cells %}
+    <p>
+      Cell:
+      <br/>Number {{ cell.number }}
+      <br/>Type {{ cell.type }}
+      <br/>Lot {{ cell.lot }}
+      <br/>Expiry {{ cell.number }}
+      <br/>Created at {{ cell.number }}
+    </p>
+    {% endfor %}
+    <p>
+      <a href="/portal/add_cell/">Add a cell</a>
+    </p>
+
+  {% endblock %}
 
   <footer>
     <span>&copy; 2016</span>

@@ -13,27 +13,34 @@ class MyTest(TestCase):
         factory = RequestFactory()
 
         # Create an instance of a GET request.
-        request = factory.get('/qcapp/')
+        request = factory.post('/qcapp/')
 
         # Or you can simulate an anonymous user by setting request.user to
         # an AnonymousUser instance.
-        request.user = AnonymousUser()
+        request.user = Maksim # TODO
+        request.POST = {'username': ..., 'pass':...}
 
         # Test my_view() as if it were deployed at /customer/details
         response = index(request)
-        print(response)
+
+        # Now, response is an object of type TemplateResponse
+
+        response.context#   --->
+        assert len(response.context['cells']) == 0
+
 
         # Test the response status code here, verify it is a redirect
         print(response.status_code)
         self.assertEqual(response.status_code, 302)
 
-    def setUp(self):
-        # Every test needs a client.
-        self.client = Client()
-
     def test_with_client(self):
+        client = Client()
+
         # Issue a GET request. Making a GET request to the same directory as above /qcapp/
-        response = self.client.get('/qcapp/')
+        response = client.get('/qcapp/')
+
+        # What about a POST request?
+        response = client.post('/another_url/', {'username': 'user', 'password': 'password1'})
 
         # Check that the response is 404 instead of 302 since the view /qcapp/ does not exist.
         self.assertEqual(response.status_code, 404)
