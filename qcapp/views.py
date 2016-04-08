@@ -8,7 +8,7 @@ from qcapp.forms import RegistrationForm, LoginForm
 from django.template.response import TemplateResponse
 # import datetime
 
-from qcapp.models import Cell, Reagent, IDcard
+from qcapp.models import Cell, Reagent, IdCard
 
 
 @login_required
@@ -61,7 +61,7 @@ def login_view(request):
 def portal_view(request):
     cells = Cell.objects.all()
     reagents = Reagent.objects.all()
-    idcards = IDcard.objects.all()
+    idcards = IdCard.objects.all()
     context = {
         'user': request.user,
         'cells': cells,

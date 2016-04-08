@@ -42,7 +42,7 @@ class Reagent(models.Model):
 
 
 # Createed model for IDcard.
-class IDcard(models.Model):
+class IdCard(models.Model):
     type = models.CharField(max_length=100, blank=False)
     lot = models.CharField(max_length=100, blank=False)
     expiry = models.DateTimeField(null=True)

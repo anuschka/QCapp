@@ -47,14 +47,16 @@
     </p>
     {% endfor %}
 
+    <h2>IDcards</h2>
+
     {% for idcard in idcards %}
     <p>
       IDcard:
-      <br/>Type {{ IDcard.type }}
-      <br/>Lot {{ IDcard.lot }}
-      <br/>Expiry {{ IDcard.expiry }}
-      <br/>Manufacturer {{ IDcard.manufacturer }}
-      <br/>Created at {{ IDcard.created_at }}
+      <br/>Type {{ IdCard.type }}
+      <br/>Lot {{ IdCard.lot }}
+      <br/>Expiry {{ IdCard.expiry }}
+      <br/>Manufacturer {{ IdCard.manufacturer }}
+      <br/>Created at {{ IdCard.created_at }}
     </p>
     {% endfor %}
 
