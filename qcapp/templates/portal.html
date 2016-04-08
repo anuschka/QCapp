@@ -32,6 +32,32 @@
       <br/>Created at {{ cell.created_at }}
     </p>
     {% endfor %}
+
+    <h2>Reagent</h2>
+
+    {% for reagent in reagents %}
+    <p>
+      Reagent:
+      <br/>Type {{ reagent.type }}
+      <br/>Lot {{ reagent.lot }}
+      <br/>Expiry {{ reagent.expiry }}
+      <br/>Manufacturer {{ reagent.manufacturer }}
+      <br/>Does it require ID card {{ reagent.requiresIDcard }}
+      <br/>Created at {{ reagent.created_at }}
+    </p>
+    {% endfor %}
+
+    {% for idcard in idcards %}
+    <p>
+      IDcard:
+      <br/>Type {{ IDcard.type }}
+      <br/>Lot {{ IDcard.lot }}
+      <br/>Expiry {{ IDcard.expiry }}
+      <br/>Manufacturer {{ IDcard.manufacturer }}
+      <br/>Created at {{ IDcard.created_at }}
+    </p>
+    {% endfor %}
+
 <!--
     <p>
       <a href="/portal/add_cell/">Add a cell</a>
