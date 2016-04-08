@@ -28,14 +28,15 @@
       <br/>Number {{ cell.number }}
       <br/>Type {{ cell.type }}
       <br/>Lot {{ cell.lot }}
-      <br/>Expiry {{ cell.number }}
-      <br/>Created at {{ cell.number }}
+      <br/>Expiry {{ cell.expiry }}
+      <br/>Created at {{ cell.created_at }}
     </p>
     {% endfor %}
+<!--
     <p>
       <a href="/portal/add_cell/">Add a cell</a>
     </p>
-
+-->
   {% endblock %}
 
   <footer>
