@@ -6,9 +6,10 @@ from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.models import User
 from qcapp.forms import RegistrationForm, LoginForm
 from django.template.response import TemplateResponse
-# import datetime
+from django.db import transaction
 
-from qcapp.models import Cell, Reagent, IdCard
+
+from qcapp.models import Cell, Reagent, IdCard, UserProfile
 
 
 @login_required
@@ -102,9 +103,9 @@ def register_view(request):
                 }
                 return TemplateResponse(request, 'register.html', context)
 
-            with transaction.atomic(): # TODO
+            with transaction.atomic():
                 user = User.objects.create_user(username, email, password1)
-                profile = Profile.objects.create(...) # TODO
+                profile = UserProfile.objects.create(user=user, roles='T')
             return HttpResponseRedirect('/portal/')
         else:
             return TemplateResponse(request, 'register.html', {'form': form})

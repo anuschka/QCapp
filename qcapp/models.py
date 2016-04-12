@@ -11,7 +11,11 @@ class Cell(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, null=True)
 
     class Meta:
-        unique_together = ('type', 'lot')
+        unique_together = ('number', 'type')
+
+    def __str__(self):
+        return "My cell number %s in %s" % (self.number, self.type)
+
 
 
 # Createed model for Cell-Panel.
@@ -25,7 +29,8 @@ class CellPanel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, null=True)
 
     class Meta:
-        unique_together = ('type', 'manufacturer', 'lot')
+        unique_together = ('type', 'manufacturer', 'lot', 'cell')
+
 
 
 # Createed model for Reagent.
