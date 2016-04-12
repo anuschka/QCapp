@@ -64,7 +64,7 @@ def portal_view(request):
     reagents = Reagent.objects.all()
     idcards = IdCard.objects.all()
     cell1 = Cell.objects.filter(number=1, type='ID-DiaPanel')
-    cellpanels = CellPanel.objects.filter(cell=cell1)
+    cellpanels = CellPanel.objects.all().values('cell_id')[{'1'}]
     context = {
         'user': request.user,
         'cells': cells,
