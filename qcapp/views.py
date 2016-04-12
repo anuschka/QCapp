@@ -9,7 +9,7 @@ from django.template.response import TemplateResponse
 from django.db import transaction
 
 
-from qcapp.models import Cell, Reagent, IdCard, UserProfile
+from qcapp.models import Cell, Reagent, IdCard, UserProfile, CellPanel
 
 
 @login_required
@@ -63,11 +63,14 @@ def portal_view(request):
     cells = Cell.objects.all()
     reagents = Reagent.objects.all()
     idcards = IdCard.objects.all()
+    cell1 = Cell.objects.filter(number=1, type='ID-DiaPanel')
+    cellpanels = CellPanel.objects.filter(cell=cell1)
     context = {
         'user': request.user,
         'cells': cells,
         'reagents': reagents,
-        'idcards': idcards
+        'idcards': idcards,
+        'cellpanel': cellpanels
     }
     return TemplateResponse(request, 'portal.html', context)
 

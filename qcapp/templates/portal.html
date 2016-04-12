@@ -60,6 +60,16 @@
     </p>
     {% endfor %}
 
+    {% for cellpanel in cellpanels %}
+    <p>
+      CellPanel:
+      <br/>Type {{ cellpanel.type }}
+      <br/>Lot {{ cellpanel.lot }}
+      <br/>Expiry {{ cellpanel.expiry }}
+      <br/>Manufacturer {{ cellpanel.manufacturer }}
+      <br/>Created at {{ cellpanel.created_at }}
+    </p>
+    {% endfor %}
 <!--
     <p>
       <a href="/portal/add_cell/">Add a cell</a>
