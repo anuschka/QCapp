@@ -31,6 +31,8 @@ class CellPanel(models.Model):
     class Meta:
         unique_together = ('type', 'manufacturer', 'lot', 'cell')
 
+    def __str__(self):
+        return "My CellPanel type %s with cell %s" % (self.type, self.cell)
 
 
 # Createed model for Reagent.
