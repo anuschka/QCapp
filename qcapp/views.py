@@ -68,7 +68,7 @@ def portal_view(request):
     cellpanel_list = []
     for cell in cells:
         cellpanels = CellPanel.objects.filter(cell=cell)
-        cellpanel_list= cellpanel_list.append(cellpanels)
+        cellpanel_list += cellpanels
     context = {
         'user': request.user,
         'cells': cells,
@@ -76,6 +76,31 @@ def portal_view(request):
         'idcards': idcards,
         'cellpanels': cellpanels,
         'cellpanel_list': cellpanel_list
+    }
+    return TemplateResponse(request, 'portal.html', context)
+
+
+@login_required
+def portal2_view(request):
+    cells = Cell.objects.all()
+    reagents = Reagent.objects.all()
+    idcards = IdCard.objects.all()
+    cellpanels = CellPanel.objects.all()
+
+    cell_cellpanel_map = {}
+    for cell in cells:
+        l = []
+        for cellpanel in cellpanels:
+            if cellpanel.cell == cell:
+                l.append(cellpanel)
+        cell_cellpanel_map[cell] = l
+
+    context = {
+        'user': request.user,
+        'cells': cells,
+        'reagents': reagents,
+        'idcards': idcards,
+        'cell_cellpanel_map': cell_cellpanel_map
     }
     return TemplateResponse(request, 'portal.html', context)
 

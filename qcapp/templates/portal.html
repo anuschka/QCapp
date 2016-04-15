@@ -60,31 +60,30 @@
     </p>
     {% endfor %}
 
-    <h2>CellPanel with Cell number 1</h2>
+    <h2>Display Cells with all the CellPanels</h2>
+    {% for cell, cellpanels in cell_cellpanel_map.items %}
 
-    {% for cellpanel in cellpanels %}
-    <p>
-      CellPanel - Cell no. 1:
-      <br/>Type {{ cellpanel.type }}
-      <br/>Lot {{ cellpanel.lot }}
-      <br/>Expiry {{ cellpanel.expiry }}
-      <br/>Manufacturer {{ cellpanel.manufacturer }}
-      <br/>Cell {{ cellpanel.cell }}
-      <br/>Created at {{ cellpanel.created_at }}
-    </p>
+      <h4>Cell</h4>
+        <br/>Number {{ cell.number }}
+        <br/>Type {{ cell.type }}
+        <br/>Lot {{ cell.lot }}
+        <br/>Expiry {{ cell.expiry }}
+        <br/>Created at {{ cell.created_at }}
+
+      <h4>Cell panels</h4>
+      {% for cellpanel in cellpanels %}
+        <p>
+          <br/>Type {{ cellpanel.type }}
+          <br/>Lot {{ cellpanel.lot }}
+          <br/>Expiry {{ cellpanel.expiry }}
+          <br/>Manufacturer {{ cellpanel.manufacturer }}
+          <br/>Cell {{ cellpanel.cell }}
+          <br/>Created at {{ cellpanel.created_at }}
+        </p>
+      {% endfor %}
+
     {% endfor %}
 
-    <h2>Display CellPanel with all the Cells</h2>
-    {% for cellpanel in cellpanel_list %}
-    <p>
-      <br/>Type {{ cellpanel.type }}
-      <br/>Lot {{ cellpanel.lot }}
-      <br/>Expiry {{ cellpanel.expiry }}
-      <br/>Manufacturer {{ cellpanel.manufacturer }}
-      <br/>Cell {{ cellpanel.cell }}
-      <br/>Created at {{ cellpanel.created_at }}
-    </p>
-    {% endfor %}
 <!--
     <p>
       <a href="/portal/add_cell/">Add a cell</a>
