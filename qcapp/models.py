@@ -9,13 +9,13 @@ class Cell(models.Model):
     lot = models.CharField(max_length=100, blank=False)
     expiry = models.DateTimeField(null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
+    cell_panel = models.ForeignKey(CellPanel)
 
     class Meta:
-        unique_together = ('number', 'type')
+        unique_together = ('number', 'cell_panel')
 
     def __str__(self):
         return "My cell number %s in %s" % (self.number, self.type)
-
 
 
 # Createed model for Cell-Panel.
@@ -25,11 +25,10 @@ class CellPanel(models.Model):
     lot = models.CharField(max_length=100, blank=False)
     expiry = models.DateTimeField(null=True)
     sheet = models.BinaryField()
-    cell = models.ForeignKey(Cell)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
 
     class Meta:
-        unique_together = ('type', 'manufacturer', 'lot', 'cell')
+        unique_together = ('type', 'manufacturer', 'lot')
 
     def __str__(self):
         return "My CellPanel type %s with cell %s" % (self.type, self.cell)
