@@ -60,33 +60,23 @@ def login_view(request):
 
 @login_required
 def portal_view(request):
+    # get all the Cell objects
     cells = Cell.objects.all()
+    # get all the Reagent objects
     reagents = Reagent.objects.all()
+    # get all the idcard objects
     idcards = IdCard.objects.all()
-    cell1 = Cell.objects.filter(number=1, type='ID-DiaPanel')
-    cellpanels = CellPanel.objects.filter(cell=cell1)
+    # get all the CellPanel objects
+    cellpanels = CellPanel.objects.all()
+    # get all the CellPanel objects for Cell=cell1
+    cell1 = Cell.objects.filter(number=1)
+    cellpanels1 = CellPanel.objects.filter(cell=cell1)
+    # get all the CellPanel objects using lists
     cellpanel_list = []
     for cell in cells:
         cellpanels = CellPanel.objects.filter(cell=cell)
         cellpanel_list += cellpanels
-    context = {
-        'user': request.user,
-        'cells': cells,
-        'reagents': reagents,
-        'idcards': idcards,
-        'cellpanels': cellpanels,
-        'cellpanel_list': cellpanel_list
-    }
-    return TemplateResponse(request, 'portal.html', context)
-
-
-@login_required
-def portal2_view(request):
-    cells = Cell.objects.all()
-    reagents = Reagent.objects.all()
-    idcards = IdCard.objects.all()
-    cellpanels = CellPanel.objects.all()
-
+    # get all the CellPanel objects using dictionaries
     cell_cellpanel_map = {}
     for cell in cells:
         l = []
@@ -94,15 +84,17 @@ def portal2_view(request):
             if cellpanel.cell == cell:
                 l.append(cellpanel)
         cell_cellpanel_map[cell] = l
-
     context = {
         'user': request.user,
         'cells': cells,
         'reagents': reagents,
         'idcards': idcards,
+        'cellpanels1': cellpanels1,
+        'cellpanel_list': cellpanel_list,
         'cell_cellpanel_map': cell_cellpanel_map
     }
     return TemplateResponse(request, 'portal.html', context)
+
 
 
 def register_view(request):

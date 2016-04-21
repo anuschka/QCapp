@@ -60,9 +60,36 @@
     </p>
     {% endfor %}
 
-    <h2>Display Cells with all the CellPanels</h2>
-    {% for cell, cellpanels in cell_cellpanel_map.items %}
+    <h2>CellPanels for Cell=Cell1</h2>
 
+    {% for cellpanels in cellpanels1 %}
+    <p>
+      CellPanel:
+      <br/>Type {{ cellpanels.type }}
+      <br/>Lot {{ cellpanels.lot }}
+      <br/>Expiry {{ cellpanels.expiry }}
+      <br/>Manufacturer {{ cellpanels.manufacturer }}
+      <br/>Cell {{ cellpanels.cell }}
+      <br/>Created at {{ cellpanels.created_at }}
+    </p>
+    {% endfor %}
+
+    <h2>CellPanels for all Cells using lists</h2>
+
+    {% for cellpanels in cellpanel_list %}
+    <p>
+      CellPanel:
+      <br/>Type {{ cellpanels.type }}
+      <br/>Lot {{ cellpanels.lot }}
+      <br/>Expiry {{ cellpanels.expiry }}
+      <br/>Manufacturer {{ cellpanels.manufacturer }}
+      <br/>Cell {{ cellpanels.cell }}
+      <br/>Created at {{ cellpanels.created_at }}
+    </p>
+    {% endfor %}
+
+    <h2>CellPanels for all Cells using dictionaries</h2>
+    {% for cell, cellpanels in cell_cellpanel_map.items %}
       <h4>Cell</h4>
         <br/>Number {{ cell.number }}
         <br/>Type {{ cell.type }}
@@ -70,7 +97,7 @@
         <br/>Expiry {{ cell.expiry }}
         <br/>Created at {{ cell.created_at }}
 
-      <h4>Cell panels</h4>
+      <h4>Cell panels using the above Cell</h4>
       {% for cellpanel in cellpanels %}
         <p>
           <br/>Type {{ cellpanel.type }}
@@ -81,7 +108,6 @@
           <br/>Created at {{ cellpanel.created_at }}
         </p>
       {% endfor %}
-
     {% endfor %}
 
 <!--
