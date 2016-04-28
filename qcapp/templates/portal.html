@@ -20,32 +20,33 @@
   </section>
 
   {% block content %}
-    <h2>Cells</h2>
+    <h2>Cell Panels</h2>
+
+    {% for cell_panel in cell_panels %}
+    <p>
+      CellPanel:
+      <br/>Type {{ cell_panel.type }}
+      <br/>Manufacturer {{ cell_panel.manufacturer }}
+      <br/>Lot {{ cell_panel.lot }}
+      <br/>Expiry {{ cell_panel.expiry }}
+      <br/>Sheet {{ cell_panel.sheet }}
+      <br/>Created at {{ cell_panel.created_at }}
+    </p>
+    {% endfor %}
+
+    <h2>Cells for CellPanel containing BIO-RAD</h2>
 
     {% for cell in cells %}
     <p>
-      Cell:
-      <br/>Number {{ cell.number }}
+      Cells:
       <br/>Type {{ cell.type }}
       <br/>Lot {{ cell.lot }}
       <br/>Expiry {{ cell.expiry }}
+      <br/>Manufacturer {{ cell.manufacturer }}
       <br/>Created at {{ cell.created_at }}
     </p>
     {% endfor %}
-
-    <h2>Reagent</h2>
-
-    {% for reagent in reagents %}
-    <p>
-      Reagent:
-      <br/>Type {{ reagent.type }}
-      <br/>Lot {{ reagent.lot }}
-      <br/>Expiry {{ reagent.expiry }}
-      <br/>Manufacturer {{ reagent.manufacturer }}
-      <br/>Does it require ID card {{ reagent.requiresIDcard }}
-      <br/>Created at {{ reagent.created_at }}
-    </p>
-    {% endfor %}
+    <!--
 
     <h2>IDcards</h2>
 
@@ -109,7 +110,7 @@
         </p>
       {% endfor %}
     {% endfor %}
-
+-->
 <!--
     <p>
       <a href="/portal/add_cell/">Add a cell</a>

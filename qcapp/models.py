@@ -2,22 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-# Createed model for Cell that physically belongs to the Cell Panel.
-class Cell(models.Model):
-    number = models.IntegerField()
-    type = models.CharField(max_length=100, blank=False)
-    lot = models.CharField(max_length=100, blank=False)
-    expiry = models.DateTimeField(null=True)
-    created_at = models.DateTimeField(auto_now_add=True, null=True)
-    cell_panel = models.ForeignKey(CellPanel)
-
-    class Meta:
-        unique_together = ('number', 'cell_panel')
-
-    def __str__(self):
-        return "My cell number %s in %s" % (self.number, self.type)
-
-
 # Createed model for Cell-Panel.
 class CellPanel(models.Model):
     type = models.CharField(max_length=100, blank=False)
@@ -31,7 +15,23 @@ class CellPanel(models.Model):
         unique_together = ('type', 'manufacturer', 'lot')
 
     def __str__(self):
-        return "My CellPanel type %s with cell %s" % (self.type, self.cell)
+        return "My CellPanel type %s" % (self.type)
+
+
+# Createed model for Cell. One Cell always belongs to only one CellPanel.
+class Cell(models.Model):
+    number = models.IntegerField()
+    type = models.CharField(max_length=100, blank=False)
+    lot = models.CharField(max_length=100, blank=False)
+    expiry = models.DateTimeField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    cell_panel = models.ForeignKey(CellPanel)
+
+    class Meta:
+        unique_together = ('number', 'cell_panel')
+
+    def __str__(self):
+        return "My cell number %s in %s" % (self.number, self.type)
 
 
 # Createed model for Reagent.
