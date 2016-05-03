@@ -66,6 +66,7 @@ def portal_view(request):
 
     # get all the Cell objects
     cells = Cell.objects.filter(cell_panel__manufacturer__contains='BIO')
+
     # get all the Reagent objects
     ## get all the idcard objects
     #reagents = Reagent.objects.all()
@@ -90,6 +91,7 @@ def portal_view(request):
     context = {
         'user': request.user,
         'cell_panels': cellpanels,
+        'cells': cells,
 #         'reagents': reagents,
 #         'idcards': idcards,
 #         'cellpanels1': cellpanels1,

@@ -1,32 +1,34 @@
 from django.db.utils import IntegrityError
-from django.contrib.auth.models import AnonymousUser
+from django.contrib.auth.models import AnonymousUser, User
 from django.test import TestCase, RequestFactory
 from django.test import Client
 
-from qcapp.models import Cell, CellPanel
-from qcapp.views import index
+from qcapp.models import Cell, CellPanel, UserProfile
+from qcapp.views import index, portal_view
 
 
 # Create your tests here.
 class MyTest(TestCase):
     def test_our_view(self):
-        factory = RequestFactory()
-
+        self.factory = RequestFactory()
+        self.user = User.objects.create_user(
+            username='jacob', email='jacob@gmail.com', password='top_secret')
         # Create an instance of a GET request.
-        request = factory.post('/qcapp/')
+        request = self.factory.get('/qcapp/')
 
         # Or you can simulate an anonymous user by setting request.user to
         # an AnonymousUser instance.
-        request.user = Maksim # TODO
-        request.POST = {'username': ..., 'pass':...}
+        #request.user = AnonymousUser # TODO
+        #request.POST = {'username': "test", 'password': "test"}
+        request.user = self.user
 
         # Test my_view() as if it were deployed at /customer/details
-        response = index(request)
+        response = portal_view(request)
 
         # Now, response is an object of type TemplateResponse
 
-        response.context#   --->
-        assert len(response.context['cells']) == 0
+        response.context_data  #   --->
+        assert len(response.context_data['cells']) == 0
 
 
         # Test the response status code here, verify it is a redirect
@@ -40,51 +42,48 @@ class MyTest(TestCase):
         response = client.get('/qcapp/')
 
         # What about a POST request?
-        response = client.post('/another_url/', {'username': 'user', 'password': 'password1'})
+        response = client.post('/portal/', {'username': 'user', 'password': 'password1'})
 
         # Check that the response is 404 instead of 302 since the view /qcapp/ does not exist.
-        self.assertEqual(response.status_code, 404)
+        print(response.status_code)
+        self.assertEqual(response.status_code, 302)
 
 
 class ModelTest(TestCase):
-    def test_cell(self):
-        cell1 = Cell.objects.create(number=1, type='ID-DiaPanel 1', lot='06171.75.1', expiry='2016-03-14')
-        cell2 = Cell.objects.create(number=2, type='ID-DiaPanel 2', lot='06171.75.1', expiry='2016-03-14')
-        cell3 = Cell.objects.create(number=3, type='ID-DiaPanel 3', lot='06171.75.1', expiry='2016-03-14')
-        cell4 = Cell.objects.create(number=4, type='ID-DiaPanel 4', lot='06171.75.1', expiry='2016-03-14')
-        cell5 = Cell.objects.create(number=5, type='ID-DiaPanel 5', lot='06171.75.1', expiry='2016-03-14')
-        cell6 = Cell.objects.create(number=6, type='ID-DiaPanel 6', lot='06171.75.1', expiry='2016-03-14')
+    def test_cellpanel(self):
+        CellPanel1 = CellPanel.objects.create(type='ID-DiaPanel 1', manufacturer='DIA-MED', lot='06171.75.1', expiry='2016-03-14')
+        CellPanel2 = CellPanel.objects.create(type='ID-DiaPanel 2', manufacturer='DIA-MED', lot='06171.75.1', expiry='2016-03-14')
+        CellPanel3 = CellPanel.objects.create(type='ID-DiaPanel 3', manufacturer='DIA-MED', lot='06171.75.1', expiry='2016-03-14')
+        CellPanel4 = CellPanel.objects.create(type='ID-DiaPanel 4', manufacturer='DIA-MED', lot='06171.75.1', expiry='2016-03-14')
+        CellPanel5 = CellPanel.objects.create(type='ID-DiaPanel 5', manufacturer='DIA-MED', lot='06171.75.1', expiry='2016-03-14')
+        CellPanel6 = CellPanel.objects.create(type='ID-DiaPanel 6', manufacturer='DIA-MED', lot='06171.75.1', expiry='2016-03-14')
 
         # Verify 6 object found.
-        all_objects = Cell.objects.all()
+        all_objects = CellPanel.objects.all()
         assert len(all_objects) == 6
 
         # Verify that the cell expiry date is correct.
-        assert cell1.expiry == "2016-03-14"
+        assert CellPanel1.expiry == "2016-03-14"
 
         # Test that an exception is raised when someone tries to enter one instance twice.
         with self.assertRaises(IntegrityError):
-            cell7 = Cell.objects.create(number=4, type='ID-DiaPanel 3', lot='06171.75.1')
+            CellPanel7 = CellPanel.objects.create(type='ID-DiaPanel 6', manufacturer='DIA-MED', lot='06171.75.1', expiry='2016-03-14')
 
-    def test_cell2(self):
-        cell1 = Cell.objects.create(number=1, type='Something', lot='Lot')
 
-        cell2 = Cell.objects.create(number=3, type='Something2', lot='Lot')
-        cell2.type = 'Something'
 
-        # Test that an exception is raised when someone tries to enter non unuque data.
-        with self.assertRaises(IntegrityError):
-            cell2.save()
+    def test_cell(self):
+        CellPanel1 = CellPanel.objects.create(type='ID-DiaPanel 1', manufacturer='DIA-MED', lot='06171.75.1', expiry='2016-03-14')
+        cell1 = Cell.objects.create(cell_panel = CellPanel1, number= '1', type = 'Something', lot = 'Lot')
 
-    def test_cellpanel(self):
-        cell1 = Cell.objects.create(number=1, type='Something', lot='Lot')
-        cellpanel1 = CellPanel.objects.create(cell=cell1, type='ID-DiaCell I-II-III', manufacturer='BIO-RAD', lot='45184.06.1')
-
+        cell1.save()
+        assert len(Cell.objects.all()) == 1
 
 def ProfileTest(TestCase):
     def test_simple(self):
         user = User.objects.create_user('drwho', 'drwho@email.com', 'password')
-        profile = Profile.objects.create(user=user, role='A')
+        profile = UserProfile.objects.create(user=user, roles='A')
+
+
 
         # There should be one user in the db
         assert len(User.objects.all()) == 1
@@ -93,4 +92,4 @@ def ProfileTest(TestCase):
         drwho = User.objects.get(username='drwho')
 
         # Verify drwho is an admin
-        assert drwho.profile.role == 'A'
+        assert drwho.profile.roles == 'A'
