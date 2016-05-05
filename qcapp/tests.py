@@ -4,7 +4,7 @@ from django.test import TestCase, RequestFactory
 from django.test import Client
 
 from qcapp.models import Cell, CellPanel, UserProfile
-from qcapp.views import index, portal_view
+from qcapp.views import index, login_view, portal_view, register_view
 
 
 # Create your tests here.
@@ -95,24 +95,49 @@ class UserProfileTest(TestCase):
         assert profile.roles == 'A'
 
 class ViewTest(TestCase):
-    def test_login(self):
+    def test_invalidlogin(self):
         c=Client()
         # Test logout view
         response = c.post('/logout/')
-        print(response, response.status_code, response.content)
+        # print(response, response.status_code, response.content)
         self.assertEqual(response.status_code, 302)
-
-        # Test login view for valid username and password
-        response = c.post('/login/', {'username': 'test', 'password': 'test'})
-        print(response, response.status_code, response.content)
-        self.assertEqual(response.status_code, 302)
-
-        # Test logout view
-        response = c.post('/logout/')
-        print(response, response.status_code, response.content)
-        self.assertEqual(response.status_code, 302)
+        print ('Finished logout test.')
 
         # Test login view for invalid username and password
         response = c.post('/login/', {'username': 'something', 'password': 'something'})
         print(response, response.status_code, response.content)
         self.assertEqual(response.status_code, 200)
+        print ('Finished invalid invalid logon test.')
+
+    def test_validlogin(self):
+        c=Client()
+        # Test logout view
+        response = c.post('/logout/')
+        print(response, response.status_code, response.content)
+        self.assertEqual(response.status_code, 302)
+        print ('Finished logout test.')
+
+        # Test login view for valid username and password
+        response = c.post('/login/', {'username': 'test', 'password': 'test'})
+        print(response, response.status_code, response.content)
+        self.assertEqual(response.status_code, 200)
+        print ('Finished invalid logon test.')
+
+    def test_register(self):
+        c=Client()
+
+        # Test register_view
+        response = c.post('/register/', {'username': 'username', 'email': 'something@email.com', 'password1': 'passworditis', 'password2': 'passworditis'})
+        print(response, response.status_code, response.content)
+        self.assertEqual(response.status_code, 302)
+        print ('Finished register new user test.')
+
+    def test_portal(self):
+        c=Client()
+        # Test portal_view context data
+        response = c.post('/logout/')
+        response = c.post('/login/', {'username': 'test', 'password': 'test'})
+        response = c.get('/portal/')
+        print(response, response.status_code, response.content)
+        self.assertTrue(len(response.context_data['cells']) == 1)
+        self.assertTrue(len(response.context_data['cellpanel']) == 2)
