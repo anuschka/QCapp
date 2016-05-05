@@ -33,7 +33,7 @@ class MyTest(TestCase):
 
         # Test the response status code here, verify it is a redirect
         print(response.status_code)
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
 
     def test_with_client(self):
         client = Client()
@@ -78,7 +78,7 @@ class ModelTest(TestCase):
         cell1.save()
         assert len(Cell.objects.all()) == 1
 
-def ProfileTest(TestCase):
+class UserProfileTest(TestCase):
     def test_simple(self):
         user = User.objects.create_user('drwho', 'drwho@email.com', 'password')
         profile = UserProfile.objects.create(user=user, roles='A')
@@ -92,4 +92,15 @@ def ProfileTest(TestCase):
         drwho = User.objects.get(username='drwho')
 
         # Verify drwho is an admin
-        assert drwho.profile.roles == 'A'
+        assert profile.roles == 'A'
+
+class ViewTest(TestCase):
+    def test_login(self):
+        c=Client()
+        response = c.post('/logout/')
+        print(response, response.status_code, response.content)
+        self.assertEqual(response.status_code, 302)
+
+        response = c.post('/login/', {'username': 'test', 'password': 'test'})
+        print(response, response.status_code, response.content)
+        self.assertEqual(response.status_code, 302)
