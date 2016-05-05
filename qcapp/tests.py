@@ -97,10 +97,22 @@ class UserProfileTest(TestCase):
 class ViewTest(TestCase):
     def test_login(self):
         c=Client()
+        # Test logout view
         response = c.post('/logout/')
         print(response, response.status_code, response.content)
         self.assertEqual(response.status_code, 302)
 
+        # Test login view for valid username and password
         response = c.post('/login/', {'username': 'test', 'password': 'test'})
         print(response, response.status_code, response.content)
         self.assertEqual(response.status_code, 302)
+
+        # Test logout view
+        response = c.post('/logout/')
+        print(response, response.status_code, response.content)
+        self.assertEqual(response.status_code, 302)
+
+        # Test login view for invalid username and password
+        response = c.post('/login/', {'username': 'something', 'password': 'something'})
+        print(response, response.status_code, response.content)
+        self.assertEqual(response.status_code, 200)
