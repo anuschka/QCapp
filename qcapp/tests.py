@@ -14,7 +14,7 @@ class MyTest(TestCase):
         self.user = User.objects.create_user(
             username='jacob', email='jacob@gmail.com', password='top_secret')
         # Create an instance of a GET request.
-        request = self.factory.get('/qcapp/')
+        request = self.factory.get('/portal/')
 
         # Or you can simulate an anonymous user by setting request.user to
         # an AnonymousUser instance.
@@ -36,16 +36,13 @@ class MyTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_with_client(self):
-        client = Client()
+        c = Client()
 
-        # Issue a GET request. Making a GET request to the same directory as above /qcapp/
-        response = client.get('/qcapp/')
+        # Issue a GET request for portal.
+        response = c.get('/portal/')
 
-        # What about a POST request?
-        response = client.post('/portal/', {'username': 'user', 'password': 'password1'})
-
-        # Check that the response is 404 instead of 302 since the view /qcapp/ does not exist.
-        print(response.status_code)
+        # Check that the response is 302.
+        print(response, response.status_code, response.content)
         self.assertEqual(response.status_code, 302)
 
 
@@ -95,33 +92,17 @@ class UserProfileTest(TestCase):
         assert profile.roles == 'A'
 
 class ViewTest(TestCase):
-    def test_invalidlogin(self):
-        c=Client()
-        # Test logout view
-        response = c.post('/logout/')
-        # print(response, response.status_code, response.content)
-        self.assertEqual(response.status_code, 302)
-        print ('Finished logout test.')
-
-        # Test login view for invalid username and password
-        response = c.post('/login/', {'username': 'something', 'password': 'something'})
-        print(response, response.status_code, response.content)
-        self.assertEqual(response.status_code, 200)
-        print ('Finished invalid invalid logon test.')
-
     def test_validlogin(self):
         c=Client()
-        # Test logout view
-        response = c.post('/logout/')
-        print(response, response.status_code, response.content)
-        self.assertEqual(response.status_code, 302)
-        print ('Finished logout test.')
 
         # Test login view for valid username and password
-        response = c.post('/login/', {'username': 'test', 'password': 'test'})
+        user = User.objects.create_user('drwho', 'drwho@email.com', 'password')
+        profile = UserProfile.objects.create(user=user, roles='A')
+
+        response = c.post('/login/', {'username': 'drwho', 'password': 'password'})
         print(response, response.status_code, response.content)
-        self.assertEqual(response.status_code, 200)
-        print ('Finished invalid logon test.')
+        self.assertEqual(response.status_code, 302)
+
 
     def test_register(self):
         c=Client()
@@ -135,9 +116,14 @@ class ViewTest(TestCase):
     def test_portal(self):
         c=Client()
         # Test portal_view context data
-        response = c.post('/logout/')
-        response = c.post('/login/', {'username': 'test', 'password': 'test'})
+        user = User.objects.create_user('drwho', 'drwho@email.com', 'password')
+        profile = UserProfile.objects.create(user=user, roles='A')
+        CellPanel1 = CellPanel.objects.create(type='ID-DiaPanel 1', manufacturer='DIA-MED', lot='06171.75.1', expiry='2016-03-14')
+        CellPanel1.save()
+        cell1 = Cell.objects.create(cell_panel = CellPanel1, number= '1', type = 'Something', lot = 'Lot')
+        cell1.save()
+        response = c.post('/login/', {'username': 'drwho', 'password': 'password'})
         response = c.get('/portal/')
         print(response, response.status_code, response.content)
         self.assertTrue(len(response.context_data['cells']) == 1)
-        self.assertTrue(len(response.context_data['cellpanel']) == 2)
+        self.assertTrue(len(response.context_data['cellpanel']) == 1)
