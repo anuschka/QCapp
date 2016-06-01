@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% comment %}
+  This is the template for displaying all reagents.
+{% endcomment %}
+
+{% block head %}
+  <title>Reagents display all | {% block title %}{% endblock %}</title>
+{% endblock %}
+
+{% block body %}
+<div class="container main-body">
+      <nav class="navbar navbar-default">
+       <div class="container-fluid">
+         <div class="navbar-header">
+           <a class="navbar-brand" href="/">QCapp</a>
+         </div>
+         <ul class="nav navbar-nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="#">Cell Panel</a></li>
+            <li class="active"><a href="#">Reagent</a></li>
+            <li><a href="#">IDCard</a></li>
+          </ul>
+         <ul class="nav navbar-nav navbar-right">
+           <li><a href="/logout/"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+         </ul>
+        </div>
+      </nav>
+
+      <div class="row">
+          <ol class="breadcrumb">
+            <li><a href="/">Home</a></li>
+            <li class="active"><a href="/reagent/">Reagents</a></li>
+            <div class="btn-group pull-right">
+                  <a href="#" type="button" class="btn btn-xs btn-default" onclick="">
+                      &nbsp;<span class="fa fa-search"></span>&nbsp;
+                  </a>
+
+                  <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="margin-left: 5px;">
+                    Actions <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#" onclick="">Add new reagent</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#" onclick="return App.click(this);">Sort by expiry</a></li>
+                    <li><a href="#" onclick="return App.click(this);">Sort by Entry date</a></li>
+            </div>
+          </ol>
+      </div>
+
+  {% block content %}
+
+    <h2>Reagents</h2>
+
+    {% for reagent in reagents %}
+    <p>
+      Reagent:
+      <br/>Type {{ reagent.type }}
+      <br/>Manufacturer {{ reagent.manufacturer }}
+      <br/>Lot {{ reagent.lot }}
+      <br/>Expiry {{ reagent.expiry }}
+      <br/>RequiresIDcard {{ cell_panel.requiresIDcard }}
+      <br/>Created at {{ reagent.created_at }}
+    </p>
+    {% endfor %}
+
+
+  {% endblock %}
+
+  <footer>
+    <span>&copy; 2016</span>
+  </footer>
+{% endblock %}
+</div>

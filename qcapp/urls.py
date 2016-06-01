@@ -13,4 +13,6 @@ urlpatterns = [
     url(r'^portal/$', views.portal_view, name='portal_page'),
     # Admin site.
     url(r'^admin/', admin.site.urls),
+    # Reagent All site.
+    url(r'^reagent/$', views.reagent_view, name='reagent_view'),
 ]
