@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "internal_page.html" %}
 {% comment %}
   This is the template for displaying all reagents.
 {% endcomment %}
@@ -7,24 +7,7 @@
   <title>Reagents display all | {% block title %}{% endblock %}</title>
 {% endblock %}
 
-{% block body %}
-<div class="container main-body">
-      <nav class="navbar navbar-default">
-       <div class="container-fluid">
-         <div class="navbar-header">
-           <a class="navbar-brand" href="/">QCapp</a>
-         </div>
-         <ul class="nav navbar-nav">
-            <li><a href="/">Home</a></li>
-            <li><a href="#">Cell Panel</a></li>
-            <li class="active"><a href="#">Reagent</a></li>
-            <li><a href="#">IDCard</a></li>
-          </ul>
-         <ul class="nav navbar-nav navbar-right">
-           <li><a href="/logout/"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
-         </ul>
-        </div>
-      </nav>
+{% block content %}
 
       <div class="row">
           <ol class="breadcrumb">
@@ -43,11 +26,11 @@
                     <li role="separator" class="divider"></li>
                     <li><a href="#" onclick="return App.click(this);">Sort by expiry</a></li>
                     <li><a href="#" onclick="return App.click(this);">Sort by Entry date</a></li>
+                  </ul>
             </div>
           </ol>
       </div>
 
-  {% block content %}
 
     <h2>Reagents</h2>
 
@@ -63,11 +46,5 @@
     </p>
     {% endfor %}
 
-
-  {% endblock %}
-
-  <footer>
-    <span>&copy; 2016</span>
-  </footer>
 {% endblock %}
 </div>

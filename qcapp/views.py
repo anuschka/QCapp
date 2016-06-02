@@ -147,6 +147,41 @@ def reagent_view(request):
     reagents = Reagent.objects.all()
 
     context = {
-        'reagents': reagents,
+        #'reagents': reagents,
+        'reagents': [
+            {
+                'type': 'Tip',
+                'manufacturer': 'Gorenje',
+                'lot': 'Lot',
+                'expiry': '2016-06-06',
+                'requiresIDCard': True,
+                'created_at': '2016-06-01'
+            },
+            {
+                'type': 'Tip',
+                'manufacturer': 'Gorenje',
+                'lot': 'Lot',
+                'expiry': '2016-06-06',
+                'requiresIDCard': True,
+                'created_at': '2016-06-01'
+            },
+            {
+                'type': 'Tip',
+                'manufacturer': 'Gorenje',
+                'lot': 'Lot',
+                'expiry': '2016-06-06',
+                'requiresIDCard': True,
+                'created_at': '2016-06-01'
+            },
+            {
+                'type': 'Tip',
+                'manufacturer': 'Gorenje',
+                'lot': 'Lot',
+                'expiry': '2016-06-06',
+                'requiresIDCard': True,
+                'created_at': '2016-06-01'
+            }
+        ],
+        'active_page': 'reagent'
     }
     return TemplateResponse(request, 'reagents.html', context)

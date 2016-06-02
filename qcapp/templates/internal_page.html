@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% comment %}
+  This is the template for all internal pages
+{% endcomment %}
+
+{% block body %}
+
+<div class="container main-body">
+    <nav class="navbar navbar-default">
+     <div class="container-fluid">
+       <div class="navbar-header">
+         <a class="navbar-brand" href="/">QCapp</a>
+       </div>
+       <ul class="nav navbar-nav">
+          <li {% if active_page == 'home' %} class="active" {% endif %}>
+            <a href="/">Home</a>
+          </li>
+          <li {% if active_page == 'cellpanel' %} class="active" {% endif %}><a href="#">Cell Panel</a></li>
+          <li {% if active_page == 'reagent' %} class="active" {% endif %}><a href="#">Reagent</a></li>
+          <li {% if active_page == 'idcard' %} class="active" {% endif %}><a href="#">IDCard</a></li>
+        </ul>
+       <ul class="nav navbar-nav navbar-right">
+         <li><a href="/logout/"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+       </ul>
+      </div>
+    </nav>
+
+    {% block content %}
+
+    {% endblock %}
+
+    <footer>
+      <span>&copy; 2016</span>
+    </footer>
+
+</div>
+
+{% endblock %}
