@@ -150,33 +150,33 @@ def reagent_view(request):
         #'reagents': reagents,
         'reagents': [
             {
-                'type': 'Tip',
-                'manufacturer': 'Gorenje',
-                'lot': 'Lot',
+                'type': 'anti-Fya',
+                'manufacturer': 'BIO-RAD',
+                'lot': '19210.64.10',
                 'expiry': '2016-06-06',
                 'requiresIDCard': True,
                 'created_at': '2016-06-01'
             },
             {
-                'type': 'Tip',
-                'manufacturer': 'Gorenje',
-                'lot': 'Lot',
+                'type': 'anti-Fya',
+                'manufacturer': 'BIO-RAD',
+                'lot': '19210.64.10',
                 'expiry': '2016-06-06',
                 'requiresIDCard': True,
                 'created_at': '2016-06-01'
             },
             {
-                'type': 'Tip',
-                'manufacturer': 'Gorenje',
-                'lot': 'Lot',
+                'type': 'anti-Fya',
+                'manufacturer': 'BIO-RAD',
+                'lot': '19210.64.10',
                 'expiry': '2016-06-06',
                 'requiresIDCard': True,
                 'created_at': '2016-06-01'
             },
             {
-                'type': 'Tip',
-                'manufacturer': 'Gorenje',
-                'lot': 'Lot',
+                'type': 'anti-Fya',
+                'manufacturer': 'BIO-RAD',
+                'lot': '19210.64.10',
                 'expiry': '2016-06-06',
                 'requiresIDCard': True,
                 'created_at': '2016-06-01'

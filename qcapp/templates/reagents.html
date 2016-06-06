@@ -9,16 +9,17 @@
 
 {% block content %}
 
+
       <div class="row">
           <ol class="breadcrumb">
             <li><a href="/">Home</a></li>
             <li class="active"><a href="/reagent/">Reagents</a></li>
             <div class="btn-group pull-right">
-                  <a href="#" type="button" class="btn btn-xs btn-default" onclick="">
+                  <a href="#" type="button" class="btn btn-xm btn-default" onclick="">
                       &nbsp;<span class="fa fa-search"></span>&nbsp;
                   </a>
 
-                  <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="margin-left: 5px;">
+                  <button type="button" class="btn btn-default btn-xm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="margin-left: 5px;">
                     Actions <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" role="menu">
@@ -32,19 +33,29 @@
       </div>
 
 
-    <h2>Reagents</h2>
-
-    {% for reagent in reagents %}
-    <p>
-      Reagent:
-      <br/>Type {{ reagent.type }}
-      <br/>Manufacturer {{ reagent.manufacturer }}
-      <br/>Lot {{ reagent.lot }}
-      <br/>Expiry {{ reagent.expiry }}
-      <br/>RequiresIDcard {{ cell_panel.requiresIDcard }}
-      <br/>Created at {{ reagent.created_at }}
-    </p>
-    {% endfor %}
-
+    <h2>All reagents</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Manufacturer</th>
+                <th>Lot</th>
+                <th>Expiry</th>
+                <th>RequiresIDcard</th>
+                <th>Created at</th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for reagent in reagents %}
+            <tr>
+              <td>{{ reagent.type }}</td>
+              <td>{{ reagent.manufacturer }}</td>
+              <td>{{ reagent.lot }}</td>
+              <td>{{ reagent.expiry }}</td>
+              <td>{{ reagent.requiresIDcard }}</td>
+              <td>{{ reagent.created_at }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
-</div>

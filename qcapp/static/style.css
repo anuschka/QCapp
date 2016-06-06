@@ -1,3 +1,8 @@
 .main-body {
     padding-top: 50px;
 }
+
+.breadcrumb {
+    padding: 4px 17px;
+    background-color: #ffffff;
+}
