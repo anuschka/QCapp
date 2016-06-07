@@ -1,0 +1,60 @@
+{% extends "internal_page.html" %}
+{% comment %}
+  This is the template for displaying all reagents.
+{% endcomment %}
+
+{% block head %}
+  <title>Reagents display all | {% block title %}{% endblock %}</title>
+{% endblock %}
+
+{% block content %}
+
+
+      <div class="row">
+          <ol class="breadcrumb">
+            <li><a href="/">Home</a></li>
+            <li><a href="/reagent/">Reagents</a></li>
+            <li class="active"><a href="/reagent/new/">New</a></li>
+          </ol>
+      </div>
+
+      <h3>Add new reagent</h3>
+      <hr />
+      <div class="row">
+        <div class="col-md-6">
+            <form role="form">
+                <div class="form-group">
+                  <label class="control-label" for="exampleInputEmail1">Reagent Type</label>
+                  <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Reagent Type">
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label" for="exampleInputEmail1">Reagent Manufacturer</label>
+                  <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Reagent Manufacturer">
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label" for="exampleInputEmail1">Reagent Lot</label>
+                  <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Reagent Lot">
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label" for="exampleInputEmail1">Reagent expiry</label>
+                  <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Reagent expiry">
+                </div>
+
+                <div class="checkbox">
+                  <label>
+                      <input class="control-label" type="checkbox" value="">RequiresIDcard
+                  </label>
+                </div>
+
+
+
+
+
+    <button type="submit" class="btn">Submit</button>
+</form>
+    </div>
+    </div>
+{% endblock %}

@@ -15,4 +15,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     # Reagent All site.
     url(r'^reagent/$', views.reagent_view, name='reagent_view'),
+    # Reagent add new.
+    url(r'^reagent/new/$', views.reagent_new_view, name='reagent_new_view'),
 ]

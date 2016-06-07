@@ -185,3 +185,49 @@ def reagent_view(request):
         'active_page': 'reagent'
     }
     return TemplateResponse(request, 'reagents.html', context)
+
+@login_required
+def reagent_new_view(request):
+
+        # get all the Reagent objects
+        reagents = Reagent.objects.all()
+
+        context = {
+            #'reagents': reagents,
+            'reagents': [
+                {
+                    'type': 'anti-Fya',
+                    'manufacturer': 'BIO-RAD',
+                    'lot': '19210.64.10',
+                    'expiry': '2016-06-06',
+                    'requiresIDCard': True,
+                    'created_at': '2016-06-01'
+                },
+                {
+                    'type': 'anti-Fya',
+                    'manufacturer': 'BIO-RAD',
+                    'lot': '19210.64.10',
+                    'expiry': '2016-06-06',
+                    'requiresIDCard': True,
+                    'created_at': '2016-06-01'
+                },
+                {
+                    'type': 'anti-Fya',
+                    'manufacturer': 'BIO-RAD',
+                    'lot': '19210.64.10',
+                    'expiry': '2016-06-06',
+                    'requiresIDCard': True,
+                    'created_at': '2016-06-01'
+                },
+                {
+                    'type': 'anti-Fya',
+                    'manufacturer': 'BIO-RAD',
+                    'lot': '19210.64.10',
+                    'expiry': '2016-06-06',
+                    'requiresIDCard': True,
+                    'created_at': '2016-06-01'
+                }
+            ],
+            'active_page': 'reagent'
+        }
+        return TemplateResponse(request, 'reagents_new.html', context)

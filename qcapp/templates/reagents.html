@@ -33,16 +33,16 @@
       </div>
 
 
-    <h2>All reagents</h2>
-    <table class="table">
+    <h3>All reagents</h3>
+    <table class="table text-center">
         <thead>
             <tr>
-                <th>Type</th>
-                <th>Manufacturer</th>
-                <th>Lot</th>
-                <th>Expiry</th>
-                <th>RequiresIDcard</th>
-                <th>Created at</th>
+                <th class="text-center">Type</th>
+                <th class="text-center">Manufacturer</th>
+                <th class="text-center">Lot</th>
+                <th class="text-center">Expiry</th>
+                <th class="text-center" class="text-center">RequiresIDcard</th>
+                <th class="text-center">Created at</th>
             </tr>
         </thead>
         <tbody>
@@ -52,10 +52,13 @@
               <td>{{ reagent.manufacturer }}</td>
               <td>{{ reagent.lot }}</td>
               <td>{{ reagent.expiry }}</td>
-              <td>{{ reagent.requiresIDcard }}</td>
+              <td>{% if reagent.requiresIDcard %} Yes {% else %} No {% endif %}</td>
               <td>{{ reagent.created_at }}</td>
             </tr>
           {% endfor %}
         </tbody>
     </table>
+    <div>
+          <button type="button" class="btn btn-default" target="#">Add New</button>
+    </div>
 {% endblock %}
