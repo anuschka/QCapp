@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import logout, authenticate, login
 # from qcapp.models import UserProfile
 from django.contrib.auth.models import User
-from qcapp.forms import RegistrationForm, LoginForm
+from qcapp.forms import RegistrationForm, LoginForm, ReagentForm
 from django.template.response import TemplateResponse
 from django.db import transaction
 
@@ -189,45 +189,12 @@ def reagent_view(request):
 @login_required
 def reagent_new_view(request):
 
-        # get all the Reagent objects
-        reagents = Reagent.objects.all()
-
+    if request.method == 'GET':
+        form = LoginForm()
+        return TemplateResponse(request, 'login.html', {'form': form})
+    elif request.method == 'POST':
+        form = ReagentForm(request.POST)
         context = {
-            #'reagents': reagents,
-            'reagents': [
-                {
-                    'type': 'anti-Fya',
-                    'manufacturer': 'BIO-RAD',
-                    'lot': '19210.64.10',
-                    'expiry': '2016-06-06',
-                    'requiresIDCard': True,
-                    'created_at': '2016-06-01'
-                },
-                {
-                    'type': 'anti-Fya',
-                    'manufacturer': 'BIO-RAD',
-                    'lot': '19210.64.10',
-                    'expiry': '2016-06-06',
-                    'requiresIDCard': True,
-                    'created_at': '2016-06-01'
-                },
-                {
-                    'type': 'anti-Fya',
-                    'manufacturer': 'BIO-RAD',
-                    'lot': '19210.64.10',
-                    'expiry': '2016-06-06',
-                    'requiresIDCard': True,
-                    'created_at': '2016-06-01'
-                },
-                {
-                    'type': 'anti-Fya',
-                    'manufacturer': 'BIO-RAD',
-                    'lot': '19210.64.10',
-                    'expiry': '2016-06-06',
-                    'requiresIDCard': True,
-                    'created_at': '2016-06-01'
-                }
-            ],
             'active_page': 'reagent'
         }
         return TemplateResponse(request, 'reagents_new.html', context)

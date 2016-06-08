@@ -1,6 +1,7 @@
 from django import forms
 # from django.core import validators
 from django.contrib.auth.models import User
+from qcapp.models import Reagent
 
 
 class RegistrationForm(forms.Form):
@@ -43,3 +44,20 @@ class LoginForm(forms.Form):
         u.is_active = False
         u.save()
         return u
+
+class ReagentForm(forms.Form):
+    type = forms.CharField(label='ReagentType', max_length=30, required=True)
+    manufacturer = forms.CharField(label='ReagentManufacturer', max_length=30, required=True)
+    lot = forms.CharField(label='ReagentLot', max_length=30, required=True)
+    expiry = forms.DateTimeField(label='ReagentExpiry', required=True)
+    requiresIDcard  = forms.BooleanField(label='requiresIDcard')
+
+    def save(self, new_data):
+        reagent = Reagent.objects.create(new_data['type'],
+                                         new_data['manufacturer'],
+                                         new_data['lot'],
+                                         new_data['expiry'],
+                                         new_data['requiresIDcard']
+                                         )
+        reagent.save()
+        return reagent

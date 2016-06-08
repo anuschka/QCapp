@@ -18,37 +18,46 @@
           </ol>
       </div>
 
+      {% if error %}
+
+        <div>
+          There were errors: {{ error }}
+        </div>
+
+      {% endif %}
+
       <h3>Add new reagent</h3>
       <hr />
       <div class="row">
         <div class="col-md-6">
-            <form role="form">
+            <form action="/reagent/new/" method="post" role="form">
+                {% csrf_token %}
                 <div class="form-group">
-                  <label class="control-label" for="exampleInputEmail1">Reagent Type</label>
-                  <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Reagent Type">
+                  <label class="control-label" for="ReagentType">Reagent Type</label>
+                  <input type="text" class="form-control" id="ReagentType" placeholder="Reagent Type" value="{{ type }}">
                 </div>
 
                 <div class="form-group">
-                  <label class="control-label" for="exampleInputEmail1">Reagent Manufacturer</label>
-                  <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Reagent Manufacturer">
+                  <label class="control-label" for="ReagentManufacturer">Reagent Manufacturer</label>
+                  <input type="text" class="form-control" id="ReagentManufacturer" placeholder="Reagent Manufacturer" value="{{ manufacturer }}">
                 </div>
 
                 <div class="form-group">
-                  <label class="control-label" for="exampleInputEmail1">Reagent Lot</label>
-                  <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Reagent Lot">
+                  <label class="control-label" for="ReagentLot">Reagent Lot</label>
+                  <input type="text" class="form-control" id="ReagentLot" placeholder="Reagent Lot" value="{{ lot }}">
                 </div>
 
                 <div class="form-group">
-                  <label class="control-label" for="exampleInputEmail1">Reagent expiry</label>
-                  <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Reagent expiry">
+                  <label class="control-label" for="ReagentExpiry">Reagent expiry</label>
+                  <input type="date" class="form-control" id="ReagentExpiry" placeholder="Reagent expiry" value="{{ expiry }}">
                 </div>
 
                 <div class="checkbox">
                   <label>
-                      <input class="control-label" type="checkbox" value="">RequiresIDcard
+                      <input class="control-label" type="checkbox" value="{{ requiresIDcard }}">RequiresIDcard
                   </label>
                 </div>
-                
+
                 <div class="reagent_toolbar">
                   <button class="btn btn-primary" id="Save">Save</button>
                   <a href="/qcapp/" class="btn btn-default" onclick="return App.click(this);">Cancel</a>
