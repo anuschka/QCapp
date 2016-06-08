@@ -190,11 +190,16 @@ def reagent_view(request):
 def reagent_new_view(request):
 
     if request.method == 'GET':
-        form = LoginForm()
-        return TemplateResponse(request, 'login.html', {'form': form})
+        form = ReagentForm()
+        return TemplateResponse(request, 'reagents_new.html', {'form': form})
     elif request.method == 'POST':
         form = ReagentForm(request.POST)
+        print(form.errors)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/reagent/')
         context = {
-            'active_page': 'reagent'
+            'active_page': 'reagent',
+            'form': form
         }
         return TemplateResponse(request, 'reagents_new.html', context)

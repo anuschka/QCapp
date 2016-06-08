@@ -37,10 +37,11 @@ class Cell(models.Model):
 # Createed model for Reagent.
 class Reagent(models.Model):
     type = models.CharField(max_length=100, blank=False)
-    lot = models.CharField(max_length=100, blank=False)
+    lot = models.CharField(max_length=100, blank=False, help_text='Lot number')
     expiry = models.DateTimeField(null=True)
     manufacturer = models.CharField(max_length=100, blank=False)
-    requiresIDcard = models.BooleanField(default=False, blank=False)
+    requiresIDcard = models.BooleanField(default=False, blank=False,
+                                         help_text='Require ID card')
     created_at = models.DateTimeField(auto_now_add=True, null=True)
 
     class Meta:
