@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import logout, authenticate, login
@@ -203,3 +203,11 @@ def reagent_new_view(request):
             'form': form
         }
         return TemplateResponse(request, 'reagents_new.html', context)
+
+
+@login_required
+def reagent_edit_view(request, id):
+    print('edit', id)
+    obj = get_object_or_404(Reagent.objects.filter(id=id))
+    form = ReagentForm(instance=obj)
+    return TemplateResponse(request, 'reagents_new.html', {'form': form})
