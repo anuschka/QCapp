@@ -38,7 +38,7 @@ class Cell(models.Model):
 class Reagent(models.Model):
     type = models.CharField(max_length=100, blank=False)
     lot = models.CharField(max_length=100, blank=False, help_text='Lot number')
-    expiry = models.DateTimeField(null=True)
+    expiry = models.DateField(null=True)
     manufacturer = models.CharField(max_length=100, blank=False)
     requiresIDcard = models.BooleanField(default=False, blank=False,
                                          help_text='Require ID card')
@@ -46,6 +46,9 @@ class Reagent(models.Model):
 
     class Meta:
         unique_together = ('type', 'manufacturer', 'lot')
+
+    def __str__(self):
+        return "Reagent %s by %s" % (self.type, self.manufacturer)
 
 
 # Createed model for IDcard.

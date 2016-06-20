@@ -207,7 +207,20 @@ def reagent_new_view(request):
 
 @login_required
 def reagent_edit_view(request, id):
-    print('edit', id)
-    obj = get_object_or_404(Reagent.objects.filter(id=id))
-    form = ReagentForm(instance=obj)
-    return TemplateResponse(request, 'reagents_new.html', {'form': form})
+
+    if request.method == 'GET':
+        print('edit', id)
+        obj = get_object_or_404(Reagent.objects.filter(id=id))
+        form = ReagentForm(instance=obj)
+        return TemplateResponse(request, 'reagents_edit.html', {'form': form})
+    elif request.method == 'POST':
+        form = ReagentForm(request.POST)
+        print(form.errors)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/reagent/')
+        context = {
+            'active_page': 'reagent',
+            'form': form
+        }
+        return TemplateResponse(request, 'reagents_new.html', context)

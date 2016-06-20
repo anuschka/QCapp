@@ -14,3 +14,7 @@
 .reagent_toolbar {
     margin-top: 30px;
 }
+
+.input-field-error {
+    color: red;
+}
