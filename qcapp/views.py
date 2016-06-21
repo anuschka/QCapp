@@ -221,6 +221,7 @@ def reagent_edit_view(request, id):
             return HttpResponseRedirect('/reagent/')
         context = {
             'active_page': 'reagent',
+            'id': 'id',
             'form': form
         }
-        return TemplateResponse(request, 'reagents_new.html', context)
+        return TemplateResponse(request, 'reagents_edit.html', context)
