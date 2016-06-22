@@ -30,7 +30,7 @@
       <hr />
       <div class="row">
         <div class="col-md-6">
-            <form action="/reagent/new/" method="post" role="form">
+            <form method="post" role="form">
                 {% csrf_token %}
                 <div class="form-group has-feedback">
                   <label class="control-label" for="type">Reagent Type</label>
@@ -73,8 +73,8 @@
 
                 <div class="form-group has-feedback">
                   <label class="control-label" for="expiry">Reagent expiry</label>
-                  <input type="date" class="form-control" id="expiry" name="expiry" placeholder="Reagent expiry"
-                      {% if form.expiry.value %} value="{{ form.expiry.value }}" {% endif %}>
+                  <input type="text" class="form-control" id="expiry" name="expiry" placeholder="Reagent expiry"
+                      {% if form.expiry.value %} value="{{ form.expiry.value | date:"c"}}" {% endif %}>
                         {% if form.expiry.errors %}
                           {% for error in form.expiry.errors %}
                             <span><p class="input-field-error">{{ error|escape }}</p></span>

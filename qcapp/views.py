@@ -219,7 +219,9 @@ def reagent_edit_view(request, id):
         }
         return TemplateResponse(request, 'reagents_edit.html', {'form': form}, context)
     elif request.method == 'POST':
-        form = ReagentForm(request.POST)
+        obj = get_object_or_404(Reagent.objects.filter(id=id))
+
+        form = ReagentForm(request.POST, instance=obj)
         print(form.errors)
         if form.is_valid():
             form.save()
