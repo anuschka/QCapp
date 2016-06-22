@@ -212,7 +212,12 @@ def reagent_edit_view(request, id):
         print('edit', id)
         obj = get_object_or_404(Reagent.objects.filter(id=id))
         form = ReagentForm(instance=obj)
-        return TemplateResponse(request, 'reagents_edit.html', {'form': form})
+        context = {
+            'active_page': 'reagent',
+            'id': id,
+            'form': form
+        }
+        return TemplateResponse(request, 'reagents_edit.html', {'form': form}, context)
     elif request.method == 'POST':
         form = ReagentForm(request.POST)
         print(form.errors)
@@ -221,7 +226,7 @@ def reagent_edit_view(request, id):
             return HttpResponseRedirect('/reagent/')
         context = {
             'active_page': 'reagent',
-            'id': 'id',
+            'id': id,
             'form': form
         }
         return TemplateResponse(request, 'reagents_edit.html', context)
