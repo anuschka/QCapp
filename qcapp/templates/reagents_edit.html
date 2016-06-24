@@ -14,7 +14,7 @@
           <ol class="breadcrumb">
             <li><a href="/">Home</a></li>
             <li><a href="/reagent/">Reagents</a></li>
-            <li class="active"><a href="/reagent/{{ id }}/edit/">Edit</a></li>
+            <li class="active"><a href="/reagents/{{ id }}/edit/">Edit</a></li>
           </ol>
       </div>
 
@@ -94,6 +94,9 @@
                 <div class="reagent_toolbar">
                   <input type="submit" class="btn btn-primary" value="Save" />
                   <a href="/qcapp/" class="btn btn-default" onclick="return App.click(this);">Cancel</a>
+                  <div class="pull-right">
+                    <button type="button" class="btn btn-danger" name="deleteReagent" style="margin-left: 50px;">Delete Reagent</button>
+                  </div>
                 </div>
             </form>
           </div>

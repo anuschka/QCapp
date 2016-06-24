@@ -217,7 +217,7 @@ def reagent_edit_view(request, id):
             'id': id,
             'form': form
         }
-        return TemplateResponse(request, 'reagents_edit.html', {'form': form}, context)
+        return TemplateResponse(request, 'reagents_edit.html', context)
     elif request.method == 'POST':
         form = ReagentForm(request.POST)
         print(form.errors)
