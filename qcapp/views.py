@@ -232,3 +232,9 @@ def reagent_edit_view(request, id):
             'form': form
         }
         return TemplateResponse(request, 'reagents_edit.html', context)
+
+
+@login_required
+def delete_record_view(request, id):
+    obj = Reagent.objects.get(id=id)
+    obj.delete()

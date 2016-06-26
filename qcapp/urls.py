@@ -18,5 +18,7 @@ urlpatterns = [
     # Reagent add new.
     url(r'^reagent/new/$', views.reagent_new_view, name='reagent_new_view'),
     # Reagent add new.
-    url(r'^reagent/([0-9]+)/edit/$', views.reagent_edit_view, name='edit-reagent'),
+    url(r'^reagent/([0-9]+)/edit/$', views.reagent_edit_view, name='reagent_edit_view'),
+    # Reagent delete record.
+    url(r'^reagent/([0-9]+)/delete/$', views.delete_record_view, name='delete_record_view'),
 ]

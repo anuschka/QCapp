@@ -94,9 +94,11 @@
                 <div class="reagent_toolbar">
                   <input type="submit" class="btn btn-primary" value="Save" />
                   <a href="/qcapp/" class="btn btn-default" onclick="return App.click(this);">Cancel</a>
-                  <div class="pull-right">
-                    <button type="button" class="btn btn-danger" name="deleteReagent" style="margin-left: 50px;">Delete Reagent</button>
-                  </div>
+                  <form method="post" action="/reagent/{{id}}/delete/">
+                    <div class="pull-right">
+                      <input type="submit" class="btn btn-danger" style="margin-left: 50px;" value="Delete Reagent" />
+                    </div>
+                  </form>
                 </div>
             </form>
           </div>
