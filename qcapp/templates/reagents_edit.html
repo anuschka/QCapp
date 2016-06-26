@@ -74,13 +74,13 @@
                 <div class="form-group has-feedback">
                   <label class="control-label" for="expiry">Reagent expiry</label>
                   <input type="text" class="form-control" id="expiry" name="expiry" placeholder="Reagent expiry"
-                      {% if form.expiry.value %} value="{{ form.expiry.value | date:"c"}}" {% endif %}>
-                        {% if form.expiry.errors %}
-                          {% for error in form.expiry.errors %}
-                            <span><p class="input-field-error">{{ error|escape }}</p></span>
-                            <span class="input-field-error glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
-                          {% endfor %}
-                        {% endif %}
+                  {% if form.expiry.value %} value="{{ form.expiry.value | date:"c"}}" {% endif %}>
+                    {% if form.expiry.errors %}
+                      {% for error in form.expiry.errors %}
+                        <span><p class="input-field-error">{{ error|escape }}</p></span>
+                        <span class="input-field-error glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                      {% endfor %}
+                    {% endif %}
                 </div>
 
                 <div class="checkbox">
@@ -94,12 +94,16 @@
                 <div class="reagent_toolbar">
                   <input type="submit" class="btn btn-primary" value="Save" />
                   <a href="/qcapp/" class="btn btn-default" onclick="return App.click(this);">Cancel</a>
-                  <form method="post" action="/reagent/{{id}}/delete/">
-                    <div class="pull-right">
-                      <input type="submit" class="btn btn-danger" style="margin-left: 50px;" value="Delete Reagent" />
-                    </div>
-                  </form>
+
+                  <a href="#" onclick="$('#mojaForma').submit()" class="btn btn-danger">Alternative delete</a>
                 </div>
+            </form>
+
+            <form method="post" action="/reagent/{{id}}/delete/" id="mojaForma">
+              {% csrf_token %}
+              <div class="pull-right">
+                <input type="submit" class="btn btn-danger" style="margin-left: 50px;" value="Delete Reagent" />
+              </div>
             </form>
           </div>
         </div>
