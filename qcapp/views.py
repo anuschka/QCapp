@@ -150,37 +150,13 @@ def reagent_view(request):
         #'reagents': reagents,
         'reagents': [
             {
-                'type': 'anti-Fya',
-                'manufacturer': 'BIO-RAD',
-                'lot': '19210.64.10',
-                'expiry': '2016-06-06',
-                'requiresIDCard': True,
-                'created_at': '2016-06-01'
+                'type': reagents.type,
+                'manufacturer': reagents.manufacturer,
+                'lot': reagents.lot,
+                'expiry': reagents.expiry,
+                'requiresIDCard': reagents.requiresIDCard,
+                'created_at': reagents.created_at
             },
-            {
-                'type': 'anti-Fya',
-                'manufacturer': 'BIO-RAD',
-                'lot': '19210.64.10',
-                'expiry': '2016-06-06',
-                'requiresIDCard': True,
-                'created_at': '2016-06-01'
-            },
-            {
-                'type': 'anti-Fya',
-                'manufacturer': 'BIO-RAD',
-                'lot': '19210.64.10',
-                'expiry': '2016-06-06',
-                'requiresIDCard': True,
-                'created_at': '2016-06-01'
-            },
-            {
-                'type': 'anti-Fya',
-                'manufacturer': 'BIO-RAD',
-                'lot': '19210.64.10',
-                'expiry': '2016-06-06',
-                'requiresIDCard': True,
-                'created_at': '2016-06-01'
-            }
         ],
         'active_page': 'reagent'
     }
@@ -239,4 +215,3 @@ def delete_record_view(request, id):
     obj = Reagent.objects.get(id=id)
     obj.delete()
     return HttpResponseRedirect('/reagent/')
-    
