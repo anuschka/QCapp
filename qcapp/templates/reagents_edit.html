@@ -93,18 +93,26 @@
 
                 <div class="reagent_toolbar">
                   <input type="submit" class="btn btn-primary" value="Save" />
-                  <a href="/qcapp/" class="btn btn-default" onclick="return App.click(this);">Cancel</a>
-
-                  <a href="#" onclick="$('#mojaForma').submit()" class="btn btn-danger">Alternative delete</a>
+                  <a href="/reagent/" class="btn btn-default" onclick="return App.click(this);">Cancel</a>
+                      <div class="pull-right">
+                          <a href="#" onclick="clicked();" class="btn btn-danger">Delete reagent</a>
+                      </div>
                 </div>
             </form>
 
-            <form method="post" action="/reagent/{{id}}/delete/" id="mojaForma">
+            <form method="post" action="/reagent/{{id}}/delete/" id="deleteForm">
               {% csrf_token %}
-              <div class="pull-right">
-                <input type="submit" class="btn btn-danger" style="margin-left: 50px;" value="Delete Reagent" />
-              </div>
             </form>
-          </div>
+
+            <script>
+            function clicked() {
+                   if (confirm('Do you really want to delete?')) {
+                       $('#deleteForm').submit();
+                   } else {
+                       return false;
+                   }
+                }
+              </script>
+            </div>
         </div>
 {% endblock %}

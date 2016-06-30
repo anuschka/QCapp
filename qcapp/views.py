@@ -238,3 +238,5 @@ def reagent_edit_view(request, id):
 def delete_record_view(request, id):
     obj = Reagent.objects.get(id=id)
     obj.delete()
+    return HttpResponseRedirect('/reagent/')
+    
