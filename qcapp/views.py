@@ -148,16 +148,7 @@ def reagent_view(request):
 
     context = {
         #'reagents': reagents,
-        'reagents': [
-            {
-                'type': reagents.type,
-                'manufacturer': reagents.manufacturer,
-                'lot': reagents.lot,
-                'expiry': reagents.expiry,
-                'requiresIDCard': reagents.requiresIDCard,
-                'created_at': reagents.created_at
-            },
-        ],
+        'reagents': reagents,
         'active_page': 'reagent'
     }
     return TemplateResponse(request, 'reagents.html', context)
