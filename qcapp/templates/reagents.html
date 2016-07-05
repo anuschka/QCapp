@@ -48,12 +48,13 @@
         <tbody>
           {% for reagent in reagents %}
             <tr>
-              <td>{{ reagent.type }}</td>
+              <td><a href="/reagent/{{reagent.id}}/edit/">{{ reagent.type }}</a></td>
               <td>{{ reagent.manufacturer }}</td>
               <td>{{ reagent.lot }}</td>
               <td>{{ reagent.expiry }}</td>
               <td>{% if reagent.requiresIDcard %} Yes {% else %} No {% endif %}</td>
               <td>{{ reagent.created_at }}</td>
+              <td><a href="/reagent/{{reagent.id}}/edit/" class="btn btn-default btn-sm">edit</a></td>
             </tr>
           {% endfor %}
         </tbody>
