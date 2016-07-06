@@ -158,16 +158,19 @@ def reagent_view(request):
     elif sort_by == 'lot':
         reagents = reagents.order_by('lot')
 
-    paginator = Paginator(reagents, 2) # Show 25 reagents per page
+    paginator = Paginator(reagents, 2)  # Show 2 reagents per page
     page = request.GET.get('page')
-    try:
-        reagents = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
+    if page:
+        try:
+            reagents = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            reagents = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            reagents = paginator.page(paginator.num_pages)
+    else:
         reagents = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        reagents = paginator.page(paginator.num_pages)
 
     context = {
         #'reagents': reagents,
