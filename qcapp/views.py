@@ -146,6 +146,17 @@ def reagent_view(request):
     # get all the Reagent objects
     reagents = Reagent.objects.all()
 
+#http://localhost:8000/reagent/?sortBy=lot&page=8391
+    # request.GET = {'sortBy':'lot', 'page':'8391'}
+
+    sort_by = request.GET.get('sortBy')
+    if sort_by == 'expiryDate':
+        reagents = reagents.order_by('expiry')
+    elif sort_by == 'entryDate':
+        reagents = reagents.order_by('created_at')
+    elif sort_by == 'lot':
+        reagents = reagents.order_by('lot')
+
     context = {
         #'reagents': reagents,
         'reagents': reagents,
