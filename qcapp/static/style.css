@@ -18,3 +18,7 @@
 .input-field-error {
     color: red;
 }
+
+.add-new-reagent-button {
+    margin: 20px;
+}

@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from qcapp.forms import RegistrationForm, LoginForm, ReagentForm
 from django.template.response import TemplateResponse
 from django.db import transaction
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 from qcapp.models import Cell, Reagent, IdCard, UserProfile, CellPanel
@@ -146,7 +147,7 @@ def reagent_view(request):
     # get all the Reagent objects
     reagents = Reagent.objects.all()
 
-#http://localhost:8000/reagent/?sortBy=lot&page=8391
+    # http://localhost:8000/reagent/?sortBy=lot&page=8391
     # request.GET = {'sortBy':'lot', 'page':'8391'}
 
     sort_by = request.GET.get('sortBy')
@@ -156,6 +157,17 @@ def reagent_view(request):
         reagents = reagents.order_by('created_at')
     elif sort_by == 'lot':
         reagents = reagents.order_by('lot')
+
+    paginator = Paginator(reagents, 2) # Show 25 reagents per page
+    page = request.GET.get('page')
+    try:
+        reagents = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        reagents = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        reagents = paginator.page(paginator.num_pages)
 
     context = {
         #'reagents': reagents,

@@ -59,7 +59,24 @@
           {% endfor %}
         </tbody>
     </table>
-    <div>
-        <a href="/reagent/new" class="btn btn-default">Add new</a>
+    <div class="row">
+            <div>
+              <a href="/reagent/new" class="btn btn-default add-new-reagent-button">Add new</a>
+            </div>
+            <div class="text-center">
+                <div class="pagination">
+                  {% if reagents.has_previous %}
+                      <a href="?page={{ reagents.previous_page_number }}">Previous</a>
+                  {% endif %}
+
+                  <span class="current">
+                      Page {{ reagents.number }} of {{ reagents.paginator.num_pages }}
+                  </span>
+
+                  {% if reagents.has_next %}
+                      <a href="?page={{ reagents.next_page_number }}">Next</a>
+                  {% endif %}
+                </div>
+            </div>
     </div>
 {% endblock %}
