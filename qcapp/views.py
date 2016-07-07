@@ -176,7 +176,7 @@ def reagent_view(request):
         #'reagents': reagents,
         'reagents': reagents,
         'active_page': 'reagent',
-        'paginator': 'paginator'
+        'paginator': paginator
     }
     return TemplateResponse(request, 'reagents.html', context)
 
