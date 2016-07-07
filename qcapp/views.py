@@ -175,7 +175,8 @@ def reagent_view(request):
     context = {
         #'reagents': reagents,
         'reagents': reagents,
-        'active_page': 'reagent'
+        'active_page': 'reagent',
+        'paginator': 'paginator'
     }
     return TemplateResponse(request, 'reagents.html', context)
 
