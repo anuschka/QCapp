@@ -1,0 +1,54 @@
+{% extends "internal_page.html" %}
+{% comment %}
+  This is the template for displaying all reagents.
+{% endcomment %}
+
+{% block head %}
+  <title>Reagents search | {% block title %}{% endblock %}</title>
+{% endblock %}
+
+{% block content %}
+
+
+      <div class="row">
+          <ol class="breadcrumb">
+            <li><a href="/">Home</a></li>
+            <li><a href="/reagent/">Reagents</a></li>
+            <li class="active"><a href="/reagent/search/">Search</a></li>
+          </ol>
+      </div>
+
+      {% if form.errors %}
+
+        <div class="alert alert-danger">
+          There were errors: {{ form.errors }}
+        </div>
+
+      {% endif %}
+
+
+      <div class="row">
+          <form action="/reagent/search/" method="post" role="form">
+            {% csrf_token %}
+            <div class="col-md-6">
+                <div class="form-group has-feedback">
+                  <label class="control-label" for="keyword">Search reagents</label>
+                  <input type="text" class="form-control" name="keyword" placeholder="Enter keyword"
+                    {% if form.keyword.value %} value="{{ form.keyword.value }}" {% endif %}
+                      {% if form.keyword.errors %}
+                      {% for error in form.keyword.errors %}
+                        <span><p class="input-field-error">{{ error|escape }}</p></span>
+                        <span class="input-field-error glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                      {% endfor %}
+                    {% endif %}
+                  </input>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="reagent_search">
+                  <input type="submit" class="btn btn-primary" value="Search" />
+                </div>
+            </div>
+          </form>
+      </div>
+{% endblock %}

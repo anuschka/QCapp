@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import logout, authenticate, login
 # from qcapp.models import UserProfile
 from django.contrib.auth.models import User
-from qcapp.forms import RegistrationForm, LoginForm, ReagentForm
+from qcapp.forms import RegistrationForm, LoginForm, ReagentForm, SearchForm
 from django.template.response import TemplateResponse
 from django.db import transaction
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -233,3 +233,24 @@ def delete_record_view(request, id):
     obj = Reagent.objects.get(id=id)
     obj.delete()
     return HttpResponseRedirect('/reagent/')
+
+
+@login_required
+def search_record_view(request):
+    if request.method == 'GET':
+        form = SearchForm()
+        context = {
+            'active_page': 'reagent',
+            'form': form
+        }
+        return TemplateResponse(request, 'reagents_search.html', context)
+    elif request.method == 'POST':
+        form = SearchForm(request.POST)
+        print(form.errors)
+        if form.is_valid():
+            return HttpResponseRedirect('/reagent/')
+        context = {
+            'active_page': 'reagent',
+            'form': form
+        }
+        return TemplateResponse(request, 'reagents_search.html', context)

@@ -74,7 +74,7 @@
                 <div class="form-group has-feedback">
                   <label class="control-label" for="expiry">Reagent expiry</label>
                   <input type="date" class="form-control" id="expiry" name="expiry" placeholder="Reagent expiry dd/mm/yyyy"
-                      {% if form.expiry.value %} value="{{ form.expiry.value | date:"d/m/Y"}}" {% endif %}>
+                      {% if form.expiry.value %} value="{{ form.expiry.value }}" {% endif %}>
                         {% if form.expiry.errors %}
                           {% for error in form.expiry.errors %}
                             <span><p class="input-field-error">{{ error|escape }}</p></span>

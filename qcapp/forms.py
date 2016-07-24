@@ -2,6 +2,7 @@ from django import forms
 # from django.core import validators
 from django.contrib.auth.models import User
 from qcapp.models import Reagent
+from django.forms import DateField
 
 
 class RegistrationForm(forms.Form):
@@ -46,6 +47,10 @@ class LoginForm(forms.Form):
 
 
 class ReagentForm(forms.ModelForm):
+    expiry = DateField(input_formats=['%d/%m/%Y'])
     class Meta:
         model = Reagent
         fields = ['type', 'lot', 'expiry', 'manufacturer', 'requiresIDcard']
+
+class SearchForm(forms.Form):
+    keyword = forms.CharField(max_length=30, required=True)
