@@ -47,7 +47,7 @@ class LoginForm(forms.Form):
 
 
 class ReagentForm(forms.ModelForm):
-    expiry = DateField(input_formats=['%d/%m/%Y'])
+    expiry = DateField(input_formats=['%d/%m/%Y', '%Y-%m-%d'])
     class Meta:
         model = Reagent
         fields = ['type', 'lot', 'expiry', 'manufacturer', 'requiresIDcard']

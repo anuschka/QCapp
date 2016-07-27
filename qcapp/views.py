@@ -7,7 +7,10 @@ from django.contrib.auth.models import User
 from qcapp.forms import RegistrationForm, LoginForm, ReagentForm, SearchForm
 from django.template.response import TemplateResponse
 from django.db import transaction
+from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+from django.views.generic.edit import FormView
 
 
 from qcapp.models import Cell, Reagent, IdCard, UserProfile, CellPanel
@@ -180,23 +183,38 @@ def reagent_view(request):
     }
     return TemplateResponse(request, 'reagents.html', context)
 
-@login_required
-def reagent_new_view(request):
+# @login_required
+# def reagent_new_view(request):
+#
+#     if request.method == 'GET':
+#         form = ReagentForm()
+#         return TemplateResponse(request, 'reagents_new.html', {'form': form})
+#     elif request.method == 'POST':
+#         form = ReagentForm(request.POST)
+#         print(form.errors)
+#         if form.is_valid():
+#             form.save()
+#             return HttpResponseRedirect('/reagent/')
+#         context = {
+#             'active_page': 'reagent',
+#             'form': form
+#         }
+#         return TemplateResponse(request, 'reagents_new.html', context)
 
-    if request.method == 'GET':
-        form = ReagentForm()
-        return TemplateResponse(request, 'reagents_new.html', {'form': form})
-    elif request.method == 'POST':
-        form = ReagentForm(request.POST)
-        print(form.errors)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/reagent/')
-        context = {
-            'active_page': 'reagent',
-            'form': form
-        }
-        return TemplateResponse(request, 'reagents_new.html', context)
+
+class ReagentNewView(FormView):
+    template_name = 'reagents_new.html'
+    form_class = ReagentForm
+
+    def render_to_response(self, context):
+        context['active_page'] = 'reagent'
+        return super().render_to_response(context)
+
+    def form_valid(self, form):
+        form.save()
+        return HttpResponseRedirect('/reagent/')
+
+reagent_new_view = ReagentNewView.as_view()
 
 
 @login_required
@@ -248,26 +266,17 @@ def search_form_view(request):
         form = SearchForm(request.POST)
         # print(form.errors)
         if form.is_valid():
-            if 'keyword' in request.POST and request.POST['keyword']:
-                q = request.POST['keyword']
-                if not q:
-                    error = True
-                elif len(q) > 20:
-                    error = True
-                else:
-                    reagents = Reagent.objects.filter(type__icontains=q)
-                    context = {
-                        'active_page': 'reagent',
-                        'reagents': reagents,
-                        'query': q
-                        }
-                    return TemplateResponse(request, 'reagents_search.html', context)
-            else:
-                error = True
+            # if 'keyword' in request.POST and request.POST['keyword']:
+            q = form.cleaned_data['keyword']
+            reagents = Reagent.objects.filter(
+                Q(type__icontains=q) | Q(lot__icontains=q)
+                | Q(manufacturer__icontains=q)
+            )
             context = {
                 'active_page': 'reagent',
-                'error': True
-            }
+                'reagents': reagents,
+                'query': q
+                }
             return TemplateResponse(request, 'reagents_search.html', context)
         context = {
             'active_page': 'reagent',
