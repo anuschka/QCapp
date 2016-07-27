@@ -23,6 +23,4 @@ urlpatterns = [
     url(r'^reagent/([0-9]+)/delete/$', views.delete_record_view, name='delete_record_view'),
     # Reagent serach form.
     url(r'^reagent/search-form/$', views.search_form_view, name='search_form_view'),
-    # Reagent serach results.
-    url(r'^reagent/search/$', views.search_view, name='search_view'),
 ]

@@ -26,6 +26,9 @@
 
       {% endif %}
 
+      {% if error %}
+        <p style="color: red;">Please submit a search term.</p>
+      {% endif %}
 
       <div class="row">
           <form action="/reagent/search-form/" method="post" role="form">

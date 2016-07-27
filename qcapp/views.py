@@ -246,19 +246,29 @@ def search_form_view(request):
         return TemplateResponse(request, 'reagents_search.html', context)
     elif request.method == 'POST':
         form = SearchForm(request.POST)
-        print(form.errors)
+        # print(form.errors)
         if form.is_valid():
             if 'keyword' in request.POST and request.POST['keyword']:
                 q = request.POST['keyword']
-                reagents = Reagent.objects.filter(type__icontains=q)
-                context = {
-                    'reagents': reagents,
-                    'query': q
-                }
-                return TemplateResponse(request, 'reagents_search.html', context)
+                if not q:
+                    error = True
+                elif len(q) > 20:
+                    error = True
+                else:
+                    reagents = Reagent.objects.filter(type__icontains=q)
+                    context = {
+                        'active_page': 'reagent',
+                        'reagents': reagents,
+                        'query': q
+                        }
+                    return TemplateResponse(request, 'reagents_search.html', context)
             else:
-                message = 'You submitted an empty form.'
-            return HttpResponse(message)
+                error = True
+            context = {
+                'active_page': 'reagent',
+                'error': True
+            }
+            return TemplateResponse(request, 'reagents_search.html', context)
         context = {
             'active_page': 'reagent',
             'form': form
