@@ -236,7 +236,7 @@ def delete_record_view(request, id):
 
 
 @login_required
-def search_record_view(request):
+def search_form_view(request):
     if request.method == 'GET':
         form = SearchForm()
         context = {
@@ -248,9 +248,28 @@ def search_record_view(request):
         form = SearchForm(request.POST)
         print(form.errors)
         if form.is_valid():
-            return HttpResponseRedirect('/reagent/')
+            if 'keyword' in request.POST and request.POST['keyword']:
+                q = request.POST['keyword']
+                reagents = Reagent.objects.filter(type__icontains=q)
+                context = {
+                    'reagents': reagents,
+                    'query': q
+                }
+                return TemplateResponse(request, 'reagents_search.html', context)
+            else:
+                message = 'You submitted an empty form.'
+            return HttpResponse(message)
         context = {
             'active_page': 'reagent',
             'form': form
         }
         return TemplateResponse(request, 'reagents_search.html', context)
+
+
+@login_required
+def search_view(request):
+    if 'keyword' in request.GET:
+        message = 'You searched for: %r' % request.GET['keyword']
+    else:
+        message = 'You submitted an empty form.'
+    return HttpResponse(message)

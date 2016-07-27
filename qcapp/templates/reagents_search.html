@@ -28,7 +28,7 @@
 
 
       <div class="row">
-          <form action="/reagent/search/" method="post" role="form">
+          <form action="/reagent/search-form/" method="post" role="form">
             {% csrf_token %}
             <div class="col-md-6">
                 <div class="form-group has-feedback">
@@ -51,4 +51,17 @@
             </div>
           </form>
       </div>
+
+      <p>You searched for: <strong>{{ query }}</strong></p>
+
+      {% if reagents %}
+      <p>Found {{ reagents|length }} reagent{{ reagents|pluralize }}.</p>
+      <ul>
+          {% for reagent in reagents %}
+          <li>{{ reagent.type }}</li>
+          {% endfor %}
+      </ul>
+      {% else %}
+        <p>No reagents matched your search criteria.</p>
+      {% endif %}
 {% endblock %}
