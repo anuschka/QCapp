@@ -58,12 +58,54 @@
       <p>You searched for: <strong>{{ query }}</strong></p>
 
       {% if reagents %}
-      <p>Found {{ reagents|length }} reagent{{ reagents|pluralize }}.</p>
-      <ul>
-          {% for reagent in reagents %}
-          <li>{{ reagent.type }}</li>
-          {% endfor %}
-      </ul>
+      <p>Found {{ reagents_filtered|length }} reagent{{ reagents_filtered|pluralize }}.</p>
+      <table class="table text-center">
+          <thead>
+              <tr>
+                  <th class="text-center">Type</th>
+                  <th class="text-center">Manufacturer</th>
+                  <th class="text-center">Lot</th>
+                  <th class="text-center">Expiry</th>
+                  <th class="text-center" class="text-center">RequiresIDcard</th>
+                  <th class="text-center">Created at</th>
+              </tr>
+          </thead>
+          <tbody>
+            {% for reagent in reagents %}
+              <tr>
+                <td><a href="/reagent/{{reagent.id}}/edit/">{{ reagent.type }}</a></td>
+                <td>{{ reagent.manufacturer }}</td>
+                <td>{{ reagent.lot }}</td>
+                <td>{{ reagent.expiry | date:"d/m/Y"}}</td>
+                <td>{% if reagent.requiresIDcard %} Yes {% else %} No {% endif %}</td>
+                <td>{{ reagent.created_at | date:"d/m/Y H:i"}}</td>
+                <td><a href="/reagent/{{reagent.id}}/edit/" class="btn btn-default btn-sm">edit</a></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+      </table>
+      <div class="row">
+              <div class="text-center">
+                  <ul class="pagination">
+                    {% if reagents.has_previous %}
+                        <li><a href="?page=1"><<</a></li>
+                        <li><a href="?page={{reagents.previous_page_number }}"><</a></li>
+
+                    {% endif %}
+
+                    {% for i in paginator.page_range %}
+                        <li {% if reagents.number == i %} class="active" {% endif %}><a href="?page={{i}}">{{i}}</a></li>
+                    {% endfor %}
+
+                    {% if reagents.has_next %}
+                        <li><a href="?page={{ reagents.next_page_number }}">></a></li>
+                        <li><a href="?page={{ reagents.paginator.num_pages }}">>></a></li>
+                    {% endif %}
+                  </ul>
+              </div>
+      </div>
+
+
       {% else %}
         <p>No reagents matched your search criteria.</p>
       {% endif %}
