@@ -256,37 +256,40 @@ def delete_record_view(request, id):
 @login_required
 def search_form_view(request):
     if request.method == 'GET':
-        form = SearchForm()
+        form = SearchForm(request.GET)
         if 'keyword' in request.GET:
+            print(request)
             print(form.errors)
-            q = form.cleaned_data['keyword']
-            # if form.is_valid():
-            #     # if 'keyword' in request.POST and request.POST['keyword']:
-            #     q = form.cleaned_data['keyword']
-            #     reagents_filtered = Reagent.objects.filter(
-            #         Q(type__icontains=q) | Q(lot__icontains=q)
-            #         | Q(manufacturer__icontains=q)
-            #     )
-            #     reagents = reagents_filtered
-            #     paginator = Paginator(reagents, 4)  # Show 4 reagents per page
-            #     page = request.GET.get('page')
-            #     if page:
-            #         try:
-            #             reagents = paginator.page(page)
-            #         except PageNotAnInteger:
-            #             # If page is not an integer, deliver first page.
-            #             reagents = paginator.page(1)
-            #         except EmptyPage:
-            #             # If page is out of range (e.g. 9999), deliver last page of results.
-            #             reagents = paginator.page(paginator.num_pages)
-            #     else:
-            #         reagents = paginator.page(1)
+            if form.is_valid():
+                # if 'keyword' in request.POST and request.POST['keyword']:
+                q = form.cleaned_data['keyword']
+                print(q)
+                reagents_filtered = Reagent.objects.filter(
+                    Q(type__icontains=q) | Q(lot__icontains=q)
+                    | Q(manufacturer__icontains=q)
+                )
+                reagents = reagents_filtered
+                paginator = Paginator(reagents, 4)  # Show 4 reagents per page
+                page = request.GET.get('page')
+                GET_params = request.GET.copy()
+                if page:
+                    try:
+                        reagents = paginator.page(page)
+                    except PageNotAnInteger:
+                        # If page is not an integer, deliver first page.
+                        reagents = paginator.page(1)
+                    except EmptyPage:
+                        # If page is out of range (e.g. 9999), deliver last page of results.
+                        reagents = paginator.page(paginator.num_pages)
+                else:
+                    reagents = paginator.page(1)
             context = {
                     'active_page': 'reagent',
                     'form': form,
-                    # 'reagents': reagents,
-                    # 'reagents_filtered': reagents_filtered,
-                    # 'paginator': paginator,
+                    'reagents': reagents,
+                    'reagents_filtered': reagents_filtered,
+                    'paginator': paginator,
+                    'GET_params': GET_params,
                     'query': q
                     }
             return TemplateResponse(request, 'reagents_search.html', context)

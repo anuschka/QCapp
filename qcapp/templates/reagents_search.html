@@ -88,18 +88,18 @@
               <div class="text-center">
                   <ul class="pagination">
                     {% if reagents.has_previous %}
-                        <li><a href="?page=1"><<</a></li>
-                        <li><a href="?page={{reagents.previous_page_number }}"><</a></li>
+                        <li><a href="?{{GET_params.urlencode}}&amp;page=1"><<</a></li>
+                        <li><a href="?{{GET_params.urlencode}}&amp;page={{reagents.previous_page_number }}"><</a></li>
 
                     {% endif %}
 
                     {% for i in paginator.page_range %}
-                        <li {% if reagents.number == i %} class="active" {% endif %}><a href="?page={{i}}">{{i}}</a></li>
+                        <li {% if reagents.number == i %} class="active" {% endif %}><a href="?{{GET_params.urlencode}}&amp;page={{i}}">{{i}}</a></li>
                     {% endfor %}
 
                     {% if reagents.has_next %}
-                        <li><a href="?page={{ reagents.next_page_number }}">></a></li>
-                        <li><a href="?page={{ reagents.paginator.num_pages }}">>></a></li>
+                        <li><a href="?{{GET_params.urlencode}}&amp;page={{ reagents.next_page_number }}">></a></li>
+                        <li><a href="?{{GET_params.urlencode}}&amp;page={{ reagents.paginator.num_pages }}">>></a></li>
                     {% endif %}
                   </ul>
               </div>
