@@ -255,8 +255,8 @@ def delete_record_view(request, id):
 
 @login_required
 def search_form_view(request):
-    if request.method == 'GET' and 'keyword' in request.GET:
-        if 'keyword' != '':
+    if request.method == 'GET':
+        if 'keyword' in request.GET:
             form = SearchForm(request.GET)
             print(request)
             print(form.errors)
@@ -282,25 +282,23 @@ def search_form_view(request):
                         # If page is out of range (e.g. 9999), deliver last page of results.
                         reagents = paginator.page(paginator.num_pages)
                 else:
-                    reagents = paginator.page(1)
-            context = {
+                        reagents = paginator.page(1)
+                context = {
+                        'active_page': 'reagent',
+                        'form': form,
+                        'reagents': reagents,
+                        'reagents_filtered': reagents_filtered,
+                        'paginator': paginator,
+                        'GET_params': GET_params,
+                        'query': q
+                        }
+                return TemplateResponse(request, 'reagents_search.html', context)
+            else:
+                context = {
                     'active_page': 'reagent',
-                    'form': form,
-                    'reagents': reagents,
-                    'reagents_filtered': reagents_filtered,
-                    'paginator': paginator,
-                    'GET_params': GET_params,
-                    'query': q
-                    }
-            return TemplateResponse(request, 'reagents_search.html', context)
-        else:
-            form = SearchForm()
-            context = {
-                'active_page': 'reagent',
-                'form': form
-            }
-            return TemplateResponse(request, 'reagents_search.html', context)
-    else:
+                    'form': form
+                }
+                return TemplateResponse(request, 'reagents_search.html', context)
         form = SearchForm()
         context = {
             'active_page': 'reagent',
