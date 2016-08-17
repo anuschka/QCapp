@@ -255,9 +255,9 @@ def delete_record_view(request, id):
 
 @login_required
 def search_form_view(request):
-    if request.method == 'GET':
-        form = SearchForm(request.GET)
-        if 'keyword' in request.GET:
+    if request.method == 'GET' and 'keyword' in request.GET:
+        if 'keyword' != '':
+            form = SearchForm(request.GET)
             print(request)
             print(form.errors)
             if form.is_valid():
@@ -293,6 +293,15 @@ def search_form_view(request):
                     'query': q
                     }
             return TemplateResponse(request, 'reagents_search.html', context)
+        else:
+            form = SearchForm()
+            context = {
+                'active_page': 'reagent',
+                'form': form
+            }
+            return TemplateResponse(request, 'reagents_search.html', context)
+    else:
+        form = SearchForm()
         context = {
             'active_page': 'reagent',
             'form': form
