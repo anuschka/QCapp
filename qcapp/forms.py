@@ -53,4 +53,4 @@ class ReagentForm(forms.ModelForm):
         fields = ['type', 'lot', 'expiry', 'manufacturer', 'requiresIDcard']
 
 class SearchForm(forms.Form):
-    keyword = forms.CharField(max_length=30, required=True)
+    keyword = forms.CharField(max_length=30, required=True, min_length=1)
