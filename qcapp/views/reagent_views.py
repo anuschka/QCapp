@@ -15,9 +15,7 @@ def reagent_view(request):
     # get all the Reagent objects
     reagents = Reagent.objects.all()
 
-    # http://localhost:8000/reagent/?sortBy=lot&page=8391
-    # request.GET = {'sortBy':'lot', 'page':'8391'}
-
+    # Sorting the Queryset
     sort_by = request.GET.get('sortBy')
     if sort_by == 'expiryDate':
         reagents = reagents.order_by('expiry')
@@ -26,6 +24,7 @@ def reagent_view(request):
     elif sort_by == 'lot':
         reagents = reagents.order_by('lot')
 
+    # Using Paginator to split results accross serveral pages
     paginator = Paginator(reagents, 2)  # Show 2 reagents per page
     page = request.GET.get('page')
     if page:
@@ -65,7 +64,7 @@ def reagent_view(request):
 #         }
 #         return TemplateResponse(request, 'reagents_new.html', context)
 
-
+# Class based view for New reagent
 class ReagentNewView(FormView):
     template_name = 'reagents_new.html'
     form_class = ReagentForm

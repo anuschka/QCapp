@@ -1,2 +1,3 @@
-from .authentication_views import *
-from .reagent_views import *
+from .authentication_views import *  # noqa
+from .reagent_views import *  # noqa
+from .portal_views import *  # noqa

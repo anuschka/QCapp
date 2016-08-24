@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from qcapp.forms import RegistrationForm, LoginForm
 from django.template.response import TemplateResponse
 from django.db import transaction
+from qcapp.models import UserProfile
 
 
 def logout_view(request):
@@ -58,19 +59,20 @@ def register_view(request):
             password1 = form.cleaned_data['password1']
             password2 = form.cleaned_data['password2']
 
-            if User.objects.filter(username=form.cleaned_data['username']).exists():
+            if User.objects.filter(
+             username=form.cleaned_data['username']).exists():
                 # Username exists
                 context = {
-                'form': form,
-                'error': 'Username exists!'
+                    'form': form,
+                    'error': 'Username exists!'
                 }
                 return TemplateResponse(request, 'register.html', context)
 
             if password1 != password2:
                 # Password is not equal
                 context = {
-                'form': form,
-                'error': 'Passwords do not match!'
+                    'form': form,
+                    'error': 'Passwords do not match!'
                 }
                 return TemplateResponse(request, 'register.html', context)
 
