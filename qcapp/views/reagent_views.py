@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 from django.http import HttpResponseRedirect
 from qcapp.forms import ReagentForm, SearchForm
 from django.template.response import TemplateResponse
@@ -77,7 +78,7 @@ class ReagentNewView(FormView):
         form.save()
         return HttpResponseRedirect('/reagent/')
 
-reagent_new_view = ReagentNewView.as_view()
+reagent_new_view = login_required(ReagentNewView.as_view())
 
 
 @login_required
@@ -110,6 +111,7 @@ def reagent_edit_view(request, id):
 
 
 @login_required
+@require_POST
 def delete_record_view(request, id):
     obj = Reagent.objects.get(id=id)
     obj.delete()
