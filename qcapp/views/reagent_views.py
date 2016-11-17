@@ -6,7 +6,7 @@ from qcapp.forms import ReagentForm, SearchForm
 from django.template.response import TemplateResponse
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, UpdateView
 from qcapp.models import Reagent
 
 
@@ -109,22 +109,29 @@ reagent_new_view = login_required(ReagentNewView.as_view())
 #         }
 #         return TemplateResponse(request, 'reagents_edit.html', context)
 
-class ReagentEditView(FormView):
+class ReagentEditView(UpdateView):
     template_name = 'reagents_edit.html'
     form_class = ReagentForm
 
-    def get_form(self, form_class):
-        """
-        Check if the user already saved reagent details. If so, then show
-        the form populated with those details, to let user change them.
-        """
-        try:
-            reagent = Reagent.objects.get(id=self.args[0])
-            return form_class(instance=reagent, **self.get_form_kwargs())
-        except Reagent.DoesNotExist:
-            return form_class(**self.get_form_kwargs())
+    def get_object(self, queryset=None):
+        obj = Reagent.objects.get(id=self.args[0])
+        return obj
+
+#    def get_form(self, form_class):
+#        """
+#        Check if the user already saved reagent details. If so, then show
+#        the form populated with those details, to let user change them.
+#        """
+#        try:
+#            reagent = Reagent.objects.get(id=self.args[0])
+#            return form_class(instance=reagent, **self.get_form_kwargs())
+#        except Reagent.DoesNotExist:
+#            return form_class(**self.get_form_kwargs())
 
 #    def get_initial(self):
+#        """
+#        Use the get_initial method to prepoulate the form with data
+#        """
 #        super(ReagentEditView, self).get_initial()
 #        reagent = Reagent.objects.get(id=self.args[0])
 #        return self.reagent
