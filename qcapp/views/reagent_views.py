@@ -124,6 +124,11 @@ class ReagentEditView(FormView):
         except Reagent.DoesNotExist:
             return form_class(**self.get_form_kwargs())
 
+    def get_context_data(self, **kwargs):
+        context = super(ReagentEditView, self).get_context_data(**kwargs)
+        context['active_page'] = 'reagent'
+        return context
+
     def form_valid(self, form, **kwargs):
         form.save()
         return HttpResponseRedirect('/reagent/')
