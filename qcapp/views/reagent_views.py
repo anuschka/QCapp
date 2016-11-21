@@ -7,45 +7,78 @@ from django.template.response import TemplateResponse
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic.edit import FormView, UpdateView
+from django.views.generic import ListView
 from qcapp.models import Reagent
 
 
-@login_required
-def reagent_view(request):
+# @login_required
+# def reagent_view(request):
+#
+#     # get all the Reagent objects
+#     reagents = Reagent.objects.all()
+#
+#     # Sorting the Queryset
+#     sort_by = request.GET.get('sortBy')
+#     if sort_by == 'expiryDate':
+#         reagents = reagents.order_by('expiry')
+#     elif sort_by == 'entryDate':
+#         reagents = reagents.order_by('created_at')
+#     elif sort_by == 'lot':
+#         reagents = reagents.order_by('lot')
+#
+#     # Using Paginator to split results accross serveral pages
+#     paginator = Paginator(reagents, 2)  # Show 2 reagents per page
+#     page = request.GET.get('page')
+#     if page:
+#         try:
+#             reagents = paginator.page(page)
+#         except PageNotAnInteger:
+#             # If page is not an integer, deliver first page.
+#             reagents = paginator.page(1)
+#         except EmptyPage:
+#             # If page is out of range (e.g. 9999), deliver last page of results
+#             reagents = paginator.page(paginator.num_pages)
+#     else:
+#         reagents = paginator.page(1)
+#
+#     context = {
+#         'reagents': reagents,
+#         'active_page': 'reagent',
+#         'paginator': paginator
+#     }
+#     return TemplateResponse(request, 'reagents.html', context)
+class ReagentAllView(ListView):
+    model = Reagent
+    paginate_by = 4
+    template_name = 'reagents.html'
 
-    # get all the Reagent objects
-    reagents = Reagent.objects.all()
-
-    # Sorting the Queryset
-    sort_by = request.GET.get('sortBy')
-    if sort_by == 'expiryDate':
-        reagents = reagents.order_by('expiry')
-    elif sort_by == 'entryDate':
-        reagents = reagents.order_by('created_at')
-    elif sort_by == 'lot':
-        reagents = reagents.order_by('lot')
-
-    # Using Paginator to split results accross serveral pages
-    paginator = Paginator(reagents, 2)  # Show 2 reagents per page
-    page = request.GET.get('page')
-    if page:
+    def get_context_data(self, **kwargs):
+        context = super(ReagentAllView, self).get_context_data(**kwargs)
+        context['active_page'] = 'reagent'
+        reagent_list = Reagent.objects.all()
+        paginator = Paginator(reagent_list, self.paginate_by)
+        page = self.request.GET.get('page')
         try:
-            reagents = paginator.page(page)
+            reagent_list = paginator.page(page)
         except PageNotAnInteger:
-            # If page is not an integer, deliver first page.
-            reagents = paginator.page(1)
+            reagent_list = paginator.page(1)
         except EmptyPage:
-            # If page is out of range (e.g. 9999), deliver last page of results
-            reagents = paginator.page(paginator.num_pages)
-    else:
-        reagents = paginator.page(1)
+            reagent_list = paginator.page(paginator.num_pages)
 
-    context = {
-        'reagents': reagents,
-        'active_page': 'reagent',
-        'paginator': paginator
-    }
-    return TemplateResponse(request, 'reagents.html', context)
+        return context
+
+    def get_queryset(self):
+        queryset = Reagent.objects.all()
+        sort_by = self.request.GET.get('sortBy')
+        if sort_by == 'expiryDate':
+            queryset = queryset.order_by('expiry')
+        elif sort_by == 'entryDate':
+            queryset = queryset.order_by('created_at')
+        elif sort_by == 'lot':
+            queryset == queryset.order_by('lot')
+        return queryset
+
+reagent_view = login_required(ReagentAllView.as_view())
 
 # @login_required
 # def reagent_new_view(request):

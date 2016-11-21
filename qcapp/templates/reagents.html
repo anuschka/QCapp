@@ -46,7 +46,10 @@
             </tr>
         </thead>
         <tbody>
-          {% for reagent in reagents %}
+          {% for reagent in reagent_list %}
+          {% comment %}
+            The view passes the list of reagents by default as object_list and reagent_list (aliases; either will work).
+          {% endcomment %}
             <tr>
               <td><a href="/reagent/{{reagent.id}}/edit/">{{ reagent.type }}</a></td>
               <td>{{ reagent.manufacturer }}</td>
@@ -64,22 +67,7 @@
               <a href="/reagent/new" class="btn btn-default add-new-reagent-button">Add new</a>
             </div>
             <div class="text-center">
-                <ul class="pagination">
-                  {% if reagents.has_previous %}
-                      <li><a href="?page=1"><<</a></li>
-                      <li><a href="?page={{reagents.previous_page_number }}"><</a></li>
-
-                  {% endif %}
-
-                  {% for i in paginator.page_range %}
-                      <li {% if reagents.number == i %} class="active" {% endif %}><a href="?page={{i}}">{{i}}</a></li>
-                  {% endfor %}
-
-                  {% if reagents.has_next %}
-                      <li><a href="?page={{ reagents.next_page_number }}">></a></li>
-                      <li><a href="?page={{ reagents.paginator.num_pages }}">>></a></li>
-                  {% endif %}
-                </ul>
+              {% include 'snippets/pagination.html' %}
             </div>
     </div>
   {% endblock %}
