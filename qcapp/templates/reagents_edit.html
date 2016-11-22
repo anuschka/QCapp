@@ -100,7 +100,7 @@
                 </div>
             </form>
 
-            <form method="post" action="/reagent/{{id}}/delete/" id="deleteForm">
+            <form method="post" action="/reagent/{{ object.id }}/delete/" id="deleteForm">
               {% csrf_token %}
             </form>
 

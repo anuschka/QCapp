@@ -6,7 +6,7 @@ from qcapp.forms import ReagentForm, SearchForm
 from django.template.response import TemplateResponse
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.views.generic.edit import FormView, UpdateView
+from django.views.generic.edit import FormView, UpdateView, DeleteView
 from django.views.generic import ListView
 from qcapp.models import Reagent
 
@@ -181,13 +181,23 @@ class ReagentEditView(UpdateView):
 
 reagent_edit_view = login_required(ReagentEditView.as_view())
 
-@login_required
-@require_POST
-def delete_record_view(request, id):
-    obj = Reagent.objects.get(id=id)
-    obj.delete()
-    return HttpResponseRedirect('/reagent/')
 
+# @login_required
+# @require_POST
+# def delete_record_view(request, id):
+#     obj = get_object_or_404(Reagent.objects.filter(id=id))
+#     obj.delete()
+#     return HttpResponseRedirect('/reagent/')
+
+class DeleteReagentView(DeleteView):
+    model = Reagent
+    success_url = '/reagent/'
+
+    def get_object(self, queryset=None):
+        obj = Reagent.objects.get(id=self.args[0])
+        return obj
+
+delete_record_view = login_required(DeleteReagentView.as_view())
 
 @login_required
 def search_form_view(request):
