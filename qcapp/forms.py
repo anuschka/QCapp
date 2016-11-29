@@ -3,6 +3,7 @@ from django import forms
 from django.contrib.auth.models import User
 from qcapp.models import Reagent
 from django.forms import DateField
+from django.db.models import Q
 
 
 class RegistrationForm(forms.Form):
@@ -54,3 +55,12 @@ class ReagentForm(forms.ModelForm):
 
 class SearchForm(forms.Form):
     keyword = forms.CharField(max_length=30, required=True, min_length=1)
+
+    def filter_queryset(self, request, queryset):
+        q = self.cleaned_data['keyword']
+        if q:
+            return queryset.filter(
+                Q(type__icontains=q) | Q(lot__icontains=q) |
+                Q(manufacturer__icontains=q)
+                )
+        return queryset

@@ -6,7 +6,7 @@ from qcapp.forms import ReagentForm, SearchForm
 from django.template.response import TemplateResponse
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.views.generic.edit import FormView, UpdateView, DeleteView
+from django.views.generic.edit import FormView, UpdateView, DeleteView, FormMixin
 from django.views.generic import ListView
 from qcapp.models import Reagent
 
@@ -199,58 +199,110 @@ class DeleteReagentView(DeleteView):
 
 delete_record_view = login_required(DeleteReagentView.as_view())
 
-@login_required
-def search_form_view(request):
-    if request.method == 'GET':
-        if 'keyword' in request.GET:
-            form = SearchForm(request.GET)
-            print(request)
-            print(form.errors)
-            if form.is_valid():
-                # if 'keyword' in request.POST and request.POST['keyword']:
-                q = form.cleaned_data['keyword']
-                print(q)
-                reagents_filtered = Reagent.objects.filter(
-                    Q(type__icontains=q) | Q(lot__icontains=q) |
-                    Q(manufacturer__icontains=q)
-                )
-                reagents = reagents_filtered
-                paginator = Paginator(reagents, 4)  # Show 4 reagents per page
-                page = request.GET.get('page')
-                GET_params = request.GET.copy()
-                if page:
-                    try:
-                        reagents = paginator.page(page)
-                    except PageNotAnInteger:
-                        # If page is not an integer, deliver first page.
-                        reagents = paginator.page(1)
-                    except EmptyPage:
-                        # If page is out of range (e.g. 9999), deliver last
-                        # page of results.
-                        reagents = paginator.page(paginator.num_pages)
-                else:
-                        reagents = paginator.page(1)
-                context = {
-                        'active_page': 'reagent',
-                        'form': form,
-                        'reagents': reagents,
-                        'reagents_filtered': reagents_filtered,
-                        'paginator': paginator,
-                        'GET_params': GET_params,
-                        'query': q
-                        }
-                return TemplateResponse(
-                    request, 'reagents_search.html', context)
-            else:
-                context = {
-                    'active_page': 'reagent',
-                    'form': form
-                }
-                return TemplateResponse(
-                    request, 'reagents_search.html', context)
-        form = SearchForm()
-        context = {
-            'active_page': 'reagent',
-            'form': form
+#@login_required
+#def search_form_view(request):
+#    if request.method == 'GET':
+#        if 'keyword' in request.GET:
+#            form = SearchForm(request.GET)
+#            print(request)
+#            print(form.errors)
+#            if form.is_valid():
+#                # if 'keyword' in request.POST and request.POST['keyword']:
+#                q = form.cleaned_data['keyword']
+#                print(q)
+#                reagents_filtered = Reagent.objects.filter(
+#                    Q(type__icontains=q) | Q(lot__icontains=q) |
+#                    Q(manufacturer__icontains=q)
+#                )
+#                reagents = reagents_filtered
+#                paginator = Paginator(reagents, 4)  # Show 4 reagents per page
+#                page = request.GET.get('page')
+#                GET_params = request.GET.copy()
+#                if page:
+#                    try:
+#                        reagents = paginator.page(page)
+#                    except PageNotAnInteger:
+#                        # If page is not an integer, deliver first page.
+#                        reagents = paginator.page(1)
+#                    except EmptyPage:
+#                        # If page is out of range (e.g. 9999), deliver last
+#                        # page of results.
+#                        reagents = paginator.page(paginator.num_pages)
+#                else:
+#                        reagents = paginator.page(1)
+#                context = {
+#                        'active_page': 'reagent',
+#                        'form': form,
+#                        'reagents': reagents,
+#                        'reagents_filtered': reagents_filtered,
+#                        'paginator': paginator,
+#                        'GET_params': GET_params,
+#                        'query': q
+#                        }
+#                return TemplateResponse(
+#                    request, 'reagents_search.html', context)
+#            else:
+#                context = {
+#                    'active_page': 'reagent',
+#                    'form': form
+#                }
+#                return TemplateResponse(
+#                    request, 'reagents_search.html', context)
+#        form = SearchForm()
+#        context = {
+#            'active_page': 'reagent',
+#            'form': form
+#        }
+#        return TemplateResponse(request, 'reagents_search.html', context)
+
+class SearchReagentView(FormMixin, ListView):
+    model = Reagent
+    form_class = SearchForm
+    template_name = 'reagents_search.html'
+    queryset = Reagent.objects.all()
+    paginate_by = 4
+
+    def get_form_kwargs(self):
+        return {
+          'initial': self.get_initial(),
+          'prefix': self.get_prefix(),
+          'data': self.request.GET or None
         }
-        return TemplateResponse(request, 'reagents_search.html', context)
+
+    def get(self, request, *args, **kwargs):
+        self.object_list = self.get_queryset()
+
+        form = self.get_form(self.get_form_class())
+
+        if form.is_valid():
+            self.object_list = form.filter_queryset(request, self.object_list)
+
+        context = self.get_context_data(form=form, object_list=self.object_list, active_page='reagent' ,query=self.request.GET.get('keyword'))
+
+        return self.render_to_response(context)
+
+#     def get_queryset(self):
+#         form = self.form_class(self.request.GET)
+#         if form.is_valid():
+#             q = form.cleaned_data['keyword']
+#             reagents_filtered = Reagent.objects.filter(
+#                        Q(type__icontains=q) | Q(lot__icontains=q) |
+#                        Q(manufacturer__icontains=q)
+#                     )
+#             paginator = Paginator(reagents_filtered, self.paginate_by)
+#             page = self.request.GET.get('page')
+#             try:
+#                 reagent_list = paginator.page(page)
+#             except PageNotAnInteger:
+#                 reagent_list = paginator.page(1)
+#             except EmptyPage:
+#                 reagent_list = paginator.page(paginator.num_pages)
+#             return reagent_list
+#         return Reagent.objects.all()
+#
+#     def get_context_data(self, **kwargs):
+#         context = super(SearchReagentView, self).get_context_data(**kwargs)
+#         context['active_page'] = 'reagent'
+#         return context
+
+search_form_view = login_required(SearchReagentView.as_view())
