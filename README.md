@@ -1,6 +1,5 @@
 # QCapp
 
-This is a very simple Django site.
-It demonstrates Django authentication and runs a couple of tests.
+This is a Django application that will automate a Quality control daily control of reagents in a lab. The application will be used in a public blood bank.
 
-The site has a home page that directs users to the web portal (which is for authenticated users only). There is a login page, a logout page, and a basic web portal home page.
+Wireframes for the application are <a href="http://anuschka.github.io/assets/QCApp.pdf">here</a>.
