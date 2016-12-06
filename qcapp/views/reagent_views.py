@@ -270,14 +270,16 @@ class SearchReagentView(FormMixin, ListView):
         }
 
     def get(self, request, *args, **kwargs):
-        self.object_list = self.get_queryset()
-
+        GET_params = request.GET.copy()
         form = self.get_form(self.get_form_class())
+        self.object_list = self.get_queryset()
 
         if form.is_valid():
             self.object_list = form.filter_queryset(request, self.object_list)
+        else:
+            self.object_list = []
 
-        context = self.get_context_data(form=form, object_list=self.object_list, active_page='reagent' ,query=self.request.GET.get('keyword'))
+        context = self.get_context_data(form=form, object_list=self.object_list, active_page='reagent' ,query=self.request.GET.get('keyword'), GET_params=GET_params)
 
         return self.render_to_response(context)
 
