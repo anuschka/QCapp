@@ -111,7 +111,9 @@ class SearchReagentView(FormMixin, ListView):
         else:
             self.object_list = []
 
-        context = self.get_context_data(form=form, object_list=self.object_list, active_page='reagent', query=self.request.GET.get('keyword'), GET_params=GET_params)
+        context = self.get_context_data(
+            form=form, object_list=self.object_list, active_page='reagent',
+            query=self.request.GET.get('keyword'), GET_params=GET_params)
 
         return self.render_to_response(context)
 

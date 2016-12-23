@@ -130,3 +130,8 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 # URL of the login page.
 LOGIN_URL = '/login/'
+
+# Settings for django-bootstrap3
+BOOTSTRAP3 = {
+            'include_jquery': True,
+             }
