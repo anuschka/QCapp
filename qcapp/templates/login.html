@@ -1,20 +1,26 @@
 {% extends "base.html" %}
+{% load bootstrap3 %}
+
 {% comment %}
-  Main page to authenticate users.
+  Main login page.
 {% endcomment %}
 
 {% block head %}
-  <title>Django application| Login</title>
+  <title>Main login page | {% block title %}{% endblock %}</title>
 {% endblock %}
 
 {% block body %}
-  <header>
-    <h1>Django application</h1>
-  </header>
-
-  <section>
-    <h2>Login</h2>
-
+  <div class="container main-body">
+    <h3>Login to your account</h3>
+    <form method="post" action="/login/" class="form">
+          {% csrf_token %}
+          {% bootstrap_form form %}
+          {% buttons %}
+                <button name="submit" class="btn btn-primary">Log in</button>
+          {% endbuttons %}
+          <input type="hidden" name="next" value="{% url 'index' %}" />
+    </form>
+<!--
     {% if error %}
 
       <div>
@@ -30,7 +36,7 @@
       </table>
       <input type="submit" value="Login">
     </form>
-
+-->
 
     <div>
       <p>
@@ -38,5 +44,5 @@
     </p>
     </div>
 
-  </section>
+  </div>
 {% endblock %}
