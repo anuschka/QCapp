@@ -14,11 +14,11 @@
     <h3>Login to your account</h3>
     <form method="post" action="/login/" class="form">
           {% csrf_token %}
-          {% bootstrap_form form %}
+          {% bootstrap_form form  %}
+          {% bootstrap_form_errors form layout='inline' %}
           {% buttons %}
-                <button name="submit" class="btn btn-primary">Log in</button>
+                  <button name="submit" class="btn btn-primary">Log in</button>
           {% endbuttons %}
-          <input type="hidden" name="next" value="{% url 'index' %}" />
     </form>
 <!--
     {% if error %}
