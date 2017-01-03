@@ -15,33 +15,15 @@
     <form method="post" action="/login/" class="form">
           {% csrf_token %}
           {% bootstrap_form form  %}
-          {% bootstrap_form_errors form layout='inline' %}
           {% buttons %}
                   <button name="submit" class="btn btn-primary">Log in</button>
           {% endbuttons %}
     </form>
-<!--
-    {% if error %}
-
-      <div>
-        There were errors: {{ error }}
-      </div>
-
-    {% endif %}
-
-    <form method="post" action="/login/">
-      {% csrf_token %}
-      <table>
-        {{ form }}
-      </table>
-      <input type="submit" value="Login">
-    </form>
--->
 
     <div>
       <p>
-      Are you new to the app? <a href="/register/">Register here>></a>
-    </p>
+          Are you new to the app? <a href="/register/">Register here>></a>
+      </p>
     </div>
 
   </div>

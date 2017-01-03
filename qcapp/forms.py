@@ -47,14 +47,7 @@ class LoginForm(forms.Form):
         u.save()
         return u
 
-    def form_valid(self, form):
-        # username and pass are wrong, return:
-        username = self.cleaned_data.get('username')
-        password = self.cleaned_data.get('password')
-        user = authenticate(username=username, password=password)
-        if not user or not user.is_active:
-            form.add_error(None, 'Username and/or password are wrong.')
-        return self.form_invalid(form)
+
 
 
 class ReagentForm(forms.ModelForm):

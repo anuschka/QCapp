@@ -5,6 +5,7 @@ from qcapp.forms import RegistrationForm, LoginForm
 from django.template.response import TemplateResponse
 from django.db import transaction
 from qcapp.models import UserProfile
+from django.views.generic.edit import FormView
 
 
 def logout_view(request):
@@ -12,36 +13,58 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/')
 
+class LoginView(FormView):
+    template_name = 'login.html'
+    form_class = LoginForm
 
-def login_view(request):
-    if request.user.is_authenticated():
-        # User is already logged in
+    def form_valid(self, form):
+        data = form.cleaned_data
+        user = authenticate(
+            username=data['username'],
+            password=data['password'],
+            any_account=True
+            )
+        if user is None:
+            form.add_error(None, 'Invalid email/password')
+            return self.form_invalid(form)
+        if not user.is_active:
+            form.add_error(
+                None, 'Your account has been disabled, please contact us.'
+                )
+            return self.form_invalid(form)
+        login(self.request, user)
         return HttpResponseRedirect('/portal/')
-    if request.method == 'GET':
-        form = LoginForm()
-        return TemplateResponse(request, 'login.html', {'form': form})
-    elif request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(username=username, password=password)
-            if user is None:
-                context = {
-                    'form': form,
-                    'error': 'No such user!'
-                }
-                return TemplateResponse(request, 'login.html', context)
-            if not user.is_active:
-                context = {
-                    'form': form,
-                    'error': 'Inactive user!'
-                }
-                return TemplateResponse(request, 'login.html', context)
-            login(request, user)
-            return HttpResponseRedirect('/portal/')
-        else:
-            return TemplateResponse(request, 'login.html', {'form': form})
+login_view = LoginView.as_view()
+
+#def login_view(request):
+#    if request.user.is_authenticated():
+#        # User is already logged in
+#        return HttpResponseRedirect('/portal/')
+#    if request.method == 'GET':
+#        form = LoginForm()
+#        return TemplateResponse(request, 'login.html', {'form': form})
+#    elif request.method == 'POST':
+#        form = LoginForm(request.POST)
+#        if form.is_valid():
+#            username = form.cleaned_data['username']
+#            password = form.cleaned_data['password']
+#            user = authenticate(username=username, password=password)
+#            if user is None:
+#                context = {
+#                    'form': form,
+#                    'error': 'No such user!'
+#                }
+#                return TemplateResponse(request, 'login.html', context)
+#            if not user.is_active:
+#                context = {
+#                    'form': form,
+#                    'error': 'Inactive user!'
+#                }
+#                return TemplateResponse(request, 'login.html', context)
+#            login(request, user)
+#            return HttpResponseRedirect('/portal/')
+#        else:
+#            return TemplateResponse(request, 'login.html', {'form': form})
 
 
 def register_view(request):
