@@ -16,7 +16,13 @@
           {% csrf_token %}
           {% bootstrap_form form  %}
           {% buttons %}
-                  <button name="submit" class="btn btn-primary">Log in</button>
+          <div class="row">
+          <div class="col-sm-4">
+          </div>
+          <div class="col-sm-4">
+              <button name="submit" class="btn btn-primary">Log in</button>
+          </div>
+          </div>
           {% endbuttons %}
     </form>
 
@@ -25,6 +31,8 @@
           Are you new to the app? <a href="/register/">Register here>></a>
       </p>
     </div>
+
+
 
   </div>
 {% endblock %}

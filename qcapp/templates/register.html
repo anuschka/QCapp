@@ -1,37 +1,34 @@
 {% extends "base.html" %}
+{% load bootstrap3 %}
+
 {% comment %}
   Main page to register new users.
 {% endcomment %}
 
 {% block head %}
-  <title>Django application| Register</title>
+  <title>Register new user | {% block title %}{% endblock %}</title>
 {% endblock %}
 
 {% block body %}
-  <header>
-    <h1>Django application</h1>
-  </header>
 
-  <section>
-    <h2>Register</h2>
 
-    {% if error %}
 
-      <div>
-        There were errors: {{ error }}
-      </div>
-
-    {% endif %}
-
-    <form method="post" action="/register/">
-      {% csrf_token %}
-      <table>
-        {{ form }}
-      </table>
-      <input type="submit" value="Register">
+  <div class="container main-body">
+    <h3>Register a new user:</h3>
+    <form method="post" action="/register/" class="form">
+          {% csrf_token %}
+          {% bootstrap_form form  %}
+          {% buttons %}
+          <div class="row">
+          <div class="col-sm-4">
+          </div>
+          <div class="col-sm-4">
+              <button name="submit" class="btn btn-primary">Register</button>
+          </div>
+          </div>
+          {% endbuttons %}
     </form>
 
+  </div>
 
-  
-  </section>
 {% endblock %}
