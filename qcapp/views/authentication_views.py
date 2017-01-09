@@ -13,6 +13,12 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/')
 
+
+def index(request):
+    # Main first page for the app.
+    return HttpResponseRedirect('/')
+
+
 class LoginView(FormView):
     template_name = 'login.html'
     form_class = LoginForm

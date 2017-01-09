@@ -1,15 +1,20 @@
-{% extends "portal.html" %}
+{% extends "base.html" %}
+{% load bootstrap3 %}
+
 {% comment %}
-  Main page of the portal.
+  Main first page.
 {% endcomment %}
 
-{% block title %}
-  Portal
+{% block head %}
+  <title>Main First page | {% block title %}{% endblock %}</title>
 {% endblock %}
 
-{% block content %}
-  <section>
-    <h2>Welcome, {{ user.username}}</h2>
-    <p>This is the main page of the web application. You can access this page only after you login.</p>
-  </section>
+{% block body %}
+  <div class="container main-body">
+    <h3>QCAPP</h3>
+
+
+
+
+  </div>
 {% endblock %}
