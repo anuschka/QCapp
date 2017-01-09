@@ -10,11 +10,24 @@
 {% endblock %}
 
 {% block body %}
-  <div class="container main-body">
-    <h3>QCAPP</h3>
-
-
-
-
+<div class="container">
+  <div class="jumbotron">
+    <h1>QCapp</h1>
+    <p>QCapp is quality control application used for daily controls of reagents
+      at ZTM in patients laboratory. You can use the application only after you
+      login.
+    </p>
   </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <a href="/login/" class="btn btn-default">Login</button>
+    </div>
+    <div class="col-sm-4">
+      <a href="/register/" class="btn btn-default">Register</button>
+    </div>
+  </div>
+</div>
+
+
+
 {% endblock %}

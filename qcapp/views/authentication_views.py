@@ -16,7 +16,7 @@ def logout_view(request):
 
 def index(request):
     # Main first page for the app.
-    return HttpResponseRedirect('/')
+    return TemplateResponse(request, 'index.html')
 
 
 class LoginView(FormView):
