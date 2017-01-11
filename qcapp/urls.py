@@ -10,7 +10,7 @@ urlpatterns = [
     # Register new users.
     url(r'^register/$', views.register_view, name='register_view'),
     # Main portal.
-    #url(r'^portal/$', views.portal_view, name='portal_page'),
+    url(r'^portal/$', views.portal_view, name='portal_page'),
     # Admin site.
     url(r'^admin/', admin.site.urls),
     # Reagent All site.
