@@ -1,4 +1,5 @@
 {% extends "internal_page.html" %}
+{% load bootstrap3 %}
 {% comment %}
   This is the template for displaying all reagents.
 {% endcomment %}
@@ -18,83 +19,19 @@
           </ol>
       </div>
 
-      {% if form.errors %}
-
-        <div class="alert alert-danger">
-          There were errors: {{ form.errors }}
-        </div>
-
-      {% endif %}
-
       <h3>Add new reagent</h3>
       <hr />
       <div class="row">
         <div class="col-md-6">
             <form action="/reagent/new/" method="post" role="form">
                 {% csrf_token %}
-                <div class="form-group has-feedback">
-                  <label class="control-label" for="type">Reagent Type</label>
-                  <input type="text" class="form-control" name="type" placeholder="Reagent Type"
-                    {% if form.type.value %} value="{{ form.type.value }}" {% endif %}
-                      {% if form.type.errors %}
-                      {% for error in form.type.errors %}
-                        <span><p class="input-field-error">{{ error|escape }}</p></span>
-                        <span class="input-field-error glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
-                      {% endfor %}
-                    {% endif %}
-                  </input>
-                </div>
-
-
-                <div class="form-group has-feedback">
-                  <label class="control-label" for="manufacturer">Reagent Manufacturer</label>
-                  <input type="text" class="form-control" name="manufacturer" placeholder="Reagent Manufacturer"
-                    {% if form.manufacturer.value %} value="{{ form.manufacturer.value }}" {% endif %}>
-                      {% if form.manufacturer.errors %}
-                        {% for error in form.manufacturer.errors %}
-                          <span><p class="input-field-error">{{ error|escape }}</p></span>
-                          <span class="input-field-error glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
-                        {% endfor %}
-                      {% endif %}
-                </input>
-                </div>
-
-                <div class="form-group has-feedback">
-                  <label class="control-label" for="lot">Reagent Lot</label>
-                  <input type="text" class="form-control" name="lot" placeholder="Reagent Lot"
-                    {% if form.lot.value %} value="{{ form.lot.value }}" {% endif %}>
-                      {% if form.lot.errors %}
-                        {% for error in form.lot.errors %}
-                          <span><p class="input-field-error">{{ error|escape }}</p></span>
-                          <span class="input-field-error glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
-                        {% endfor %}
-                        {% endif %}
-                </div>
-
-                <div class="form-group has-feedback">
-                  <label class="control-label" for="expiry">Reagent expiry</label>
-                  <input type="date" class="form-control" id="expiry" name="expiry" placeholder="Reagent expiry dd/mm/yyyy"
-                      {% if form.expiry.value %} value="{{ form.expiry.value }}" {% endif %}>
-                        {% if form.expiry.errors %}
-                          {% for error in form.expiry.errors %}
-                            <span><p class="input-field-error">{{ error|escape }}</p></span>
-                            <span class="input-field-error glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
-                          {% endfor %}
-                        {% endif %}
-                </div>
-
-                <div class="checkbox">
-                  <label>
-                      <input class="control-label" type="checkbox" name="requiresIDcard"
-                          {% if form.requiresIDcard.value %} value="{{ form.requiresIDcard.value }}" {% endif %}>
-                      RequiresIDcard
-                  </label>
-                </div>
-
+                {% bootstrap_form form  %}
+                {% buttons %}
                 <div class="reagent_toolbar">
                   <input type="submit" class="btn btn-primary" value="Save" />
-                  <a href="/qcapp/" class="btn btn-default" onclick="return App.click(this);">Cancel</a>
+                  <a href="/reagent/" class="btn btn-default" onclick="return App.click(this);">Cancel</a>
                 </div>
+                {% endbuttons %}
             </form>
           </div>
         </div>
