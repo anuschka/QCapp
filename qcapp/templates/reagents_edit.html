@@ -1,4 +1,5 @@
 {% extends "internal_page.html" %}
+{% load bootstrap3 %}
 {% comment %}
   This is the template for editing one reagent.
 {% endcomment %}
@@ -30,6 +31,20 @@
       <hr />
       <div class="row">
         <div class="col-md-6">
+          <form action="/reagent/{{ object.id }}/edit/" method="post" role="form">
+              {% csrf_token %}
+              {% bootstrap_form form  %}
+              {% buttons %}
+              <div class="reagent_toolbar">
+                <input type="submit" class="btn btn-primary" value="Save" />
+                <a href="/reagent/" class="btn btn-default" onclick="return App.click(this);">Cancel</a>
+                <div class="pull-right">
+                    <a href="#" onclick="clicked();" class="btn btn-danger">Delete reagent</a>
+                </div>
+              </div>
+              {% endbuttons %}
+          </form>
+<!--
             <form method="post" role="form">
                 {% csrf_token %}
                 <div class="form-group has-feedback">
@@ -99,7 +114,7 @@
                       </div>
                 </div>
             </form>
-
+-->
             <form method="post" action="/reagent/{{ object.id }}/delete/" id="deleteForm">
               {% csrf_token %}
             </form>
