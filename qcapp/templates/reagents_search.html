@@ -18,54 +18,20 @@
             <li class="active"><a href="/reagent/search-form/">Search</a></li>
           </ol>
       </div>
-<!--
-      {% if form.errors %}
 
-        <div class="alert alert-danger">
-          There were errors: {{ form.errors }}
-        </div>
-
-      {% endif %}
-
-      {% if error %}
-        <p style="color: red;">Please submit a search term.</p>
-      {% endif %}
--->
-      <div class="row">
-        <form action="/reagent/search-form/" method="post" role="form">
+      <form action="/reagent/search-form/" method="get" role="form">
             {% csrf_token %}
-            {% bootstrap_form form  %}
+            <div class="row">
+              <div class="col-md-6">
+                  {% bootstrap_field form.keyword %}
+              </div>
             {% buttons %}
-            <div class="reagent_toolbar">
-              <input type="submit" class="btn btn-primary" value="Search" />
-            </div>
+              <div class="reagent_toolbar">
+                <input type="submit" class="btn btn-primary" value="Search" />
+              </div>
             {% endbuttons %}
+            </div>
         </form>
-<!--
-          <form action="/reagent/search-form/" method="get" role="form">
-            {% csrf_token %}
-            <div class="col-md-6">
-                <div class="form-group has-feedback">
-                  <label class="control-label" for="keyword">Search reagents</label>
-                  <input type="text" class="form-control" name="keyword" placeholder="Enter keyword"
-                    {% if form.keyword.value %} value="{{ form.keyword.value }}" {% endif %}
-                      {% if form.keyword.errors %}
-                      {% for error in form.keyword.errors %}
-                        <span><p class="input-field-error">{{ error|escape }}</p></span>
-                        <span class="input-field-error glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
-                      {% endfor %}
-                    {% endif %}
-                  </input>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="reagent_search">
-                  <input type="submit" class="btn btn-primary" value="Search" />
-                </div>
-            </div>
-          </form>
--->
-      </div>
 
       <p>You searched for: <strong>{{ query }}</strong></p>
 
@@ -99,24 +65,6 @@
       <div class="row">
               <div class="text-center">
                 {% include 'snippets/pagination.html' %}
-                <!--
-                  <ul class="pagination">
-                    {% if reagents.has_previous %}
-                        <li><a href="?{{GET_params.urlencode}}&amp;page=1"><<</a></li>
-                        <li><a href="?{{GET_params.urlencode}}&amp;page={{reagents.previous_page_number }}"><</a></li>
-
-                    {% endif %}
-
-                    {% for i in paginator.page_range %}
-                        <li {% if reagents.number == i %} class="active" {% endif %}><a href="?{{GET_params.urlencode}}&amp;page={{i}}">{{i}}</a></li>
-                    {% endfor %}
-
-                    {% if reagents.has_next %}
-                        <li><a href="?{{GET_params.urlencode}}&amp;page={{ reagents.next_page_number }}">></a></li>
-                        <li><a href="?{{GET_params.urlencode}}&amp;page={{ reagents.paginator.num_pages }}">>></a></li>
-                    {% endif %}
-                  </ul>
-                -->
               </div>
       </div>
 
