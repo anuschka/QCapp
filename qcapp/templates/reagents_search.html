@@ -1,6 +1,7 @@
 {% extends "internal_page.html" %}
+{% load bootstrap3 %}
 {% comment %}
-  This is the template for displaying all reagents.
+  This is the template for searching reagents.
 {% endcomment %}
 
 {% block head %}
@@ -17,7 +18,7 @@
             <li class="active"><a href="/reagent/search-form/">Search</a></li>
           </ol>
       </div>
-
+<!--
       {% if form.errors %}
 
         <div class="alert alert-danger">
@@ -29,8 +30,18 @@
       {% if error %}
         <p style="color: red;">Please submit a search term.</p>
       {% endif %}
-
+-->
       <div class="row">
+        <form action="/reagent/search-form/" method="post" role="form">
+            {% csrf_token %}
+            {% bootstrap_form form  %}
+            {% buttons %}
+            <div class="reagent_toolbar">
+              <input type="submit" class="btn btn-primary" value="Search" />
+            </div>
+            {% endbuttons %}
+        </form>
+<!--
           <form action="/reagent/search-form/" method="get" role="form">
             {% csrf_token %}
             <div class="col-md-6">
@@ -53,6 +64,7 @@
                 </div>
             </div>
           </form>
+-->
       </div>
 
       <p>You searched for: <strong>{{ query }}</strong></p>
