@@ -5,6 +5,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic.edit import FormView, UpdateView, DeleteView, FormMixin
 from django.views.generic import ListView
 from qcapp.models import Reagent
+from django.contrib import messages
 
 
 class ReagentAllView(ListView):
@@ -51,6 +52,7 @@ class ReagentNewView(FormView):
 
     def form_valid(self, form):
         form.save()
+        messages.success(self.request, 'You entered a new reagent successfully!')
         return HttpResponseRedirect('/reagent/')
 
 reagent_new_view = login_required(ReagentNewView.as_view())
