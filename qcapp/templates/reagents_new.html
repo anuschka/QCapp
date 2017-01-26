@@ -1,5 +1,6 @@
 {% extends "internal_page.html" %}
 {% load bootstrap3 %}
+{% bootstrap_messages %}
 {% comment %}
   This is the template for displaying all reagents.
 {% endcomment %}
@@ -25,7 +26,7 @@
         <div class="col-md-6">
             <form action="/reagent/new/" method="post" role="form">
                 {% csrf_token %}
-                {% bootstrap_form form  %}
+	              {% bootstrap_form form  %}
                 {% buttons %}
                 <div class="reagent_toolbar">
                   <input type="submit" class="btn btn-primary" value="Save" />
