@@ -9,13 +9,14 @@
 
 {% block content %}
       <div class="row">
-          {% if messages %}
-          <ul class="messages">
-              {% for message in messages %}
-              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-              {% endfor %}
-          </ul>
-          {% endif %}
+        {% if messages %}
+          {% for message in messages %}
+            <div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>
+              <a class="close" data-dismiss="alert" href="#">&times;</a>
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
       </div>
 
       <div class="row">
