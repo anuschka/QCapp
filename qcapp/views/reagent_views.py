@@ -2,7 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from qcapp.forms import ReagentForm, SearchForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.views.generic.edit import FormView, UpdateView, DeleteView, FormMixin
+from django.views.generic.edit import FormView, UpdateView, DeleteView
+from django.views.generic.edit import FormMixin
 from django.views.generic import ListView
 from qcapp.models import Reagent
 from django.contrib import messages
@@ -52,7 +53,8 @@ class ReagentNewView(FormView):
 
     def form_valid(self, form):
         form.save()
-        messages.success(self.request, 'You entered a new reagent successfully!')
+        messages.success(
+            self.request, 'You entered a new reagent successfully!')
         return HttpResponseRedirect('/reagent/')
 
 reagent_new_view = login_required(ReagentNewView.as_view())
@@ -73,6 +75,8 @@ class ReagentEditView(UpdateView):
 
     def form_valid(self, form, **kwargs):
         form.save()
+        messages.success(
+            self.request, 'You changed the reagent successfully!')
         return HttpResponseRedirect('/reagent/')
 
 reagent_edit_view = login_required(ReagentEditView.as_view())
@@ -84,6 +88,8 @@ class DeleteReagentView(DeleteView):
 
     def get_object(self, queryset=None):
         obj = Reagent.objects.get(id=self.args[0])
+        messages.success(
+            self.request, 'You deleted the reagent successfully!')
         return obj
 
 delete_record_view = login_required(DeleteReagentView.as_view())

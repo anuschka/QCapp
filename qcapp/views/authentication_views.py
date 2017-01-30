@@ -6,6 +6,7 @@ from django.template.response import TemplateResponse
 from django.db import transaction
 from qcapp.models import UserProfile
 from django.views.generic.edit import FormView
+from django.contrib import messages
 
 
 def logout_view(request):
@@ -64,5 +65,7 @@ class RegisterView(FormView):
         with transaction.atomic():
             user = User.objects.create_user(username, email, password1)
             profile = UserProfile.objects.create(user=user, roles='T')
+            messages.success(
+                self.request, 'You registered successfully!')
         return HttpResponseRedirect('/portal/')
 register_view = RegisterView.as_view()
