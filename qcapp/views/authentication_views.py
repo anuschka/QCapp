@@ -65,6 +65,8 @@ class RegisterView(FormView):
         with transaction.atomic():
             user = User.objects.create_user(username, email, password1)
             profile = UserProfile.objects.create(user=user, roles='T')
+            user = authenticate(username=username, password=password1)
+            login(self.request, user)
             messages.success(
                 self.request, 'You registered successfully!')
         return HttpResponseRedirect('/portal/')
