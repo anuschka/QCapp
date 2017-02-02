@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from qcapp.models import Reagent
 from django.forms import DateField
 from django.db.models import Q
-from django.contrib.auth import authenticate
 
 
 class RegistrationForm(forms.Form):
@@ -12,13 +11,6 @@ class RegistrationForm(forms.Form):
     email = forms.EmailField(max_length=30, required=True)
     password1 = forms.CharField(max_length=60, required=True)
     password2 = forms.CharField(max_length=60, required=True)
-
-    # def isValidUsername(self, field_data, all_data):
-    #     try:
-    #         User.objects.get(username=field_data)
-    #     except User.DoesNotExist:
-    #         return
-    #     raise validators.ValidationError('The username "%s" is already taken.' % field_data)
 
     def save(self, new_data):
         u = User.objects.create_user(new_data['username'],
@@ -33,12 +25,6 @@ class LoginForm(forms.Form):
     username = forms.CharField(max_length=30, required=True)
     password = forms.CharField(max_length=60, required=True)
 
-    # def isValidUsername(self, field_data, all_data):
-    #     try:
-    #         User.objects.get(username=field_data)
-    #     except User.DoesNotExist:
-    #         return
-    #     raise validators.ValidationError('The username "%s" is already taken.' % field_data)
     def save(self, new_data):
         u = User.objects.create_user(new_data['username'],
                                      new_data['email'],
@@ -48,13 +34,13 @@ class LoginForm(forms.Form):
         return u
 
 
-
-
 class ReagentForm(forms.ModelForm):
     expiry = DateField(input_formats=['%d/%m/%Y', '%Y-%m-%d'])
+
     class Meta:
         model = Reagent
         fields = ['type', 'lot', 'expiry', 'manufacturer', 'requiresIDcard']
+
 
 class SearchForm(forms.Form):
     keyword = forms.CharField(max_length=30, required=True, min_length=1)
@@ -67,3 +53,33 @@ class SearchForm(forms.Form):
                 Q(manufacturer__icontains=q)
                 )
         return queryset
+
+
+class PasswordResetRequestForm(forms.Form):
+    email_or_username = forms.CharField(
+        label=("Email Or Username"), max_length=254)
+
+
+class SetPasswordForm(forms.Form):
+    """
+    A form that lets a user change set their password without entering the old
+    password
+    """
+    error_messages = {
+        'password_mismatch': ("The two password fields didn't match."),
+        }
+    new_password1 = forms.CharField(label=("New password"),
+                                    widget=forms.PasswordInput)
+    new_password2 = forms.CharField(label=("New password confirmation"),
+                                    widget=forms.PasswordInput)
+
+    def clean_new_password2(self):
+        password1 = self.cleaned_data.get('new_password1')
+        password2 = self.cleaned_data.get('new_password2')
+        if password1 and password2:
+            if password1 != password2:
+                raise forms.ValidationError(
+                    self.error_messages['password_mismatch'],
+                    code='password_mismatch',
+                    )
+        return password2
