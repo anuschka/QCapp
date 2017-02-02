@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from qcapp.forms import ReagentForm, SearchForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -17,20 +18,28 @@ class ReagentAllView(ListView):
     def get_context_data(self, **kwargs):
         context = super(ReagentAllView, self).get_context_data(**kwargs)
         context['active_page'] = 'reagent'
-        reagent_list = Reagent.objects.all()
-        paginator = Paginator(reagent_list, self.paginate_by)
-        page = self.request.GET.get('page')
-        try:
-            reagent_list = paginator.page(page)
-        except PageNotAnInteger:
-            reagent_list = paginator.page(1)
-        except EmptyPage:
-            reagent_list = paginator.page(paginator.num_pages)
-
+        # reagent_list = Reagent.objects.all()
+        # paginator = Paginator(reagent_list, self.paginate_by)
+        # page = self.request.GET.get('page')
+        # try:
+        #     reagent_list = paginator.page(page)
+        # except PageNotAnInteger:
+        #     reagent_list = paginator.page(1)
+        # except EmptyPage:
+        #     reagent_list = paginator.page(paginator.num_pages)
         return context
 
     def get_queryset(self):
         queryset = Reagent.objects.all()
+
+        if 'keyword' in self.request.GET:
+            q = self.request.GET['keyword']
+            if q:
+                queryset = queryset.filter(
+                    Q(type__icontains=q) | Q(lot__icontains=q) |
+                    Q(manufacturer__icontains=q)
+                )
+
         sort_by = self.request.GET.get('sortBy')
         if sort_by == 'expiryDate':
             queryset = queryset.order_by('expiry')
