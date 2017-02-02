@@ -122,6 +122,9 @@ class ResetPasswordRequestView(FormView):
         email = loader.render_to_string(email_template_name, c)
         send_mail(subject, email, DEFAULT_FROM_EMAIL,
                   [user.email], fail_silently=False)
+        send_mail(
+                  'Subject here', 'Here is the message.', DEFAULT_FROM_EMAIL,
+                  ['sustic@gmail.com'], fail_silently=False)
 
 
     def post(self, request, *args, **kwargs):
