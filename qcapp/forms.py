@@ -23,7 +23,8 @@ class RegistrationForm(forms.Form):
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=30, required=True)
-    password = forms.CharField(max_length=60, required=True)
+    password = forms.CharField(max_length=60, required=True,
+                               widget=forms.PasswordInput)
 
     def save(self, new_data):
         u = User.objects.create_user(new_data['username'],

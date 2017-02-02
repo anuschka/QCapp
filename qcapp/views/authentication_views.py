@@ -120,56 +120,51 @@ class ResetPasswordRequestView(FormView):
         # Email subject *must not* contain newlines
         subject = ''.join(subject.splitlines())
         email = loader.render_to_string(email_template_name, c)
-        send_mail(subject, email, DEFAULT_FROM_EMAIL,
-                  [user.email], fail_silently=False)
-        send_mail(
-                  'Subject here', 'Here is the message.', DEFAULT_FROM_EMAIL,
-                  ['sustic@gmail.com'], fail_silently=False)
+        #send_mail(subject, email, DEFAULT_FROM_EMAIL,
+        #          [user.email], fail_silently=False)
+        #send_mail(
+        #          'Subject here', 'Here is the message.', DEFAULT_FROM_EMAIL,
+        #          ['sustic@gmail.com'], fail_silently=False)
+        print(subject)
+        print(email)
 
-
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
-        try:
-            if form.is_valid():
-                data = form.cleaned_data["email_or_username"]
-            # uses the method written above
-            if self.validate_email_address(data) is True:
-                '''
-                If the input is an valid email address, then the following code will lookup for users associated with that email address. If found then an email will be sent to the address, else an error message will be printed on the screen.
-                '''
-                associated_users = User.objects.filter(
-                    Q(email=data) | Q(username=data))
-                if associated_users.exists():
-                    for user in associated_users:
-                        self.reset_password(user, request)
-
-                    result = self.form_valid(form)
-                    messages.success(
-                        request, 'An email has been sent to {0}. Please check its inbox to continue reseting password.'.format(data))
-                    return result
-                result = self.form_invalid(form)
-                messages.error(
-                    request, 'No user is associated with this email address')
-                return result
+    def form_valid(self, form):
+        data = form.cleaned_data["email_or_username"]
+        # uses the method written above
+        if self.validate_email_address(data) is True:
+            '''
+            If the input is an valid email address, then the following code will lookup for users associated with that email address. If found then an email will be sent to the address, else an error message will be printed on the screen.
+            '''
+            associated_users = User.objects.filter(
+                Q(email=data) | Q(username=data))
+            print('assoc', list(associated_users))
+            if associated_users.exists():
+                for user in associated_users:
+                    self.reset_password(user, self.request)
+                messages.success(
+                    self.request, 'An email has been sent to {0}. Please check its inbox to continue reseting password.'.format(data))
             else:
-                '''
-                If the input is an username, then the following code will lookup for users associated with that user. If found then an email will be sent to the user's address, else an error message will be printed on the screen.
-                '''
-                associated_users = User.objects.filter(username=data)
-                if associated_users.exists():
-                    for user in associated_users:
-                        self.reset_password(user, request)
-                    result = self.form_valid(form)
-                    messages.success(
-                        request, "Email has been sent to {0}'s email address. Please check its inbox to continue reseting password.".format(data))
-                    return result
                 result = self.form_invalid(form)
                 messages.error(
-                    request, 'This username does not exist in the system.')
+                    self.request, 'No user is associated with this email address')
                 return result
-            messages.error(request, 'Invalid Input')
-        except Exception as e:
-            print(e)
+        else:
+            '''
+            If the input is an username, then the following code will lookup for users associated with that user. If found then an email will be sent to the user's address, else an error message will be printed on the screen.
+            '''
+            associated_users = User.objects.filter(username=data)
+            if associated_users.exists():
+                for user in associated_users:
+                    self.reset_password(user, self.request)
+                result = self.form_valid(form)
+                messages.success(
+                    self.request, "Email has been sent to {0}'s email address. Please check its inbox to continue reseting password.".format(data))
+                return result
+            result = self.form_invalid(form)
+            messages.error(
+                self.request, 'This username does not exist in the system.')
+            return result
+        messages.error(self.request, 'Invalid Input')
         return self.form_invalid(form)
 
 reset_password_view = ResetPasswordRequestView.as_view()
@@ -180,6 +175,7 @@ class PasswordResetConfirmView(FormView):
     success_url = '/login/'
     form_class = SetPasswordForm
 
+    # Form_valid!
     def post(self, request, uidb64=None, token=None, *arg, **kwargs):
         """
         View that checks the hash in a password reset link and presents a
