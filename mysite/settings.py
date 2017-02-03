@@ -137,10 +137,16 @@ BOOTSTRAP3 = {
              }
 
 # configure smtp/email configuration
+# EMAIL_USE_TLS = True
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_PASSWORD = 'Transfuzijsk1'
+# EMAIL_HOST_USER = 'transfuzijski@gmail.com'
+# EMAIL_PORT = 587
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_USE_TLS = True
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_PASSWORD = 'Trasfuzijsk1'
-EMAIL_HOST_USER = 'transfuzijski@gmail.com'
+EMAIL_HOST = 'smtp.mailgun.org'
+EMAIL_HOST_USER = 'postmaster@sandboxadd95de332394f7c88db9496df1c8799.mailgun.org'
+EMAIL_HOST_PASSWORD = 'qcapp'
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
