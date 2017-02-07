@@ -11,6 +11,7 @@
 
 {% block body %}
   <div class="container main-body">
+    {% include "snippets/messages.html" %}
     <h3>Login to your account</h3>
     <form method="post" action="/login/" class="form">
           {% csrf_token %}

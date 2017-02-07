@@ -120,11 +120,8 @@ class ResetPasswordRequestView(FormView):
         # Email subject *must not* contain newlines
         subject = ''.join(subject.splitlines())
         email = loader.render_to_string(email_template_name, c)
-        #send_mail(subject, email, DEFAULT_FROM_EMAIL,
-        #          [user.email], fail_silently=False)
-        #send_mail(
-        #          'Subject here', 'Here is the message.', DEFAULT_FROM_EMAIL,
-        #          ['sustic@gmail.com'], fail_silently=False)
+        send_mail(subject, email, DEFAULT_FROM_EMAIL,
+                  [user.email], fail_silently=False)
         print(subject)
         print(email)
 
@@ -133,7 +130,10 @@ class ResetPasswordRequestView(FormView):
         # uses the method written above
         if self.validate_email_address(data) is True:
             '''
-            If the input is an valid email address, then the following code will lookup for users associated with that email address. If found then an email will be sent to the address, else an error message will be printed on the screen.
+            If the input is an valid email address, then the following code
+            will lookup for users associated with that email address. If found
+            then an email will be sent to the address, else an error message
+            will be printed on the screen.
             '''
             associated_users = User.objects.filter(
                 Q(email=data) | Q(username=data))
@@ -143,28 +143,33 @@ class ResetPasswordRequestView(FormView):
                     self.reset_password(user, self.request)
                 messages.success(
                     self.request, 'An email has been sent to {0}. Please check its inbox to continue reseting password.'.format(data))
+                return HttpResponseRedirect('/login/')
             else:
                 result = self.form_invalid(form)
-                messages.error(
+                messages.warning(
                     self.request, 'No user is associated with this email address')
                 return result
         else:
             '''
-            If the input is an username, then the following code will lookup for users associated with that user. If found then an email will be sent to the user's address, else an error message will be printed on the screen.
+            If the input is an username, then the following code will lookup
+            for users associated with tportal/hat user. If found then an email will be
+            sent to the user's address, else an error message will be printed
+            on the screen.
             '''
             associated_users = User.objects.filter(username=data)
             if associated_users.exists():
                 for user in associated_users:
                     self.reset_password(user, self.request)
-                result = self.form_valid(form)
                 messages.success(
                     self.request, "Email has been sent to {0}'s email address. Please check its inbox to continue reseting password.".format(data))
+                return HttpResponseRedirect('/login/')
+            else:
+                result = self.form_invalid(form)
+                messages.warning(
+                    self.request, 'This username does not exist in the system.')
                 return result
-            result = self.form_invalid(form)
-            messages.error(
-                self.request, 'This username does not exist in the system.')
-            return result
-        messages.error(self.request, 'Invalid Input')
+                print(data)
+        messages.warning(self.request, 'Invalid Input')
         return self.form_invalid(form)
 
 reset_password_view = ResetPasswordRequestView.as_view()
@@ -182,6 +187,7 @@ class PasswordResetConfirmView(FormView):
         form for entering a new password.
         """
         UserModel = User.objects
+        new_password = self.clean_new_password2()
         form = self.form_class(request.POST)
         assert uidb64 is not None and token is not None  # checked by URLconf
         try:
@@ -192,7 +198,6 @@ class PasswordResetConfirmView(FormView):
 
         if user is not None and default_token_generator.check_token(user, token):
             if form.is_valid():
-                new_password = form.cleaned_data['new_password2']
                 user.set_password(new_password)
                 user.save()
                 messages.success(request, 'Password has been reset.')
