@@ -180,14 +180,19 @@ class PasswordResetConfirmView(FormView):
     success_url = '/login/'
     form_class = SetPasswordForm
 
-    # Form_valid!
+    def form_valid(self, form):
+        password1 = form.cleaned_data['password1']
+        password2 = form.cleaned_data['password2']
+
+        if password1 != password2:
+            form.add_error(None, 'Passwords do not match!')
+            return self.form_invalid(form)
+        else:
+            return self.post(self.request)
+        # Form_valid!
     def post(self, request, uidb64=None, token=None, *arg, **kwargs):
-        """
-        View that checks the hash in a password reset link and presents a
-        form for entering a new password.
-        """
+
         UserModel = User.objects
-        new_password = self.clean_new_password2()
         form = self.form_class(request.POST)
         assert uidb64 is not None and token is not None  # checked by URLconf
         try:
@@ -197,14 +202,11 @@ class PasswordResetConfirmView(FormView):
             user = None
 
         if user is not None and default_token_generator.check_token(user, token):
-            if form.is_valid():
-                user.set_password(new_password)
-                user.save()
-                messages.success(request, 'Password has been reset.')
-                return self.form_valid(form)
-            else:
-                messages.error(request, 'Password reset has not been unsuccessful.')
-                return self.form_invalid(form)
+            new_password = form.cleaned_data['password2']
+            user.set_password(new_password)
+            user.save()
+            messages.success(request, 'Password has been reset.')
+            return self.form_valid(form)
         else:
             messages.error(request, 'The reset password link is no longer valid.')
             return self.form_invalid(form)
