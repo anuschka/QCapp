@@ -32,9 +32,9 @@ urlpatterns = [
     url(r'^reagent/search-form/$', reagent_views.search_form_view,
         name='search_form_view'),
     url(
-        r'^reset_password/$', authentication_views.reset_password_view,
-        name='reset_password_view'),
+        r'^password_request/$', authentication_views.password_request_view,
+        name='password_request_view'),
     url(
-        r'^reset_password_confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
-        authentication_views.reset_password_confirm_view, name='reset_password_confirm'),
+        r'^password_confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
+        authentication_views.password_confirm_view, name='password_confirm_view'),
 ]

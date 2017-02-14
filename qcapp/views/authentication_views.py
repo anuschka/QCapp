@@ -83,9 +83,9 @@ class RegisterView(FormView):
 register_view = RegisterView.as_view()
 
 
-class ResetPasswordRequestView(FormView):
+class PasswordRequestView(FormView):
     # code for template is given below the view's code
-    template_name = "reset_password.html"
+    template_name = "password_request.html"
     success_url = '/login/'
     form_class = PasswordResetRequestForm
 
@@ -172,11 +172,11 @@ class ResetPasswordRequestView(FormView):
         messages.warning(self.request, 'Invalid Input')
         return self.form_invalid(form)
 
-reset_password_view = ResetPasswordRequestView.as_view()
+password_request_view = PasswordRequestView.as_view()
 
 
-class PasswordResetConfirmView(FormView):
-    template_name = "reset_password.html"
+class PasswordConfirmView(FormView):
+    template_name = "password_confirm.html"
     success_url = '/login/'
     form_class = SetPasswordForm
 
@@ -194,7 +194,7 @@ class PasswordResetConfirmView(FormView):
             uid = urlsafe_base64_decode(uidb64)
             try:
                 user = User.objects.get(pk=uid)
-            except UserModel.DoesNotExist:
+            except user.DoesNotExist:
                 form.add_error(None, 'Invalid token')
                 return self.form_invalid(form)
 
@@ -205,8 +205,8 @@ class PasswordResetConfirmView(FormView):
             new_password = form.cleaned_data['password2']
             user.set_password(new_password)
             user.save()
-            messages.success(request, 'Password has been reset.')
+            messages.success(self.request, 'Password has been reset.')
             return super().form_valid(form)
 
 
-reset_password_confirm_view = PasswordResetConfirmView.as_view()
+password_confirm_view = PasswordConfirmView.as_view()
