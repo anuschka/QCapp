@@ -142,31 +142,36 @@ class PasswordRequestView(FormView):
                 for user in associated_users:
                     self.reset_password(user, self.request)
                 messages.success(
-                    self.request, 'An email has been sent to {0}. Please check its inbox to continue reseting password.'.format(data))
+                    self.request, 'An email has been sent to {0}. Please check'
+                    'its inbox to continue reseting password.'.format(data))
                 return HttpResponseRedirect('/login/')
             else:
                 result = self.form_invalid(form)
                 messages.warning(
-                    self.request, 'No user is associated with this email address')
+                    self.request, 'No user is associated with this email'
+                    'address')
                 return result
         else:
             '''
             If the input is an username, then the following code will lookup
-            for users associated with tportal/hat user. If found then an email will be
-            sent to the user's address, else an error message will be printed
-            on the screen.
+            for users associated with tportal/hat user. If found then an email
+            will be sent to the user's address, else an error message will be
+            printed on the screen.
             '''
             associated_users = User.objects.filter(username=data)
             if associated_users.exists():
                 for user in associated_users:
                     self.reset_password(user, self.request)
                 messages.success(
-                    self.request, "Email has been sent to {0}'s email address. Please check its inbox to continue reseting password.".format(data))
+                    self.request, "Email has been sent to {0}'s email address."
+                    "Please check its inbox to continue reseting password."
+                    .format(data))
                 return HttpResponseRedirect('/login/')
             else:
                 result = self.form_invalid(form)
                 messages.warning(
-                    self.request, 'This username does not exist in the system.')
+                    self.request, 'This username does not exist in the'
+                    'system.')
                 return result
                 print(data)
         messages.warning(self.request, 'Invalid Input')
@@ -205,7 +210,9 @@ class PasswordConfirmView(FormView):
             new_password = form.cleaned_data['password2']
             user.set_password(new_password)
             user.save()
-            messages.success(self.request, 'Password has been reset.')
+            messages.success(
+                self.request, 'Password has been reset for '
+                'user: {0}'.format(user))
             return super().form_valid(form)
 
 
