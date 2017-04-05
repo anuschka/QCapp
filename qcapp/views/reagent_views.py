@@ -8,6 +8,7 @@ from django.views.generic.edit import FormMixin
 from django.views.generic import ListView
 from qcapp.models import Reagent
 from django.contrib import messages
+from django.template.response import TemplateResponse
 
 
 class ReagentAllView(ListView):
@@ -94,6 +95,22 @@ class DeleteReagentView(DeleteView):
 
 delete_record_view = login_required(DeleteReagentView.as_view())
 
+
+def reagent_views(request):
+    queryset = Reagent.objects.all()
+    if 'keyword' in request.GET.get:
+        q = request.GET.get['keyword']
+        if q:
+            queryset = queryset.filter(
+                    Q(type__icontains=q) | Q(lot__icontains=q) |
+                    Q(manufacturer__icontains=q)
+            )
+        context = {
+            'active_page': 'reagent',
+            'queryset': queryset,
+            }
+
+    return TemplateResponse(request, 'reagent.html', context)
 
 #class SearchReagentView(FormMixin, ListView):
 #    model = Reagent
