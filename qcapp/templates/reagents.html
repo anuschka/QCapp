@@ -16,8 +16,14 @@
             <li class="active"><a href="/reagent/">Reagents</a></li>
           </ol>
         </div>
-        <div class="col-xs-6 col-xs-offset-2 pull-right">
-          <div class="input-group">
+        <div class="col-xs-6 col-xs-offset-2">
+          <div class="input-group pull-right" style="width:400px">
+              <form action="/reagent/" method="get" role="form">
+                <label for="keyword">Search: </label>
+                <i class="inside fa fa-search"></i>
+                <input id="keyword" type="text" name="keyword" class="inp" placeholder="Enter keyword" />
+                <input type="submit" value="GO">
+              </form>
                <div class="input-group-btn search-panel">
                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                      <span id="search_concept">Filter by</span> <span class="caret"></span>
@@ -29,14 +35,15 @@
                      <li><a href="/reagent/?sortBy=entryDate" onclick="return App.click(this);">Sort by Entry date</a></li>
                    </ul>
                </div>
-               <input type="hidden" name="search_param" value="all" id="search_param">
-               <input type="text" class="form-control" name="x" placeholder="Search term...">
-               <span class="input-group-btn">
-                   <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-               </span>
+
+
+
+
            </div>
        </div>
     </div>
+
+
 
 
 

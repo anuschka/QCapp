@@ -18,15 +18,6 @@ class ReagentAllView(ListView):
     def get_context_data(self, **kwargs):
         context = super(ReagentAllView, self).get_context_data(**kwargs)
         context['active_page'] = 'reagent'
-        # reagent_list = Reagent.objects.all()
-        # paginator = Paginator(reagent_list, self.paginate_by)
-        # page = self.request.GET.get('page')
-        # try:
-        #     reagent_list = paginator.page(page)
-        # except PageNotAnInteger:
-        #     reagent_list = paginator.page(1)
-        # except EmptyPage:
-        #     reagent_list = paginator.page(paginator.num_pages)
         return context
 
     def get_queryset(self):
@@ -104,34 +95,34 @@ class DeleteReagentView(DeleteView):
 delete_record_view = login_required(DeleteReagentView.as_view())
 
 
-class SearchReagentView(FormMixin, ListView):
-    model = Reagent
-    form_class = SearchForm
-    template_name = 'reagents_search.html'
-    queryset = Reagent.objects.all()
-    paginate_by = 4
-
-    def get_form_kwargs(self):
-        return {
-          'initial': self.get_initial(),
-          'prefix': self.get_prefix(),
-          'data': self.request.GET or None
-        }
-
-    def get(self, request, *args, **kwargs):
-        GET_params = request.GET.copy()
-        form = self.get_form(self.get_form_class())
-        self.object_list = self.get_queryset()
-
-        if form.is_valid():
-            self.object_list = form.filter_queryset(request, self.object_list)
-        else:
-            self.object_list = []
-
-        context = self.get_context_data(
-            form=form, object_list=self.object_list, active_page='reagent',
-            query=self.request.GET.get('keyword'), GET_params=GET_params)
-
-        return self.render_to_response(context)
-
-search_form_view = login_required(SearchReagentView.as_view())
+#class SearchReagentView(FormMixin, ListView):
+#    model = Reagent
+#    form_class = SearchForm
+#    template_name = 'reagents_search.html'
+#     queryset = Reagent.objects.all()
+#     paginate_by = 4
+#
+#     def get_form_kwargs(self):
+#         return {
+#           'initial': self.get_initial(),
+#           'prefix': self.get_prefix(),
+#           'data': self.request.GET or None
+#         }
+#
+#     def get(self, request, *args, **kwargs):
+#         GET_params = request.GET.copy()
+#         form = self.get_form(self.get_form_class())
+#         self.object_list = self.get_queryset()
+#
+#         if form.is_valid():
+#             self.object_list = form.filter_queryset(request, self.object_list)
+#         else:
+#             self.object_list = []
+#
+#         context = self.get_context_data(
+#             form=form, object_list=self.object_list, active_page='reagent',
+#             query=self.request.GET.get('keyword'), GET_params=GET_params)
+#
+#         return self.render_to_response(context)
+#
+# search_form_view = login_required(SearchReagentView.as_view())

@@ -26,3 +26,17 @@
 .reagent_search {
     margin-top: 25px;
 }
+
+/*
+* === Search icon in reagents search form reagents.html ===
+*/
+
+.inside {
+position:absolute;
+text-indent:5px;
+margin-top:5px;
+}
+
+.inp {
+text-indent:20px;
+}
