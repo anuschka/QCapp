@@ -46,8 +46,13 @@
 
 
 
-
+    {% if queryset %}
+           <p>Found {{ queryset|length }} reagent{{ queryset|pluralize }}.</p>
+    {% else %}
+           <p>No reagents matched your search criteria.</p>
+    {% endif %}
     <h3>All reagents</h3>
+
     <table class="table text-center">
         <thead>
             <tr>

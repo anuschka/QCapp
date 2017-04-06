@@ -105,9 +105,19 @@ def reagent_views(request):
                     Q(type__icontains=q) | Q(lot__icontains=q) |
                     Q(manufacturer__icontains=q)
             )
+            message = 'You searched for: %q' % request.GET.get['q']
         context = {
             'active_page': 'reagent',
             'queryset': queryset,
+            'message': message,
+            }
+
+    else:
+        message = 'You submitted an empty form.'
+        context = {
+            'active_page': 'reagent',
+            'queryset': queryset,
+            'message': message,
             }
 
     return TemplateResponse(request, 'reagent.html', context)
