@@ -95,7 +95,7 @@ class DeleteReagentView(DeleteView):
 
 delete_record_view = login_required(DeleteReagentView.as_view())
 
-
+@login_required
 def reagent_views(request):
     queryset = Reagent.objects.all()
     if 'keyword' in request.GET.get:
@@ -106,19 +106,14 @@ def reagent_views(request):
                     Q(manufacturer__icontains=q)
             )
             message = 'You searched for: %q' % request.GET.get['q']
-        context = {
-            'active_page': 'reagent',
-            'queryset': queryset,
-            'message': message,
-            }
+    context = {
+        'active_page': 'reagent',
+        'queryset': queryset,
+        'message': message,
+        'keyword': request.GET.get('keyword'),
+        }
 
-    else:
-        message = 'You submitted an empty form.'
-        context = {
-            'active_page': 'reagent',
-            'queryset': queryset,
-            'message': message,
-            }
+
 
     return TemplateResponse(request, 'reagent.html', context)
 

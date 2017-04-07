@@ -21,7 +21,7 @@
               <form action="/reagent/" method="get" role="form">
                 <label for="keyword">Search: </label>
                 <i class="inside fa fa-search"></i>
-                <input id="keyword" type="text" name="keyword" class="inp" placeholder="Enter keyword" />
+                <input id="keyword" type="text" name="keyword" class="inp" value={{ keyword }} >
                 <input type="submit" value="GO">
               </form>
                <div class="input-group-btn search-panel">
@@ -46,8 +46,9 @@
 
 
 
-    {% if queryset %}
-           <p>Found {{ queryset|length }} reagent{{ queryset|pluralize }}.</p>
+    {% if reagent_list %}
+            <p>You searched for: <strong>{{ q }}</strong></p>
+           <p>Found {{ reagent_list|length }} reagent{{ reagent_list|pluralize }}.</p>
     {% else %}
            <p>No reagents matched your search criteria.</p>
     {% endif %}
