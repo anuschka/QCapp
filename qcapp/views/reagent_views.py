@@ -97,6 +97,7 @@ delete_record_view = login_required(DeleteReagentView.as_view())
 
 @login_required
 def reagent_views(request):
+    GET_params = request.GET.copy()
     queryset = Reagent.objects.all()
     if 'keyword' in request.GET.get:
         q = request.GET.get['keyword']
@@ -111,6 +112,7 @@ def reagent_views(request):
         'queryset': queryset,
         'message': message,
         'keyword': request.GET.get('keyword'),
+        'GET_params': GET_params,
         }
 
 
