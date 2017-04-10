@@ -1,21 +1,21 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpResponseRedirect
-from qcapp.forms import ReagentForm
+from qcapp.forms import IdCardForm
 from django.views.generic.edit import FormView, UpdateView, DeleteView
 from django.views.generic import ListView
-from qcapp.models import Reagent
+from qcapp.models import IdCard
 from django.contrib import messages
 
 
-class ReagentAllView(ListView):
-    model = Reagent
+class IdCardAllView(ListView):
+    model = IdCard
     paginate_by = 4
-    template_name = 'reagents.html'
+    template_name = 'idcard.html'
 
     def get_context_data(self, **kwargs):
-        context = super(ReagentAllView, self).get_context_data(**kwargs)
-        context['active_page'] = 'reagent'
+        context = super(IdCardAllView, self).get_context_data(**kwargs)
+        context['active_page'] = 'idcard'
         context['keyword'] = self.request.GET.get('keyword')
         GET_params = self.request.GET.copy()
         if 'page' in GET_params:
@@ -24,7 +24,7 @@ class ReagentAllView(ListView):
         return context
 
     def get_queryset(self):
-        queryset = Reagent.objects.all()
+        queryset = IdCard.objects.all()
 
         if 'keyword' in self.request.GET:
             q = self.request.GET['keyword']
@@ -43,56 +43,56 @@ class ReagentAllView(ListView):
             queryset == queryset.order_by('lot')
         return queryset
 
-reagent_view = login_required(ReagentAllView.as_view())
+idcard_view = login_required(IdCardAllView.as_view())
 
 
-class ReagentNewView(FormView):
-    template_name = 'reagents_new.html'
-    form_class = ReagentForm
+class IdCardNewView(FormView):
+    template_name = 'idcard_new.html'
+    form_class = IdCardForm
 
     def render_to_response(self, context):
-        context['active_page'] = 'reagent'
+        context['active_page'] = 'idcard'
         return super().render_to_response(context)
 
     def form_valid(self, form):
         form.save()
         messages.success(
-            self.request, 'You entered a new reagent successfully!')
-        return HttpResponseRedirect('/reagent/')
+            self.request, 'You entered a new IdCard successfully!')
+        return HttpResponseRedirect('/idcard/')
 
-reagent_new_view = login_required(ReagentNewView.as_view())
+idcard_new_view = login_required(IdCardNewView.as_view())
 
 
-class ReagentEditView(UpdateView):
-    template_name = 'reagents_edit.html'
-    form_class = ReagentForm
+class IdCardEditView(UpdateView):
+    template_name = 'idcard_edit.html'
+    form_class = IdCardForm
 
     def get_object(self, queryset=None):
-        obj = Reagent.objects.get(id=self.args[0])
+        obj = IdCard.objects.get(id=self.args[0])
         return obj
 
     def get_context_data(self, **kwargs):
-        context = super(ReagentEditView, self).get_context_data(**kwargs)
-        context['active_page'] = 'reagent'
+        context = super(IdCardEditView, self).get_context_data(**kwargs)
+        context['active_page'] = 'idcard'
         return context
 
     def form_valid(self, form, **kwargs):
         form.save()
         messages.success(
-            self.request, 'You changed the reagent successfully!')
-        return HttpResponseRedirect('/reagent/')
+            self.request, 'You changed the IdCard successfully!')
+        return HttpResponseRedirect('/idcard/')
 
-reagent_edit_view = login_required(ReagentEditView.as_view())
+idcard_edit_view = login_required(IdCardEditView.as_view())
 
 
-class DeleteReagentView(DeleteView):
-    model = Reagent
-    success_url = '/reagent/'
+class IdCardDeleteView(DeleteView):
+    model = IdCard
+    success_url = '/idcard/'
 
     def get_object(self, queryset=None):
-        obj = Reagent.objects.get(id=self.args[0])
+        obj = IdCard.objects.get(id=self.args[0])
         messages.success(
-            self.request, 'You deleted the reagent successfully!')
+            self.request, 'You deleted the IdCard successfully!')
         return obj
 
-reagent_delete_record_view = login_required(DeleteReagentView.as_view())
+idcard_delete_record_view = login_required(IdCardDeleteView.as_view())

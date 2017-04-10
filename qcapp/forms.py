@@ -1,7 +1,7 @@
 from django import forms
 # from django.core import validators
 from django.contrib.auth.models import User
-from qcapp.models import Reagent
+from qcapp.models import Reagent, IdCard
 from django.forms import DateField
 
 
@@ -34,14 +34,6 @@ class LoginForm(forms.Form):
         return u
 
 
-class ReagentForm(forms.ModelForm):
-    expiry = DateField(input_formats=['%d/%m/%Y', '%Y-%m-%d'])
-
-    class Meta:
-        model = Reagent
-        fields = ['type', 'lot', 'expiry', 'manufacturer', 'requiresIDcard']
-
-
 class PasswordResetRequestForm(forms.Form):
     email_or_username = forms.CharField(
         label=("Email Or Username"), max_length=254)
@@ -59,3 +51,19 @@ class SetPasswordForm(forms.Form):
                                 widget=forms.PasswordInput)
     password2 = forms.CharField(label=("New password confirmation"),
                                 widget=forms.PasswordInput)
+
+
+class ReagentForm(forms.ModelForm):
+    expiry = DateField(input_formats=['%d/%m/%Y', '%Y-%m-%d'])
+
+    class Meta:
+        model = Reagent
+        fields = ['type', 'lot', 'expiry', 'manufacturer', 'requiresIDcard']
+
+
+class IdCardForm(forms.ModelForm):
+    expiry = DateField(input_formats=['%d/%m/%Y', '%Y-%m-%d'])
+
+    class Meta:
+        model = IdCard
+        fields = ['type', 'lot', 'expiry', 'manufacturer']
