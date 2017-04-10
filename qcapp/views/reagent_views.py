@@ -19,6 +19,11 @@ class ReagentAllView(ListView):
     def get_context_data(self, **kwargs):
         context = super(ReagentAllView, self).get_context_data(**kwargs)
         context['active_page'] = 'reagent'
+        context['keyword'] = self.request.GET.get('keyword')
+        GET_params = self.request.GET.copy()
+        if 'page' in GET_params:
+            del GET_params['page']
+        context['GET_params'] = GET_params
         return context
 
     def get_queryset(self):
@@ -95,28 +100,28 @@ class DeleteReagentView(DeleteView):
 
 delete_record_view = login_required(DeleteReagentView.as_view())
 
-@login_required
-def reagent_views(request):
-    queryset = Reagent.objects.all()
-    if 'keyword' in request.GET.get:
-        q = request.GET.get('keyword')
-        if q:
-            queryset = queryset.filter(
-                    Q(type__icontains=q) | Q(lot__icontains=q) |
-                    Q(manufacturer__icontains=q)
-            )
-            message = 'You searched for: %q' % request.GET.get['q']
-    context = {
-        'active_page': 'reagent',
-        'queryset': queryset,
-        'message': message,
-        'keyword': request.GET.get('keyword'),
-        'GET_params': request.GET.copy(),
-        }
+#@login_required
+#def reagent_views(request):
+#    queryset = Reagent.objects.all()
+#    if 'keyword' in request.GET.get:
+#        q = request.GET.get('keyword')
+#        if q:
+#            queryset = queryset.filter(
+#                    Q(type__icontains=q) | Q(lot__icontains=q) |
+#                    Q(manufacturer__icontains=q)
+#            )
+#            message = 'You searched for: %q' % request.GET.get['q']
+#    context = {
+#        'active_page': 'reagent',
+#        'queryset': queryset,
+#        'message': message,
+#        'keyword': request.GET.get('keyword'),
+#        'GET_params': request.GET.copy(),
+#        }
 
 
 
-    return TemplateResponse(request, 'reagent.html', context)
+#    return TemplateResponse(request, 'reagent.html', context)
 
 #class SearchReagentView(FormMixin, ListView):
 #    model = Reagent
