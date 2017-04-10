@@ -1,14 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpResponseRedirect
-from qcapp.forms import ReagentForm, SearchForm
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from qcapp.forms import ReagentForm
 from django.views.generic.edit import FormView, UpdateView, DeleteView
-from django.views.generic.edit import FormMixin
 from django.views.generic import ListView
 from qcapp.models import Reagent
 from django.contrib import messages
-from django.template.response import TemplateResponse
 
 
 class ReagentAllView(ListView):
@@ -99,58 +96,3 @@ class DeleteReagentView(DeleteView):
         return obj
 
 delete_record_view = login_required(DeleteReagentView.as_view())
-
-#@login_required
-#def reagent_views(request):
-#    queryset = Reagent.objects.all()
-#    if 'keyword' in request.GET.get:
-#        q = request.GET.get('keyword')
-#        if q:
-#            queryset = queryset.filter(
-#                    Q(type__icontains=q) | Q(lot__icontains=q) |
-#                    Q(manufacturer__icontains=q)
-#            )
-#            message = 'You searched for: %q' % request.GET.get['q']
-#    context = {
-#        'active_page': 'reagent',
-#        'queryset': queryset,
-#        'message': message,
-#        'keyword': request.GET.get('keyword'),
-#        'GET_params': request.GET.copy(),
-#        }
-
-
-
-#    return TemplateResponse(request, 'reagent.html', context)
-
-#class SearchReagentView(FormMixin, ListView):
-#    model = Reagent
-#    form_class = SearchForm
-#    template_name = 'reagents_search.html'
-#     queryset = Reagent.objects.all()
-#     paginate_by = 4
-#
-#     def get_form_kwargs(self):
-#         return {
-#           'initial': self.get_initial(),
-#           'prefix': self.get_prefix(),
-#           'data': self.request.GET or None
-#         }
-#
-#     def get(self, request, *args, **kwargs):
-#         GET_params = request.GET.copy()
-#         form = self.get_form(self.get_form_class())
-#         self.object_list = self.get_queryset()
-#
-#         if form.is_valid():
-#             self.object_list = form.filter_queryset(request, self.object_list)
-#         else:
-#             self.object_list = []
-#
-#         context = self.get_context_data(
-#             form=form, object_list=self.object_list, active_page='reagent',
-#             query=self.request.GET.get('keyword'), GET_params=GET_params)
-#
-#         return self.render_to_response(context)
-#
-# search_form_view = login_required(SearchReagentView.as_view())
