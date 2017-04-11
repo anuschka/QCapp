@@ -1,10 +1,10 @@
 {% extends "internal_page.html" %}
 {% comment %}
-  This is the template for displaying all idcards.
+  This is the template for displaying all ID-Card.
 {% endcomment %}
 
 {% block head %}
-  <title>IdCard display all | {% block title %}{% endblock %}</title>
+  <title>ID-Card display all | {% block title %}{% endblock %}</title>
 {% endblock %}
 
 {% block content %}
@@ -13,7 +13,7 @@
         <div class="col-xs-4">
           <ol class="breadcrumb">
             <li><a href="/">Home</a></li>
-            <li class="active"><a href="/idcard/">IdCards</a></li>
+            <li class="active"><a href="/idcard/">ID-Card</a></li>
           </ol>
         </div>
         <div class="col-xs-6 col-xs-offset-2">
@@ -29,7 +29,7 @@
                      <span id="search_concept">Filter by</span> <span class="caret"></span>
                    </button>
                    <ul class="dropdown-menu" role="menu">
-                     <li><a href="/idcard/new">Add new IdCard</a></li>
+                     <li><a href="/idcard/new">Add new ID-Card</a></li>
                      <li role="separator" class="divider"></li>
                      <li><a href="/idcard/?sortBy=expiryDate">Sort by expiry</a></li>
                      <li><a href="/idcard/?sortBy=entryDate" onclick="return App.click(this);">Sort by Entry date</a></li>
@@ -47,7 +47,7 @@
           {% if keyword %}
             Search results for <b>'{{ keyword }}'</b>
           {% else %}
-            <h3>All IdCards</h3>
+            <h3>All ID-Cards</h3>
           {% endif %}
         </ol>
       </div>
@@ -66,7 +66,7 @@
         <tbody>
           {% for idcard in idcard_list %}
           {% comment %}
-            The view passes the list of IdCards by default as object_list and idcard_list (aliases; either will work).
+            The view passes the list of ID-Cards by default as object_list and idcard_list (aliases; either will work).
           {% endcomment %}
             <tr>
               <td><a href="/idcard/{{idcard.id}}/edit/">{{ idcard.type }}</a></td>
