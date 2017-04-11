@@ -1,0 +1,63 @@
+{% extends "internal_page.html" %}
+{% load bootstrap3 %}
+{% comment %}
+  This is the template for editing one IdCard.
+{% endcomment %}
+
+{% block head %}
+  <title>IdCard edit screen | {% block title %}{% endblock %}</title>
+{% endblock %}
+
+{% block content %}
+
+
+      <div class="row">
+          <ol class="breadcrumb">
+            <li><a href="/">Home</a></li>
+            <li><a href="/idcard/">IdCards</a></li>
+            <li class="active"><a href="/idcard/{{ id }}/edit/">Edit</a></li>
+          </ol>
+      </div>
+
+      {% if form.errors %}
+
+        <div class="alert alert-danger">
+          There were errors: {{ form.errors }}
+        </div>
+
+      {% endif %}
+
+      <h3>Edit IdCard</h3>
+      <hr />
+      <div class="row">
+        <div class="col-md-6">
+            <form action="/idcard/{{ object.id }}/edit/" method="post" role="form">
+                {% csrf_token %}
+                {% bootstrap_form form  %}
+                {% buttons %}
+                <div class="idcard_toolbar">
+                  <input type="submit" class="btn btn-primary" value="Save" />
+                  <a href="/idcard/" class="btn btn-default" onclick="return App.click(this);">Cancel</a>
+                  <div class="pull-right">
+                      <a href="#" onclick="clicked();" class="btn btn-danger">Delete IdCardd</a>
+                  </div>
+                </div>
+                {% endbuttons %}
+            </form>
+
+            <form method="post" action="/idcard/{{ object.id }}/delete/" id="deleteForm">
+              {% csrf_token %}
+            </form>
+
+            <script>
+              function clicked() {
+                     if (confirm('Do you really want to delete?')) {
+                         $('#deleteForm').submit();
+                     } else {
+                         return false;
+                     }
+                  }
+            </script>
+          </div>
+        </div>
+{% endblock %}

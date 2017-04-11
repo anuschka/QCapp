@@ -11,7 +11,7 @@
     padding: 50px;
 }
 
-.reagent_toolbar {
+.reagent_toolbar .idcard_toolbar {
     margin-top: 25px;
 }
 
@@ -19,7 +19,7 @@
     color: red;
 }
 
-.add-new-reagent-button {
+.add-new-reagent-button .add-new-idcard-button {
     margin: 20px;
 }
 
