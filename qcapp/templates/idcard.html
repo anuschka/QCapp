@@ -21,7 +21,10 @@
               <form action="/idcard/" method="get" role="form">
                 <label for="keyword">Search: </label>
                 <i class="inside fa fa-search"></i>
-                <input id="keyword" type="text" name="keyword" class="inp" value="{{ keyword }}" >
+                <input id="keyword" type="text" name="keyword" class="inp"
+                  {% if keyword %} value="{{ keyword }}"
+                    {% else %}  placeholder="Enter keyword"
+                  {% endif %} >
                 <input type="submit" value="GO">
               </form>
                <div class="input-group-btn search-panel">
