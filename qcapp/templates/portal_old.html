@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% comment %}
+  This is the main template for all application pages.
+{% endcomment %}
+
+{% block head %}
+  <title>Django Application | {% block title %}{% endblock %}</title>
+{% endblock %}
+
+{% block body %}
+  <header>
+    <h1>Django Application</h1>
+  </header>
+
+  <section>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/logout/">Logout</a></li>
+    </ul>
+  </section>
+
+  {% block content %}
+    <h2>Cell Panels</h2>
+
+    {% for cell_panel in cell_panels %}
+    <p>
+      CellPanel:
+      <br/>Type {{ cell_panel.type }}
+      <br/>Manufacturer {{ cell_panel.manufacturer }}
+      <br/>Lot {{ cell_panel.lot }}
+      <br/>Expiry {{ cell_panel.expiry }}
+      <br/>Sheet {{ cell_panel.sheet }}
+      <br/>Created at {{ cell_panel.created_at }}
+    </p>
+    {% endfor %}
+
+    <h2>Cells for CellPanel containing BIO-RAD</h2>
+
+    {% for cell in cells %}
+    <p>
+      Cells:
+      <br/>Type {{ cell.type }}
+      <br/>Lot {{ cell.lot }}
+      <br/>Expiry {{ cell.expiry }}
+      <br/>Manufacturer {{ cell.manufacturer }}
+      <br/>Created at {{ cell.created_at }}
+    </p>
+    {% endfor %}
+    <!--
+
+    <h2>IDcards</h2>
+
+    {% for idcard in idcards %}
+    <p>
+      IDcard:
+      <br/>Type {{ idcard.type }}
+      <br/>Lot {{ idcard.lot }}
+      <br/>Expiry {{ idcard.expiry }}
+      <br/>Manufacturer {{ idcard.manufacturer }}
+      <br/>Created at {{ idcard.created_at }}
+    </p>
+    {% endfor %}
+
+    <h2>CellPanels for Cell=Cell1</h2>
+
+    {% for cellpanels in cellpanels1 %}
+    <p>
+      CellPanel:
+      <br/>Type {{ cellpanels.type }}
+      <br/>Lot {{ cellpanels.lot }}
+      <br/>Expiry {{ cellpanels.expiry }}
+      <br/>Manufacturer {{ cellpanels.manufacturer }}
+      <br/>Cell {{ cellpanels.cell }}
+      <br/>Created at {{ cellpanels.created_at }}
+    </p>
+    {% endfor %}
+
+    <h2>CellPanels for all Cells using lists</h2>
+
+    {% for cellpanels in cellpanel_list %}
+    <p>
+      CellPanel:
+      <br/>Type {{ cellpanels.type }}
+      <br/>Lot {{ cellpanels.lot }}
+      <br/>Expiry {{ cellpanels.expiry }}
+      <br/>Manufacturer {{ cellpanels.manufacturer }}
+      <br/>Cell {{ cellpanels.cell }}
+      <br/>Created at {{ cellpanels.created_at }}
+    </p>
+    {% endfor %}
+
+    <h2>CellPanels for all Cells using dictionaries</h2>
+    {% for cell, cellpanels in cell_cellpanel_map.items %}
+      <h4>Cell</h4>
+        <br/>Number {{ cell.number }}
+        <br/>Type {{ cell.type }}
+        <br/>Lot {{ cell.lot }}
+        <br/>Expiry {{ cell.expiry }}
+        <br/>Created at {{ cell.created_at }}
+
+      <h4>Cell panels using the above Cell</h4>
+      {% for cellpanel in cellpanels %}
+        <p>
+          <br/>Type {{ cellpanel.type }}
+          <br/>Lot {{ cellpanel.lot }}
+          <br/>Expiry {{ cellpanel.expiry }}
+          <br/>Manufacturer {{ cellpanel.manufacturer }}
+          <br/>Cell {{ cellpanel.cell }}
+          <br/>Created at {{ cellpanel.created_at }}
+        </p>
+      {% endfor %}
+    {% endfor %}
+-->
+<!--
+    <p>
+      <a href="/portal/add_cell/">Add a cell</a>
+    </p>
+-->
+  {% endblock %}
+
+  <footer>
+    <span>&copy; 2016</span>
+  </footer>
+{% endblock %}

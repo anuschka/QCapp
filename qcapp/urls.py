@@ -3,6 +3,8 @@ from qcapp.views import authentication_views
 from qcapp.views import reagent_views
 from qcapp.views import idcard_views
 from qcapp.views import portal_views
+from qcapp.views import cellpanel_views
+from qcapp.views import cell_views
 from django.contrib import admin
 
 urlpatterns = [
@@ -49,4 +51,10 @@ urlpatterns = [
     # IDCard delete record.
     url(r'^idcard/([0-9]+)/delete/$', idcard_views.idcard_delete_record_view,
         name='idcard_delete_record_view'),
+    # # # #  URLs for Cell Panel CRUD
+    # Cell Panel view all and search.
+    url(r'^cellpanel/$', cellpanel_views.cellpanel_view, name='cellpanel_view'),
+    # Display all Cells for one Cell Panel.
+    url(r'^cellpanel/([0-9]+)/$', cell_views.cell_view,
+        name='cell_view'),
 ]

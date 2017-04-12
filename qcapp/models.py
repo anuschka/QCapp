@@ -25,7 +25,7 @@ class Cell(models.Model):
     lot = models.CharField(max_length=100, blank=False)
     expiry = models.DateTimeField(null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
-    cell_panel = models.ForeignKey(CellPanel)
+    cell_panel = models.ForeignKey(CellPanel, on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ('number', 'cell_panel')

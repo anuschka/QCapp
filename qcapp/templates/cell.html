@@ -1,0 +1,93 @@
+{% extends "internal_page.html" %}
+{% comment %}
+  This is the template for displaying all Cells in a Cell Panel.
+{% endcomment %}
+
+{% block head %}
+  <title>All Cells in Cell Panel | {% block title %}{% endblock %}</title>
+{% endblock %}
+
+{% block content %}
+
+      <div class="row">
+        <div class="col-xs-4">
+          <ol class="breadcrumb">
+            <li><a href="/">Home</a></li>
+            <li class="active"><a href="/cellpanel/">Cell Panel</a></li>
+          </ol>
+        </div>
+        <div class="col-xs-6 col-xs-offset-2">
+          <div class="input-group pull-right" style="width:400px">
+              <form action="/cellpanel/" method="get" role="form">
+                <label for="keyword">Search: </label>
+                <i class="inside fa fa-search"></i>
+                <input id="keyword" type="text" name="keyword" class="inp"
+                  {% if keyword %} value="{{ keyword }}"
+                    {% else %}  placeholder="Enter keyword"
+                  {% endif %} >
+                <input type="submit" value="GO">
+              </form>
+               <div class="input-group-btn search-panel">
+                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                     <span id="search_concept">Filter by</span> <span class="caret"></span>
+                   </button>
+                   <ul class="dropdown-menu" role="menu">
+                     <li><a href="/idcard/new">Add new Cell Panel</a></li>
+                     <li role="separator" class="divider"></li>
+                     <li><a href="/idcard/?sortBy=expiryDate">Sort by expiry</a></li>
+                     <li><a href="/idcard/?sortBy=entryDate" onclick="return App.click(this);">Sort by Entry date</a></li>
+                   </ul>
+               </div>
+           </div>
+         </div>
+      </div>
+
+
+
+    <div class="row">
+      <div class="col-xs-4">
+        <ol class="breadcrumb">
+          {% if keyword %}
+            Search results for <b>'{{ keyword }}'</b>
+          {% else %}
+            <h3>All Cell Panels</h3>
+          {% endif %}
+        </ol>
+      </div>
+    </div>
+
+    <table class="table text-center">
+        <thead>
+            <tr>
+                <th class="text-center">Type</th>
+                <th class="text-center">Manufacturer</th>
+                <th class="text-center">Lot</th>
+                <th class="text-center">Expiry</th>
+                <th class="text-center">Created at</th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for cellpanel in cellpanel_list %}
+          {% comment %}
+            The view passes the list of Cell Panels by default as object_list and cellpanel_list (aliases; either will work).
+          {% endcomment %}
+            <tr>
+              <td><a href="/cellpanel/{{cellpanel.id}}/edit/">{{ cellpanel.type }}</a></td>
+              <td>{{ cellpanel.manufacturer }}</td>
+              <td>{{ cellpanel.lot }}</td>
+              <td>{{ cellpanel.expiry | date:"d/m/Y"}}</td>
+              <td>{{ cellpanel.created_at | date:"d/m/Y H:i"}}</td>
+              <td><a href="/cellpanel/{{cellpanel.id}}/edit/" class="btn btn-default btn-sm">edit</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+    <div class="row">
+            <div>
+              <a href="/cellpanel/new" class="btn btn-default add-new-cellpanel-button">Add new</a>
+            </div>
+            <div class="text-center">
+              {% include 'snippets/pagination.html' %}
+            </div>
+    </div>
+  {% endblock %}
