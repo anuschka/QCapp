@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from qcapp.forms import IdCardForm
 from django.views.generic.edit import FormView, UpdateView, DeleteView
 from django.views.generic import ListView
-from qcapp.models import Cell
+from qcapp.models import Cell, CellPanel
 from django.contrib import messages
 
 
@@ -16,6 +16,8 @@ class CellAllView(ListView):
     def get_context_data(self, **kwargs):
         context = super(CellAllView, self).get_context_data(**kwargs)
         context['active_page'] = 'cellpanel'
+        context['cellpanelid'] = self.args[0]
+        context['cellpaneltype'] = CellPanel.objects.get(id=self.args[0]).type
         context['keyword'] = self.request.GET.get('keyword')
         GET_params = self.request.GET.copy()
         if 'page' in GET_params:
@@ -24,7 +26,8 @@ class CellAllView(ListView):
         return context
 
     def get_queryset(self):
-        queryset = Cell.objects.all()
+        cellpanelid = self.args[0]
+        queryset = Cell.objects.filter(cell_panel__id__contains=cellpanelid)
 
         if 'keyword' in self.request.GET:
             q = self.request.GET['keyword']

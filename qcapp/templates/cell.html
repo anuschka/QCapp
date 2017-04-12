@@ -13,7 +13,7 @@
         <div class="col-xs-4">
           <ol class="breadcrumb">
             <li><a href="/">Home</a></li>
-            <li class="active"><a href="/cellpanel/">Cell Panel</a></li>
+            <li class="active"><a href="/cellpanel/{{ cellpanelid }}">Cell Panel: {{ cellpaneltype }}</a></li>
           </ol>
         </div>
         <div class="col-xs-6 col-xs-offset-2">
@@ -50,7 +50,7 @@
           {% if keyword %}
             Search results for <b>'{{ keyword }}'</b>
           {% else %}
-            <h3>All Cell Panels</h3>
+            <h3>All Cells in {{ cellpaneltype }}</h3>
           {% endif %}
         </ol>
       </div>
@@ -59,24 +59,24 @@
     <table class="table text-center">
         <thead>
             <tr>
+                <th class="text-center">Number</th>
                 <th class="text-center">Type</th>
-                <th class="text-center">Manufacturer</th>
                 <th class="text-center">Lot</th>
                 <th class="text-center">Expiry</th>
                 <th class="text-center">Created at</th>
             </tr>
         </thead>
         <tbody>
-          {% for cellpanel in cellpanel_list %}
+          {% for cell in cell_list %}
           {% comment %}
-            The view passes the list of Cell Panels by default as object_list and cellpanel_list (aliases; either will work).
+            The view passes the list of Cell in Cell Panel.
           {% endcomment %}
             <tr>
-              <td><a href="/cellpanel/{{cellpanel.id}}/edit/">{{ cellpanel.type }}</a></td>
-              <td>{{ cellpanel.manufacturer }}</td>
-              <td>{{ cellpanel.lot }}</td>
-              <td>{{ cellpanel.expiry | date:"d/m/Y"}}</td>
-              <td>{{ cellpanel.created_at | date:"d/m/Y H:i"}}</td>
+              <td>{{ cell.number }}</td>
+              <td>{{ cell.type }}</td>
+              <td>{{ cell.lot }}</td>
+              <td>{{ cell.expiry | date:"d/m/Y"}}</td>
+              <td>{{ cell.created_at | date:"d/m/Y H:i"}}</td>
               <td><a href="/cellpanel/{{cellpanel.id}}/edit/" class="btn btn-default btn-sm">edit</a></td>
             </tr>
           {% endfor %}
