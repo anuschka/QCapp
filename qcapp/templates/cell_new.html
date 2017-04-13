@@ -16,7 +16,7 @@
       <hr />
       <div class="row">
         <div class="col-md-6">
-            <form action="/cellpanel/{{ cellpanelid }}/cell/{{ new }}/ method="post" role="form">
+            <form action="/cellpanel/{{ cellpanelid }}/cell/{{ cellid }}/ method="post" role="form">
                 {% csrf_token %}
 	              {% bootstrap_form form  %}
                 {% buttons %}
