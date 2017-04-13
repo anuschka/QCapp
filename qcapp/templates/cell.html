@@ -18,7 +18,7 @@
         </div>
         <div class="col-xs-6 col-xs-offset-2">
           <div class="input-group pull-right" style="width:400px">
-              <form action="/cellpanel/" method="get" role="form">
+              <form action="/cellpanel/{{ cellpanelid }}" method="get" role="form">
                 <label for="keyword">Search: </label>
                 <i class="inside fa fa-search"></i>
                 <input id="keyword" type="text" name="keyword" class="inp"
@@ -32,10 +32,10 @@
                      <span id="search_concept">Filter by</span> <span class="caret"></span>
                    </button>
                    <ul class="dropdown-menu" role="menu">
-                     <li><a href="/idcard/new">Add new Cell Panel</a></li>
+                     <li><a href="/cellpanel/{{ cellpanelid }}/cell/new/">Add new Cell</a></li>
                      <li role="separator" class="divider"></li>
-                     <li><a href="/idcard/?sortBy=expiryDate">Sort by expiry</a></li>
-                     <li><a href="/idcard/?sortBy=entryDate" onclick="return App.click(this);">Sort by Entry date</a></li>
+                     <li><a href="/cellpanel/{{ cellpanelid }}/?sortBy=expiryDate">Sort by expiry</a></li>
+                     <li><a href="/cellpanel/{{ cellpanelid }}/?sortBy=entryDate" onclick="return App.click(this);">Sort by Entry date</a></li>
                    </ul>
                </div>
            </div>

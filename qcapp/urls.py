@@ -57,4 +57,7 @@ urlpatterns = [
     # Display all Cells for one Cell Panel.
     url(r'^cellpanel/([0-9]+)/$', cell_views.cell_view,
         name='cell_view'),
+    # Add new Cell.
+    url(r'^cellpanel/([0-9]+)/cell/new/$', cell_views.cell_new_view,
+        name='cell_new_view'),
 ]

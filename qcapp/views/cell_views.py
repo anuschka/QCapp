@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpResponseRedirect
-from qcapp.forms import IdCardForm
+from qcapp.forms import CellForm
 from django.views.generic.edit import FormView, UpdateView, DeleteView
 from django.views.generic import ListView
 from qcapp.models import Cell, CellPanel
@@ -33,8 +33,7 @@ class CellAllView(ListView):
             q = self.request.GET['keyword']
             if q:
                 queryset = queryset.filter(
-                    Q(type__icontains=q) | Q(lot__icontains=q) |
-                    Q(manufacturer__icontains=q)
+                    Q(type__icontains=q) | Q(lot__icontains=q)
                 )
 
         sort_by = self.request.GET.get('sortBy')
@@ -49,21 +48,28 @@ class CellAllView(ListView):
 cell_view = login_required(CellAllView.as_view())
 
 
-# class IdCardNewView(FormView):
-#     template_name = 'idcard_new.html'
-#     form_class = IdCardForm
-#
-#     def render_to_response(self, context):
-#         context['active_page'] = 'idcard'
-#         return super().render_to_response(context)
-#
-#     def form_valid(self, form):
-#         form.save()
-#         messages.success(
-#             self.request, 'You entered a new IdCard successfully!')
-#         return HttpResponseRedirect('/idcard/')
-#
-# idcard_new_view = login_required(IdCardNewView.as_view())
+class CellNewView(FormView):
+    template_name = 'cell_new.html'
+    form_class = CellForm
+
+    def get_context_data(self, **kwargs):
+        context = super(CellNewView, self).get_context_data(**kwargs)
+        context['active_page'] = 'cellpanel'
+        context['cellpanelid'] = self.args[0]
+        context['cellpaneltype'] = CellPanel.objects.get(id=self.args[0]).type
+        return context
+
+    def render_to_response(self, context):
+        context['active_page'] = 'cellpanel'
+        return super().render_to_response(context)
+
+    def form_valid(self, form):
+        form.save()
+        messages.success(
+            self.request, 'You entered a new Cell for' + CellPanel.objects.get(id=self.args[0]).type + 'successfully!')
+        return HttpResponseRedirect('/cellpanel/{{self.args[0]}}')
+
+cell_new_view = login_required(CellNewView.as_view())
 #
 #
 # class IdCardEditView(UpdateView):

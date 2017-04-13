@@ -1,7 +1,7 @@
 from django import forms
 # from django.core import validators
 from django.contrib.auth.models import User
-from qcapp.models import Reagent, IdCard
+from qcapp.models import Reagent, IdCard ,Cell
 from django.forms import DateField
 
 
@@ -67,3 +67,11 @@ class IdCardForm(forms.ModelForm):
     class Meta:
         model = IdCard
         fields = ['type', 'lot', 'expiry', 'manufacturer']
+
+
+class CellForm(forms.ModelForm):
+    expiry = DateField(input_formats=['%d/%m/%Y', '%Y-%m-%d'])
+
+    class Meta:
+        model = Cell
+        fields = ['number', 'type', 'lot', 'expiry']

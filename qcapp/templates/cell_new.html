@@ -1,0 +1,31 @@
+{% extends "internal_page.html" %}
+{% load bootstrap3 %}
+{% bootstrap_messages %}
+{% comment %}
+  This is the template for entering new ID-Card.
+{% endcomment %}
+
+{% block head %}
+  <title>Enter new ID-Card | {% block title %}{% endblock %}</title>
+{% endblock %}
+
+{% block content %}
+
+
+      <h3>Add new Cell in  Cell Panel: {{ cellpaneltype }}</h3>
+      <hr />
+      <div class="row">
+        <div class="col-md-6">
+            <form action="/cellpanel/{{ cellpanelid }}/cell/{{ new }}/ method="post" role="form">
+                {% csrf_token %}
+	              {% bootstrap_form form  %}
+                {% buttons %}
+                <div class="idcard_toolbar">
+                  <input type="submit" class="btn btn-primary" value="Save" />
+                  <a href="/cellpanel/{{ cellpanelid }}" class="btn btn-default" onclick="return App.click(this);">Cancel</a>
+                </div>
+                {% endbuttons %}
+            </form>
+          </div>
+        </div>
+{% endblock %}
