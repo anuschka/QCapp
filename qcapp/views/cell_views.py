@@ -64,10 +64,12 @@ class CellNewView(FormView):
         return super().render_to_response(context)
 
     def form_valid(self, form):
-        form.save()
         messages.success(
             self.request, 'You entered a new Cell for' + CellPanel.objects.get(id=self.args[0]).type + 'successfully!')
-        return HttpResponseRedirect('/cellpanel/{{self.args[0]}}')
+        new_cell = form.save()
+        return HttpResponseRedirect('/cellpanel/%s/cell/%s/' % (self.args[0], new_cell.id))
+
+
 
 cell_new_view = login_required(CellNewView.as_view())
 #
