@@ -61,8 +61,8 @@ urlpatterns = [
     url(r'^cellpanel/([0-9]+)/cell/new/$', cell_views.cell_new_view,
         name='cell_new_view'),
     # Cell inside the CellPanel.
-    url(r'^cellpanel/([0-9]+)/cell/([0-9]+)/$', cell_views.cell_new_view,
-        name='cellpanel_cell'),
+    url(r'^cellpanel/([0-9]+)/cell/([0-9]+)/$', cell_views.cellpanel_cell_view,
+        name='cellpanel_cell_view'),
 
 
 ]

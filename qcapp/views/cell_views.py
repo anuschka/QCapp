@@ -72,6 +72,30 @@ class CellNewView(FormView):
 
 
 cell_new_view = login_required(CellNewView.as_view())
+
+
+class CellPanelCellView(UpdateView):
+    template_name = 'cell.html'
+    form_class = CellForm
+
+    def get_object(self, queryset=None):
+        obj = IdCard.objects.get(id=self.args[0])
+        return obj
+
+    def get_context_data(self, **kwargs):
+        context = super(IdCardEditView, self).get_context_data(**kwargs)
+        context['active_page'] = 'idcard'
+        return context
+
+    def form_valid(self, form, **kwargs):
+        form.save()
+        messages.success(
+            self.request, 'You changed the IdCard successfully!')
+        return HttpResponseRedirect('/idcard/')
+
+cellpanel_cell_view = login_required(CellPanelCellView.as_view())
+
+
 #
 #
 # class IdCardEditView(UpdateView):
