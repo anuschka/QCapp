@@ -67,6 +67,7 @@ class CellNewView(FormView):
         messages.success(
             self.request, 'You entered a new Cell for' + CellPanel.objects.get(id=self.args[0]).type + 'successfully!')
         new_cell = form.save()
+        print(new_cell.id)
         return HttpResponseRedirect('/cellpanel/%s/cell/%s/' % (self.args[0], new_cell.id))
 
 
