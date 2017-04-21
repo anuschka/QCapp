@@ -8,7 +8,7 @@ class CellPanel(models.Model):
     manufacturer = models.CharField(max_length=100, blank=False)
     lot = models.CharField(max_length=100, blank=False)
     expiry = models.DateTimeField(null=True)
-    sheet = models.BinaryField()
+    sheet = models.BinaryField(null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
 
     class Meta:
