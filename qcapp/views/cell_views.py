@@ -69,9 +69,9 @@ class CellNewView(FormView):
         try:
             new_cell.save()
             messages.success(
-                self.request, 'You entered a new Cell for' +
+                self.request, 'You entered a new Cell for Cell Panel "' +
                 CellPanel.objects.get(id=self.args[0]).type +
-                'successfully!')
+                '" successfully!')
             return HttpResponseRedirect('/cellpanel/%s/' % self.args[0])
             #return HttpResponseRedirect('/cellpanel/%s/cell/%s/' % (self.args[0], new_cell.id))
         except:
@@ -82,16 +82,16 @@ class CellNewView(FormView):
 cell_new_view = login_required(CellNewView.as_view())
 
 
-class CellPanelCellView(UpdateView):
-    template_name = 'cell.html'
+class CellPanelCellEditView(UpdateView):
+    template_name = 'cell_edit.html'
     form_class = CellForm
 
     def get_object(self, queryset=None):
-        obj = IdCard.objects.get(id=self.args[0])
+        obj = Cell.objects.get(id=self.args[0])
         return obj
 
     def get_context_data(self, **kwargs):
-        context = super(IdCardEditView, self).get_context_data(**kwargs)
+        context = super(CellPanelCellEditView, self).get_context_data(**kwargs)
         context['active_page'] = 'idcard'
         return context
 
@@ -101,7 +101,7 @@ class CellPanelCellView(UpdateView):
             self.request, 'You changed the IdCard successfully!')
         return HttpResponseRedirect('/idcard/')
 
-cellpanel_cell_view = login_required(CellPanelCellView.as_view())
+cellpanel_cell_edit_view = login_required(CellPanelCellEditView.as_view())
 
 
 #

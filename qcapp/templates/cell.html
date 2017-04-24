@@ -50,7 +50,7 @@
           {% if keyword %}
             Search results for <b>'{{ keyword }}'</b>
           {% else %}
-            <h3>All Cells in {{ cellpaneltype }}</h3>
+            <h3>All Cells in Cell Panel "{{ cellpaneltype }}""</h3>
           {% endif %}
         </ol>
       </div>
@@ -84,7 +84,7 @@
     </table>
     <div class="row">
             <div>
-              <a href="/cellpanel/new" class="btn btn-default add-new-cellpanel-button">Add new</a>
+              <a href="/cellpanel/{{ cellpanelid }}/cell/new/" class="btn btn-default add-new-cellpanel-button">Add new Cell</a>
             </div>
             <div class="text-center">
               {% include 'snippets/pagination.html' %}
