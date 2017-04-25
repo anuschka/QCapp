@@ -119,7 +119,6 @@ cellpanel_cell_edit_view = login_required(CellPanelCellEditView.as_view())
 
 class CellDeleteView(DeleteView):
     model = Cell
-    success_url = '/cellpanel/%s/' % self.args[0]
 
     def get_object(self, queryset=None):
         cell_panel = CellPanel.objects.get(id=self.args[0])
@@ -127,5 +126,8 @@ class CellDeleteView(DeleteView):
         messages.success(
             self.request, 'You deleted the Cell successfully!')
         return cell
+
+    def get_success_url(self):
+        return HttpResponseRedirect('/cellpanel/%s/' % self.args[0])
 
 cellpanel_cell_delete_view = login_required(CellDeleteView.as_view())

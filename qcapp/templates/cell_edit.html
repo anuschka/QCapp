@@ -45,7 +45,7 @@
                 {% endbuttons %}
             </form>
 
-            <form method="post" action="/cellpanel/{{cellpanelid}}/cell/{{cell.id}}/delete" id="deleteForm">
+            <form method="post" action="/cellpanel/{{cellpanelid}}/cell/{{cell.id}}/delete/" id="deleteForm">
               {% csrf_token %}
             </form>
 
