@@ -60,10 +60,12 @@ urlpatterns = [
     # Add new Cell.
     url(r'^cellpanel/([0-9]+)/cell/new/$', cell_views.cell_new_view,
         name='cell_new_view'),
-    # Cell inside the CellPanel.
+    # Edit Cell inside the CellPanel.
     url(r'^cellpanel/([0-9]+)/cell/([0-9]+)/$',
         cell_views.cellpanel_cell_edit_view,
         name='cellpanel_cell_edit_view'),
-
-
+    # Delete Cell inside the CellPanel.
+    url(r'^cellpanel/([0-9]+)/cell/([0-9]+)/delete/$',
+        cell_views.cellpanel_cell_delete_view,
+        name='cellpanel_cell_delete_view'),
 ]

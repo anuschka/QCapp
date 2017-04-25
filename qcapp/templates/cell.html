@@ -77,7 +77,7 @@
               <td>{{ cell.lot }}</td>
               <td>{{ cell.expiry | date:"d/m/Y"}}</td>
               <td>{{ cell.created_at | date:"d/m/Y H:i"}}</td>
-              <td><a href="/cellpanel/{{cellpanel.id}}/edit/" class="btn btn-default btn-sm">edit</a></td>
+              <td><a href="/cellpanel/{{cellpanelid}}/cell/{{cell.id}}/" class="btn btn-default btn-sm">Edit</a></td>
             </tr>
           {% endfor %}
         </tbody>

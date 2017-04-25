@@ -1,11 +1,11 @@
 {% extends "internal_page.html" %}
 {% load bootstrap3 %}
 {% comment %}
-  This is the template for editing one ID-Card.
+  This is the template for editing one Cell.
 {% endcomment %}
 
 {% block head %}
-  <title>ID-Card edit screen | {% block title %}{% endblock %}</title>
+  <title>Cell edit screen | {% block title %}{% endblock %}</title>
 {% endblock %}
 
 {% block content %}
@@ -14,8 +14,8 @@
       <div class="row">
           <ol class="breadcrumb">
             <li><a href="/">Home</a></li>
-            <li><a href="/idcard/">ID-Card</a></li>
-            <li class="active"><a href="/idcard/{{ id }}/edit/">Edit</a></li>
+            <li><a href="/cellpanel/{{cellpanelid}}">Cell Panel : {{ cellpaneltype }}</a></li>
+            <li class="active"><a href="/cellpanel/{{cellpanelid}}/cell/{{cell.id}}/">Edit Cell: {{cell.id}}</a></li>
           </ol>
       </div>
 
@@ -27,25 +27,25 @@
 
       {% endif %}
 
-      <h3>Edit ID-Card</h3>
+      <h3>Edit Cell: {{cell.id}}</h3>
       <hr />
       <div class="row">
         <div class="col-md-6">
-            <form action="/idcard/{{ object.id }}/edit/" method="post" role="form">
+            <form method="post" role="form">
                 {% csrf_token %}
                 {% bootstrap_form form  %}
                 {% buttons %}
-                <div class="idcard_toolbar">
+                <div class="cell_toolbar">
                   <input type="submit" class="btn btn-primary" value="Save" />
-                  <a href="/idcard/" class="btn btn-default" onclick="return App.click(this);">Cancel</a>
+                  <a href="/cellpanel/{{cellpanelid}}" class="btn btn-default" onclick="return App.click(this);">Cancel</a>
                   <div class="pull-right">
-                      <a href="#" onclick="clicked();" class="btn btn-danger">Delete IdCardd</a>
+                      <a href="#" onclick="clicked();" class="btn btn-danger">Delete Cell</a>
                   </div>
                 </div>
                 {% endbuttons %}
             </form>
 
-            <form method="post" action="/idcard/{{ object.id }}/delete/" id="deleteForm">
+            <form method="post" action="/cellpanel/{{cellpanelid}}/cell/{{cell.id}}/delete" id="deleteForm">
               {% csrf_token %}
             </form>
 

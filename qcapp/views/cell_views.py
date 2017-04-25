@@ -87,55 +87,45 @@ class CellPanelCellEditView(UpdateView):
     form_class = CellForm
 
     def get_object(self, queryset=None):
-        obj = Cell.objects.get(id=self.args[0])
-        return obj
+        cell_panel = CellPanel.objects.get(id=self.args[0])
+        cell = Cell.objects.get(id=self.args[1], cell_panel=cell_panel)
+        return cell
 
     def get_context_data(self, **kwargs):
         context = super(CellPanelCellEditView, self).get_context_data(**kwargs)
-        context['active_page'] = 'idcard'
+        context['active_page'] = 'cellpanel'
+        context['cellpanelid'] = self.args[0]
+        context['cellpaneltype'] = CellPanel.objects.get(id=self.args[0]).type
         return context
 
-    def form_valid(self, form, **kwargs):
-        form.save()
-        messages.success(
-            self.request, 'You changed the IdCard successfully!')
-        return HttpResponseRedirect('/idcard/')
+    def form_valid(self, form):
+        new_cell = form.save(commit=False)
+        new_cell.cell_panel = CellPanel.objects.get(id=self.args[0])
+        try:
+            new_cell.save()
+            messages.success(
+                self.request, 'You changed Cell no: ' + self.args[1] +
+                ' in Cell Panel: ' +
+                CellPanel.objects.get(id=self.args[0]).type +
+                ' successfully!')
+            return HttpResponseRedirect('/cellpanel/%s/' % self.args[0])
+            #return HttpResponseRedirect('/cellpanel/%s/cell/%s/' % (self.args[0], new_cell.id))
+        except:
+            form.add_error('number', 'You entered an existing Cell')
+            return self.form_invalid(form)
 
 cellpanel_cell_edit_view = login_required(CellPanelCellEditView.as_view())
 
 
-#
-#
-# class IdCardEditView(UpdateView):
-#     template_name = 'idcard_edit.html'
-#     form_class = IdCardForm
-#
-#     def get_object(self, queryset=None):
-#         obj = IdCard.objects.get(id=self.args[0])
-#         return obj
-#
-#     def get_context_data(self, **kwargs):
-#         context = super(IdCardEditView, self).get_context_data(**kwargs)
-#         context['active_page'] = 'idcard'
-#         return context
-#
-#     def form_valid(self, form, **kwargs):
-#         form.save()
-#         messages.success(
-#             self.request, 'You changed the IdCard successfully!')
-#         return HttpResponseRedirect('/idcard/')
-#
-# idcard_edit_view = login_required(IdCardEditView.as_view())
-#
-#
-# class IdCardDeleteView(DeleteView):
-#     model = IdCard
-#     success_url = '/idcard/'
-#
-#     def get_object(self, queryset=None):
-#         obj = IdCard.objects.get(id=self.args[0])
-#         messages.success(
-#             self.request, 'You deleted the IdCard successfully!')
-#         return obj
-#
-# idcard_delete_record_view = login_required(IdCardDeleteView.as_view())
+class CellDeleteView(DeleteView):
+    model = Cell
+    success_url = '/cellpanel/%s/' % self.args[0]
+
+    def get_object(self, queryset=None):
+        cell_panel = CellPanel.objects.get(id=self.args[0])
+        cell = Cell.objects.get(id=self.args[1], cell_panel=cell_panel)
+        messages.success(
+            self.request, 'You deleted the Cell successfully!')
+        return cell
+
+cellpanel_cell_delete_view = login_required(CellDeleteView.as_view())
