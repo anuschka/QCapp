@@ -8,6 +8,8 @@ from qcapp.models import Cell, CellPanel
 from django.contrib import messages
 
 
+#   Cell model has a Foreign Key to Cell Panel.
+#   Display all Cells in a Cell Panel and search feature.
 class CellAllView(ListView):
     model = Cell
     paginate_by = 4
@@ -48,6 +50,7 @@ class CellAllView(ListView):
 cell_view = login_required(CellAllView.as_view())
 
 
+#   Enter new Cell in a Cell Panel
 class CellNewView(FormView):
     template_name = 'cell_new.html'
     form_class = CellForm
@@ -83,6 +86,7 @@ class CellNewView(FormView):
 cell_new_view = login_required(CellNewView.as_view())
 
 
+#   Updade/edit a Cell in a Cell Panel.
 class CellPanelCellEditView(UpdateView):
     template_name = 'cell_edit.html'
     form_class = CellForm
@@ -119,6 +123,7 @@ class CellPanelCellEditView(UpdateView):
 cellpanel_cell_edit_view = login_required(CellPanelCellEditView.as_view())
 
 
+#   Delete a Cell in a Cell Panel.
 class CellDeleteView(DeleteView):
     model = Cell
 
