@@ -37,7 +37,8 @@ urlpatterns = [
     url(r'^reagent/([0-9]+)/edit/$', reagent_views.reagent_edit_view,
         name='reagent_edit_view'),
     # Reagent delete record.
-    url(r'^reagent/([0-9]+)/delete/$', reagent_views.reagent_delete_record_view,
+    url(r'^reagent/([0-9]+)/delete/$',
+        reagent_views.reagent_delete_record_view,
         name='reagent_delete_record_view'),
     # # # #  URLs for IdCard CRUD
     # IDCard view all and search.
@@ -53,7 +54,19 @@ urlpatterns = [
         name='idcard_delete_record_view'),
     # # # #  URLs for Cell Panel CRUD
     # Cell Panel view all and search.
-    url(r'^cellpanel/$', cellpanel_views.cellpanel_view, name='cellpanel_view'),
+    url(r'^cellpanel/$', cellpanel_views.cellpanel_view,
+        name='cellpanel_view'),
+    # Cell Panel add new record.
+    url(r'^cellpanel/new/$', cellpanel_views.cellpanel_new_view,
+        name='cellpanel_new_view'),
+    # Cell Panel edit existing record.
+    url(r'^cellpanel/([0-9]+)/edit/$', cellpanel_views.cellpanel_edit_view,
+        name='cellpanel_edit_view'),
+    # Cell Panel delete record.
+    url(r'^cellpanel/([0-9]+)/delete/$',
+        cellpanel_views.cellpanel_delete_record_view,
+        name='cellpanel_delete_record_view'),
+    # # # #  URLs for Cell CRUD. Cell has ForeignKey to Cell Panel.
     # Display all Cells for one Cell Panel.
     url(r'^cellpanel/([0-9]+)/$', cell_views.cell_view,
         name='cell_view'),

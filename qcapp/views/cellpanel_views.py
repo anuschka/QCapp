@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpResponseRedirect
-from qcapp.forms import IdCardForm
+from qcapp.forms import CellPanelForm
 from django.views.generic.edit import FormView, UpdateView, DeleteView
 from django.views.generic import ListView
 from qcapp.models import CellPanel
@@ -46,53 +46,53 @@ class CellPanelAllView(ListView):
 cellpanel_view = login_required(CellPanelAllView.as_view())
 
 
-# class IdCardNewView(FormView):
-#     template_name = 'idcard_new.html'
-#     form_class = IdCardForm
-#
-#     def render_to_response(self, context):
-#         context['active_page'] = 'idcard'
-#         return super().render_to_response(context)
-#
-#     def form_valid(self, form):
-#         form.save()
-#         messages.success(
-#             self.request, 'You entered a new IdCard successfully!')
-#         return HttpResponseRedirect('/idcard/')
-#
-# idcard_new_view = login_required(IdCardNewView.as_view())
-#
-#
-# class IdCardEditView(UpdateView):
-#     template_name = 'idcard_edit.html'
-#     form_class = IdCardForm
-#
-#     def get_object(self, queryset=None):
-#         obj = IdCard.objects.get(id=self.args[0])
-#         return obj
-#
-#     def get_context_data(self, **kwargs):
-#         context = super(IdCardEditView, self).get_context_data(**kwargs)
-#         context['active_page'] = 'idcard'
-#         return context
-#
-#     def form_valid(self, form, **kwargs):
-#         form.save()
-#         messages.success(
-#             self.request, 'You changed the IdCard successfully!')
-#         return HttpResponseRedirect('/idcard/')
-#
-# idcard_edit_view = login_required(IdCardEditView.as_view())
-#
-#
-# class IdCardDeleteView(DeleteView):
-#     model = IdCard
-#     success_url = '/idcard/'
-#
-#     def get_object(self, queryset=None):
-#         obj = IdCard.objects.get(id=self.args[0])
-#         messages.success(
-#             self.request, 'You deleted the IdCard successfully!')
-#         return obj
-#
-# idcard_delete_record_view = login_required(IdCardDeleteView.as_view())
+class CellPanelNewView(FormView):
+    template_name = 'cellpanel_new.html'
+    form_class = CellPanelForm
+
+    def render_to_response(self, context):
+        context['active_page'] = 'cellpanel'
+        return super().render_to_response(context)
+
+    def form_valid(self, form):
+        form.save()
+        messages.success(
+            self.request, 'You entered a new Cell Panel successfully!')
+        return HttpResponseRedirect('/cellpanel/')
+
+cellpanel_new_view = login_required(CellPanelNewView.as_view())
+
+
+class CellPanelEditView(UpdateView):
+    template_name = 'cellpanel_edit.html'
+    form_class = CellPanelForm
+
+    def get_object(self, queryset=None):
+        obj = CellPanel.objects.get(id=self.args[0])
+        return obj
+
+    def get_context_data(self, **kwargs):
+        context = super(CellPanelEditView, self).get_context_data(**kwargs)
+        context['active_page'] = 'cellpanel'
+        return context
+
+    def form_valid(self, form, **kwargs):
+        form.save()
+        messages.success(
+            self.request, 'You changed the Cell Panel successfully!')
+        return HttpResponseRedirect('/cellpanel/')
+
+cellpanel_edit_view = login_required(CellPanelEditView.as_view())
+
+
+class CellPanelDeleteView(DeleteView):
+    model = CellPanel
+    success_url = '/cellpanel/'
+
+    def get_object(self, queryset=None):
+        obj = CellPanel.objects.get(id=self.args[0])
+        messages.success(
+            self.request, 'You deleted the Cell Panel successfully!')
+        return obj
+
+cellpanel_delete_record_view = login_required(CellPanelDeleteView.as_view())

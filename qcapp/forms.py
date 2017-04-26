@@ -1,7 +1,7 @@
 from django import forms
 # from django.core import validators
 from django.contrib.auth.models import User
-from qcapp.models import Reagent, IdCard ,Cell
+from qcapp.models import Reagent, IdCard, Cell, CellPanel
 from django.forms import DateField
 
 
@@ -75,3 +75,11 @@ class CellForm(forms.ModelForm):
     class Meta:
         model = Cell
         fields = ['number', 'type', 'lot', 'expiry']
+
+
+class CellPanelForm(forms.ModelForm):
+    expiry = DateField(input_formats=['%d/%m/%Y', '%Y-%m-%d'])
+
+    class Meta:
+        model = CellPanel
+        fields = ['type', 'lot', 'expiry', 'manufacturer', 'sheet']

@@ -32,9 +32,9 @@
                      <span id="search_concept">Filter by</span> <span class="caret"></span>
                    </button>
                    <ul class="dropdown-menu" role="menu">
-                     <li><a href="/idcard/new">Add new Cell Panel</a></li>
+                     <li><a href="/cellpanel/new">Add new Cell Panel</a></li>
                      <li role="separator" class="divider"></li>
-                     <li><a href="/idcard/?sortBy=expiryDate">Sort by expiry</a></li>
+                     <li><a href="/cellpanel/?sortBy=expiryDate">Sort by expiry</a></li>
                      <li><a href="/idcard/?sortBy=entryDate" onclick="return App.click(this);">Sort by Entry date</a></li>
                    </ul>
                </div>
@@ -62,6 +62,7 @@
                 <th class="text-center">Type</th>
                 <th class="text-center">Manufacturer</th>
                 <th class="text-center">Lot</th>
+                <th class="text-center">Sheet PDF</th>
                 <th class="text-center">Expiry</th>
                 <th class="text-center">Created at</th>
             </tr>
@@ -75,6 +76,7 @@
               <td><a href="/cellpanel/{{cellpanel.id}}/">{{ cellpanel.type }}</a></td>
               <td>{{ cellpanel.manufacturer }}</td>
               <td>{{ cellpanel.lot }}</td>
+              <td>{{ cellpanel.sheet }}</td>
               <td>{{ cellpanel.expiry | date:"d/m/Y"}}</td>
               <td>{{ cellpanel.created_at | date:"d/m/Y H:i"}}</td>
               <td><a href="/cellpanel/{{cellpanel.id}}/edit/" class="btn btn-default btn-sm">edit</a></td>
@@ -84,7 +86,7 @@
     </table>
     <div class="row">
             <div>
-              <a href="/cellpanel/new" class="btn btn-default add-new-cellpanel-button">Add new</a>
+              <a href="/cellpanel/new" class="btn btn-default add-new-cellpanel-button">Add new Cell Panel</a>
             </div>
             <div class="text-center">
               {% include 'snippets/pagination.html' %}

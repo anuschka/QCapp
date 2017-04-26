@@ -8,7 +8,8 @@ class CellPanel(models.Model):
     manufacturer = models.CharField(max_length=100, blank=False)
     lot = models.CharField(max_length=100, blank=False)
     expiry = models.DateTimeField(null=True)
-    sheet = models.BinaryField(null=True)
+    # Sheet is a PDF file that the user uploads. Media file handing!
+    sheet = models.CharField(max_length=100, blank=False)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
 
     class Meta:

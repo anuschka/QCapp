@@ -1,0 +1,63 @@
+{% extends "internal_page.html" %}
+{% load bootstrap3 %}
+{% comment %}
+  This is the template for editing one Cell Panel.
+{% endcomment %}
+
+{% block head %}
+  <title>Cell Panel edit screen | {% block title %}{% endblock %}</title>
+{% endblock %}
+
+{% block content %}
+
+
+      <div class="row">
+          <ol class="breadcrumb">
+            <li><a href="/">Home</a></li>
+            <li><a href="/cellpanel/">Cell Panel</a></li>
+            <li class="active"><a href="/cellpanel/{{ object.id }}/edit/">Edit</a></li>
+          </ol>
+      </div>
+
+      {% if form.errors %}
+
+        <div class="alert alert-danger">
+          There were errors: {{ form.errors }}
+        </div>
+
+      {% endif %}
+
+      <h3>Edit Cell Panel</h3>
+      <hr />
+      <div class="row">
+        <div class="col-md-6">
+            <form action="/cellpanel/{{ object.id }}/edit/" method="post" role="form">
+                {% csrf_token %}
+                {% bootstrap_form form  %}
+                {% buttons %}
+                <div class="cellpanel_toolbar">
+                  <input type="submit" class="btn btn-primary" value="Save" />
+                  <a href="/cellpanel/" class="btn btn-default" onclick="return App.click(this);">Cancel</a>
+                  <div class="pull-right">
+                      <a href="#" onclick="clicked();" class="btn btn-danger">Delete Cell Panel</a>
+                  </div>
+                </div>
+                {% endbuttons %}
+            </form>
+
+            <form method="post" action="/cellpanel/{{ object.id }}/delete/" id="deleteForm">
+              {% csrf_token %}
+            </form>
+
+            <script>
+              function clicked() {
+                     if (confirm('Do you really want to delete?')) {
+                         $('#deleteForm').submit();
+                     } else {
+                         return false;
+                     }
+                  }
+            </script>
+          </div>
+        </div>
+{% endblock %}
