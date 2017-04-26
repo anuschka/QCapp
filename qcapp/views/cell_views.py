@@ -73,7 +73,8 @@ class CellNewView(FormView):
                 CellPanel.objects.get(id=self.args[0]).type +
                 '" successfully!')
             return HttpResponseRedirect('/cellpanel/%s/' % self.args[0])
-            #return HttpResponseRedirect('/cellpanel/%s/cell/%s/' % (self.args[0], new_cell.id))
+            #   return HttpResponseRedirect('/cellpanel/%s/cell/%s/'
+            #   % (self.args[0], new_cell.id))
         except:
             form.add_error('number', 'You entered an existing Cell')
             return self.form_invalid(form)
@@ -109,7 +110,8 @@ class CellPanelCellEditView(UpdateView):
                 CellPanel.objects.get(id=self.args[0]).type +
                 ' successfully!')
             return HttpResponseRedirect('/cellpanel/%s/' % self.args[0])
-            #return HttpResponseRedirect('/cellpanel/%s/cell/%s/' % (self.args[0], new_cell.id))
+            # return HttpResponseRedirect('/cellpanel/%s/cell/%s/' %
+            # (self.args[0], new_cell.id))
         except:
             form.add_error('number', 'You entered an existing Cell')
             return self.form_invalid(form)
@@ -124,10 +126,13 @@ class CellDeleteView(DeleteView):
         cell_panel = CellPanel.objects.get(id=self.args[0])
         cell = Cell.objects.get(id=self.args[1], cell_panel=cell_panel)
         messages.success(
-            self.request, 'You deleted the Cell successfully!')
+            self.request, 'You deleted Cell no: ' + self.args[1] +
+            ' in Cell Panel: ' +
+            CellPanel.objects.get(id=self.args[0]).type +
+            ' successfully!')
         return cell
 
     def get_success_url(self):
-        return HttpResponseRedirect('/cellpanel/%s/' % self.args[0])
+        return '/cellpanel/%s/' % self.args[0]
 
 cellpanel_cell_delete_view = login_required(CellDeleteView.as_view())
