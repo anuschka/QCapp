@@ -2,9 +2,9 @@ from django.conf.urls import url
 from qcapp.views import authentication_views
 from qcapp.views import reagent_views
 from qcapp.views import idcard_views
-from qcapp.views import portal_views
 from qcapp.views import cellpanel_views
 from qcapp.views import cell_views
+from qcapp.views import essey_views
 from django.contrib import admin
 
 urlpatterns = [
@@ -23,8 +23,6 @@ urlpatterns = [
         r'^password_confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
         authentication_views.password_confirm_view,
         name='password_confirm_view'),
-    # Main portal.
-    url(r'^portal/$', portal_views.portal_view, name='portal_page'),
     # Admin site.
     url(r'^admin/', admin.site.urls),
     # # # #  URLs for Reagent CRUD
@@ -81,4 +79,19 @@ urlpatterns = [
     url(r'^cellpanel/([0-9]+)/cell/([0-9]+)/delete/$',
         cell_views.cellpanel_cell_delete_view,
         name='cellpanel_cell_delete_view'),
+    # # # #  URLs for Essey CRUD
+    # Essey view all and search.
+    url(r'^essey/$', essey_views.essey_view, name='essey_view'),
+    # IDCard add new record.
+    # url(r'^essey/new/$', essey_views.essey_new_view,
+    #    name='essey_new_view'),
+    # IDCard edit existing record.
+    # url(r'^essey/([0-9]+)/edit/$', essey_views.essey_edit_view,
+    #    name='essey_edit_view'),
+    # IDCard delete record.
+    # url(r'^essey/([0-9]+)/delete/$', essey_views.essey_delete_record_view,
+    #    name='essey_delete_record_view'),
+    # Essey validate results. Shows only non validated results.
+    # url(r'^essey/validate/$', essey_views.essey_validate_view,
+    #    name='essey_validate_view'),
 ]

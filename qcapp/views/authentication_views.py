@@ -50,7 +50,7 @@ class LoginView(FormView):
                 )
             return self.form_invalid(form)
         login(self.request, user)
-        return HttpResponseRedirect('/portal/')
+        return HttpResponseRedirect('/essey/')
 login_view = LoginView.as_view()
 
 
