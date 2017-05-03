@@ -1,0 +1,34 @@
+{% extends "internal_page.html" %}
+{% load bootstrap3 %}
+{% bootstrap_messages %}
+{% comment %}
+  This is the template for entering a new Essey.
+{% endcomment %}
+
+{% block head %}
+  <title>Enter new Essey | {% block title %}{% endblock %}</title>
+{% endblock %}
+
+{% block content %}
+
+
+      <h3>Add new essey</h3>
+      <hr />
+      <div class="row">
+        <div class="col-md-6">
+            <form method="post" role="form">
+                {% csrf_token %}
+	              {%  bootstrap_field form.reagent %}
+                {%  if form.reagent.requiresIDcard %}
+                    {%  bootstrap_field form.idcard %}
+                {%  endif %}
+                {% buttons %}
+                <div class="cellpanel_toolbar">
+                  <input type="submit" class="btn btn-primary" value="Save" />
+                  <a href="/essey/" class="btn btn-default" onclick="return App.click(this);">Cancel</a>
+                </div>
+                {% endbuttons %}
+            </form>
+          </div>
+        </div>
+{% endblock %}

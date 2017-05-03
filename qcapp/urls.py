@@ -82,9 +82,9 @@ urlpatterns = [
     # # # #  URLs for Essey CRUD
     # Essey view all and search.
     url(r'^essey/$', essey_views.essey_view, name='essey_view'),
-    # IDCard add new record.
-    # url(r'^essey/new/$', essey_views.essey_new_view,
-    #    name='essey_new_view'),
+    # Essey add new record.
+    url(r'^essey/new/$', essey_views.essey_new_view,
+        name='essey_new_view'),
     # IDCard edit existing record.
     # url(r'^essey/([0-9]+)/edit/$', essey_views.essey_edit_view,
     #    name='essey_edit_view'),
