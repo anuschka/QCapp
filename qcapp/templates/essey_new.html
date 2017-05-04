@@ -18,10 +18,8 @@
         <div class="col-md-6">
             <form method="post" role="form">
                 {% csrf_token %}
-	              {%  bootstrap_field form.reagent %}
-                {%  if form.reagent.requiresIDcard %}
-                    {%  bootstrap_field form.idcard %}
-                {%  endif %}
+                {%  bootstrap_field form.reagent %}
+                {%  bootstrap_field form.idcard %}
                 {% buttons %}
                 <div class="cellpanel_toolbar">
                   <input type="submit" class="btn btn-primary" value="Save" />
@@ -29,6 +27,20 @@
                 </div>
                 {% endbuttons %}
             </form>
+            <script>
+              // Handle click on checkbox
+              $("#id_requiresIDcard").on("click", function() {
+                  // Is checkbox clicked?
+                  var checked = $("#id_requiesIDcard").is(":checked");
+
+                  // If it is, then show the other field, otherwise hide it
+                  if (checked) {
+                    $("#id_idcard").show();
+                  } else {
+                    $("#id_idcard").hide();
+                  }
+              });
+            </script>
           </div>
         </div>
 {% endblock %}

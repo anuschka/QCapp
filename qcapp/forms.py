@@ -90,4 +90,4 @@ class EsseyForm(forms.ModelForm):
 
     class Meta:
         model = Essey
-        fields = ['type', 'reagent', 'control', 'technician', 'doctor', 'remark', 'consequence']
+        fields = ['type', 'reagent',  'idcard', 'control', 'technician', 'doctor', 'remark', 'consequence']

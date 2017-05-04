@@ -77,6 +77,7 @@ class Essey(models.Model):
     type = models.CharField(max_length=100, blank=False)
     reagent = models.ForeignKey(Reagent)
     control = models.ForeignKey(Control)
+    idcard = models.ForeignKey(IdCard)
     technician = models.ForeignKey(User, related_name='esseys_as_technician')
     doctor = models.ForeignKey(User, related_name='esseys_as_doctor')
     remark = models.CharField(max_length=200)
