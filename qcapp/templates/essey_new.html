@@ -42,8 +42,10 @@
                        if (data.is_checked) {
                          alert("Reagent requires ID card.");
                          $("#id_idcard").show();
+                         $('label[for="id_idcard"]').show();
                             } else {
                               $("#id_idcard").hide();
+                              $('label[for="id_idcard"]').hide();
                             }
                           }
                         });
