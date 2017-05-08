@@ -30,12 +30,12 @@
             <script>
 
                $("#id_reagent").change(function () {
-                 console.log( $(this).val() );
+                 var id = $(this).val();
 
                  $.ajax({
                      url: '/ajax/validate_reagent/',
                      data: {
-                       'reagent': reagent
+                       'id': id
                      },
                      dataType: 'json',
                      success: function (data) {

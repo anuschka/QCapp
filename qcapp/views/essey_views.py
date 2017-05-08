@@ -65,10 +65,10 @@ essey_new_view = login_required(EsseyNewView.as_view())
 
 
 def validate_reagent(request):
-    reagent = request.GET.get('reagent', None)
+    reagent_id = request.GET.get('id', None)
     data = {
         'is_checked':
-        Reagent.objects.filter(reagent__iexact=reagent).requiresIDcard.exists()
+        Reagent.objects.get(pk=reagent_id).requiresIDcard
     }
     return JsonResponse(data)
 
