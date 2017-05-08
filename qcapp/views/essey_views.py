@@ -4,8 +4,9 @@ from django.http import HttpResponseRedirect
 from qcapp.forms import EsseyForm
 from django.views.generic.edit import FormView, UpdateView, DeleteView
 from django.views.generic import ListView
-from qcapp.models import Essey
+from qcapp.models import Essey, Reagent
 from django.contrib import messages
+from django.http import JsonResponse
 
 
 class EsseyAllView(ListView):
@@ -61,6 +62,15 @@ class EsseyNewView(FormView):
         return HttpResponseRedirect('/')
 
 essey_new_view = login_required(EsseyNewView.as_view())
+
+
+def validate_reagent(request):
+    reagent = request.GET.get('reagent', None)
+    data = {
+        'is_checked':
+        Reagent.objects.filter(reagent__iexact=reagent).requiresIDcard.exists()
+    }
+    return JsonResponse(data)
 
 
 # class IdCardEditView(UpdateView):

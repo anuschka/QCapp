@@ -28,18 +28,26 @@
                 {% endbuttons %}
             </form>
             <script>
-              // Handle click on checkbox
-              $("#id_requiresIDcard").on("click", function() {
-                  // Is checkbox clicked?
-                  var checked = $("#id_requiesIDcard").is(":checked");
 
-                  // If it is, then show the other field, otherwise hide it
-                  if (checked) {
-                    $("#id_idcard").show();
-                  } else {
-                    $("#id_idcard").hide();
-                  }
-              });
+               $("#id_reagent").change(function () {
+                 console.log( $(this).val() );
+
+                 $.ajax({
+                     url: '/ajax/validate_reagent/',
+                     data: {
+                       'reagent': reagent
+                     },
+                     dataType: 'json',
+                     success: function (data) {
+                       if (data.is_checked) {
+                         alert("Reagent requires ID card.");
+                         $("#id_idcard").show();
+                            } else {
+                              $("#id_idcard").hide();
+                            }
+                          }
+                        });
+                      });
             </script>
           </div>
         </div>

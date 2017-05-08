@@ -85,6 +85,8 @@ urlpatterns = [
     # Essey add new record.
     url(r'^essey/new/$', essey_views.essey_new_view,
         name='essey_new_view'),
+    url(r'^ajax/validate_reagent/$', essey_views.validate_reagent,
+        name='validate_reagent'),
     # IDCard edit existing record.
     # url(r'^essey/([0-9]+)/edit/$', essey_views.essey_edit_view,
     #    name='essey_edit_view'),
