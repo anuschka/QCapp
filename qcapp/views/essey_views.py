@@ -1,12 +1,13 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpResponseRedirect
-from qcapp.forms import EsseyForm
+from qcapp.forms import EsseyForm, ControlFormSet
 from django.views.generic.edit import FormView, UpdateView, DeleteView
 from django.views.generic import ListView
-from qcapp.models import Essey, Reagent
+from qcapp.models import Essey, Reagent, Control
 from django.contrib import messages
 from django.http import JsonResponse
+
 
 
 class EsseyAllView(ListView):
@@ -50,6 +51,20 @@ essey_view = login_required(EsseyAllView.as_view())
 class EsseyNewView(FormView):
     template_name = 'essey_new.html'
     form_class = EsseyForm
+
+    def get(self, request, *args, **kwargs):
+        """
+        Handles GET requests and instantiates blank versions of the form
+        and its inline formsets.
+        """
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        control_form = ControlFormSet()
+        return self.render_to_response(
+            self.get_context_data(form=form,
+                                  control_form=control_form,
+                                  ))
 
     def render_to_response(self, context):
         context['active_page'] = 'essey'

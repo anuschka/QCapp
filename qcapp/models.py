@@ -64,28 +64,33 @@ class IdCard(models.Model):
         unique_together = ('type', 'manufacturer', 'lot')
 
 
-# Createed model for Control.
+# Createed model for Essey specificity.
+class Essey(models.Model):
+    type = models.CharField(max_length=100, blank=False)
+    reagent = models.ForeignKey(Reagent, related_name='reagent_essey')
+    idcard = models.ForeignKey(IdCard, null=True, related_name='idcard_essey')
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+
+    class Meta:
+        unique_together = ('type', 'created_at')
+
+# Created model for Control.
 class Control(models.Model):
     type = models.CharField(max_length=1, choices=[('P', 'PK'), ('N', 'NK')], blank=False)
     cell = models.ForeignKey(Cell)
     result = models.IntegerField(choices=[(0, '0'), (1, '+1'), (2, '+2'), (3, '+3'), (4, '+4')], blank=False)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
+    essey = models.ForeignKey(Essey, related_name='essey_control')
 
 
-# Createed model for Essey specificity.
-class Essey(models.Model):
-    type = models.CharField(max_length=100, blank=False)
-    reagent = models.ForeignKey(Reagent)
-    control = models.ForeignKey(Control)
-    idcard = models.ForeignKey(IdCard)
-    technician = models.ForeignKey(User, related_name='esseys_as_technician')
-    doctor = models.ForeignKey(User, related_name='esseys_as_doctor')
+# Created model for VAlidation.
+class Validation(models.Model):
+    technician = models.ForeignKey(User, related_name='technician')
+    doctor = models.ForeignKey(User, related_name='doctor')
     remark = models.CharField(max_length=200)
     consequence = models.CharField(max_length=1, choices=[('P', 'OK'), ('N', 'NOT OK')], blank=False)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
-
-    class Meta:
-        unique_together = ('type', 'created_at', 'technician')
+    essey = models.ForeignKey(Essey, related_name='essey_validation')
 
 
 class UserProfile(models.Model):

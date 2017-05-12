@@ -1,8 +1,9 @@
 from django import forms
 # from django.core import validators
 from django.contrib.auth.models import User
-from qcapp.models import Reagent, IdCard, Cell, CellPanel, Essey
+from qcapp.models import Reagent, IdCard, Cell, CellPanel, Essey, Control
 from django.forms import DateField
+from django.forms import inlineformset_factory
 
 
 class RegistrationForm(forms.Form):
@@ -85,9 +86,21 @@ class CellPanelForm(forms.ModelForm):
         fields = ['type', 'lot', 'expiry', 'manufacturer', 'sheet']
 
 
-class EsseyForm(forms.ModelForm):
-    expiry = DateField(input_formats=['%d/%m/%Y', '%Y-%m-%d'])
+class ControlForm(forms.ModelForm):
+    class Meta:
+        model = Control
+        fields = ['type', 'cell', 'result']
 
+
+class EsseyForm(forms.ModelForm):
     class Meta:
         model = Essey
-        fields = ['type', 'reagent',  'idcard', 'control', 'technician', 'doctor', 'remark', 'consequence']
+        fields = ['type', 'reagent', 'idcard']
+
+ControlFormSet = inlineformset_factory(Essey,
+                                       Control,
+                                       fields=['type',
+                                               'cell',
+                                               'result'],
+                                       extra=2,
+                                       can_delete=True)
