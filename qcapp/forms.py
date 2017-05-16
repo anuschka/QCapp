@@ -102,5 +102,4 @@ ControlFormSet = inlineformset_factory(Essey,
                                        fields=['type',
                                                'cell',
                                                'result'],
-                                       extra=2,
-                                       can_delete=True)
+                                       extra=2)

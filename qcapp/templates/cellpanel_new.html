@@ -16,13 +16,13 @@
       <hr />
       <div class="row">
         <div class="col-md-6">
-            <form action="/cellpanel/new/" method="post" role="form">
+            <form method="post" role="form">
                 {% csrf_token %}
 	              {% bootstrap_form form  %}
                 {% buttons %}
                 <div class="cellpanel_toolbar">
                   <input type="submit" class="btn btn-primary" value="Save" />
-                  <a href="/cellpanel/" class="btn btn-default" onclick="return App.click(this);">Cancel</a>
+                  <a href="/essey/" class="btn btn-default" onclick="return App.click(this);">Cancel</a>
                 </div>
                 {% endbuttons %}
             </form>

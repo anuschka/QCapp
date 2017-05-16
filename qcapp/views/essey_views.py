@@ -70,12 +70,42 @@ class EsseyNewView(FormView):
         context['active_page'] = 'essey'
         return super().render_to_response(context)
 
-    def form_valid(self, form):
-        form.save()
+    def post(self, request, *args, **kwargs):
+        """
+        Handles POST requests, instantiating a form instance and its inline
+        formsets with the passed POST variables and then checking them for
+        validity.
+        """
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        control_form = ControlFormSet(self.request.POST)
+        if (form.is_valid() and control_form.is_valid()):
+            return self.form_valid(form, control_form)
+        else:
+            return self.form_invalid(form, control_form)
+
+    def form_valid(self, form, control_form):
+        """
+        Called if all forms are valid. Creates a Essey instance along with
+        associated Controls and to a success page.
+        """
+        self.object = form.save()
+        control_form.instance = self.object
+        control_form.save()
         messages.success(
             self.request, 'You entered a new essey successfully!')
         return HttpResponseRedirect('/')
 
+    def form_invalid(self, form, control_form):
+        """
+        Called if a form is invalid. Re-renders the context data with the
+        data-filled forms and errors.
+        """
+        return self.render_to_response(
+            self.get_context_data(form=form,
+                                  control_form=control_form,
+                                  ))
 essey_new_view = login_required(EsseyNewView.as_view())
 
 
