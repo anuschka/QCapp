@@ -87,7 +87,7 @@ class Control(models.Model):
 class Validation(models.Model):
     technician = models.ForeignKey(User, related_name='technician')
     doctor = models.ForeignKey(User, related_name='doctor')
-    remark = models.CharField(max_length=200)
+    remark = models.CharField(max_length=200, null=True)
     consequence = models.CharField(max_length=1, choices=[('P', 'OK'), ('N', 'NOT OK')], blank=False)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     essey = models.ForeignKey(Essey, related_name='essey_validation')

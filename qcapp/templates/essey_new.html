@@ -16,7 +16,7 @@
       <hr />
       <div class="row">
         <div class="col-md-6">
-            <form method="post" role="form">
+            <form method="post">
                 {% csrf_token %}
                 {% bootstrap_form form %}
                 {% bootstrap_formset control_form layout='horizontal' %}

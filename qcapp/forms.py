@@ -86,12 +86,6 @@ class CellPanelForm(forms.ModelForm):
         fields = ['type', 'lot', 'expiry', 'manufacturer', 'sheet']
 
 
-class ControlForm(forms.ModelForm):
-    class Meta:
-        model = Control
-        fields = ['type', 'cell', 'result']
-
-
 class EsseyForm(forms.ModelForm):
     class Meta:
         model = Essey
