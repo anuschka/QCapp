@@ -90,13 +90,16 @@ class EsseyNewView(FormView):
         Called if all forms are valid. Creates a Essey instance along with
         associated Controls and to a success page.
         """
-        essey_object = form.save()
-        control_object = control_form.save(commit=False)
-        control_object.essey = essey_object
-        control_object.save()
+        #essey_object = form.save()
+        #control_object = control_form.save(commit=False)
+        #control_object.instance = essey_object
+        #control_object.save()
+        self.object = form.save()
+        control_form.instance = self.object
+        control_form.save()
         messages.success(
             self.request, 'You entered a new essey successfully!')
-        return HttpResponseRedirect('/')
+        return HttpResponseRedirect('/essey/')
 
     def form_invalid(self, form, control_form):
         """

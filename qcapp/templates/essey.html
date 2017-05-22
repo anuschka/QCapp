@@ -35,25 +35,29 @@
 
 
     <h3>Show all esseys</h3>
-    <table class="table text-center">
+    <table class="table text-center table table-responsive">
         <thead>
             <tr>
-                <th class="text-center">Type</th>
-                <th class="text-center">Manufacturer</th>
-                <th class="text-center">Lot</th>
-                <th class="text-center">Expiry</th>
-                <th class="text-center" class="text-center">RequiresIDcard</th>
                 <th class="text-center">Created at</th>
+                <th class="text-center">Reagent</th>
+                <th class="text-center">IDcard</th>
+                <th class="text-center">Cell for Pos Control</th>
+                <th class="text-center">Result for Pos Control</th>
+                <th class="text-center">Cell for Neg Control</th>
+                <th class="text-center">Result for Neg Control</th>
+                <th class="text-center">Is validated</th>
+                <th class="text-center"></th>
             </tr>
-        </thead>
+          </thead>
         <tbody>
-          {% for reagent in reagent_list %}
+          {% for essey in essey_list %}
           {% comment %}
-            The view passes the list of reagents by default as object_list and reagent_list (aliases; either will work).
+            The view passes the list of esseys by default as object_list and essey_list (aliases; either will work).
           {% endcomment %}
             <tr>
-              <td><a href="/reagent/{{reagent.id}}/edit/">{{ reagent.type }}</a></td>
-              <td>{{ reagent.manufacturer }}</td>
+              <td>{{ essey.created_at | date:"d/m/Y H:i"}}</td>
+              <td>{{ essey.reagent }}</td>
+              <td>{{ essey.idcard.type }}</td>
               <td>{{ reagent.lot }}</td>
               <td>{{ reagent.expiry | date:"d/m/Y"}}</td>
               <td>{% if reagent.requiresIDcard %} Yes {% else %} No {% endif %}</td>
