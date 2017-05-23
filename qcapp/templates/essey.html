@@ -58,9 +58,24 @@
               <td>{{ essey.created_at | date:"d/m/Y H:i"}}</td>
               <td>{{ essey.reagent }}</td>
               <td>{{ essey.idcard.type }}</td>
-              <td>{{ reagent.lot }}</td>
-              <td>{{ reagent.expiry | date:"d/m/Y"}}</td>
-              <td>{% if reagent.requiresIDcard %} Yes {% else %} No {% endif %}</td>
+              {% for control in control_list %}
+                {% if essey == control.essey %}
+                 {% if control.type == 'PK' %}
+                    <td>{{ control.cell.type }}</td>
+                    <td>{{ control.result }}</td>
+                  {% elif control.type != 'PK' and control.type != 'NK' %}
+                    <td>No cell.</td>
+                    <td>No result.</td>
+                {% endif %}
+                {% if control.type == 'NK' %}
+                    <td>{{ control.cell.type }}</td>
+                    <td>{{ control.result }}</td>
+                {% elif control.type != 'PK' and control.type != 'NK' %}
+                    <td>No cell.</td>
+                    <td>No result.</td>
+                {% endif %}
+              {% endif %}
+              {% endfor %}
               <td>{{ reagent.created_at | date:"d/m/Y H:i"}}</td>
               <td><a href="/reagent/{{reagent.id}}/edit/" class="btn btn-default btn-sm">edit</a></td>
             </tr>

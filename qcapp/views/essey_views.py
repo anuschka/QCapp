@@ -19,6 +19,7 @@ class EsseyAllView(ListView):
         context = super(EsseyAllView, self).get_context_data(**kwargs)
         context['active_page'] = 'essey'
         context['keyword'] = self.request.GET.get('keyword')
+        context['control_list'] = Control.objects.all()
         GET_params = self.request.GET.copy()
         if 'page' in GET_params:
             del GET_params['page']
