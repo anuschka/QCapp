@@ -60,21 +60,21 @@
               <td>{{ essey.idcard.type }}</td>
               {% for control in control_list %}
                 {% if essey == control.essey %}
-                 {% if control.type == 'PK' %}
+                  {% if control.type == 'P' %}
                     <td>{{ control.cell.type }}</td>
-                    <td>{{ control.result }}</td>
-                  {% elif control.type != 'PK' and control.type != 'NK' %}
+                    <td>+ {{ control.result }}</td>
+                  {% elif control.type != 'P' and control.type != 'N' %}
                     <td>No cell.</td>
                     <td>No result.</td>
-                {% endif %}
-                {% if control.type == 'NK' %}
+                  {% endif %}
+                  {% if control.type == 'N' %}
                     <td>{{ control.cell.type }}</td>
-                    <td>{{ control.result }}</td>
-                {% elif control.type != 'PK' and control.type != 'NK' %}
+                    <td>+ {{ control.result }}</td>
+                  {% elif control.type != 'P' and control.type != 'N' %}
                     <td>No cell.</td>
                     <td>No result.</td>
+                  {% endif %}
                 {% endif %}
-              {% endif %}
               {% endfor %}
               <td>{{ reagent.created_at | date:"d/m/Y H:i"}}</td>
               <td><a href="/reagent/{{reagent.id}}/edit/" class="btn btn-default btn-sm">edit</a></td>

@@ -16,7 +16,7 @@ class CellPanel(models.Model):
         unique_together = ('type', 'manufacturer', 'lot')
 
     def __str__(self):
-        return "My CellPanel type %s" % (self.type)
+        return "CellPanel type %s" % (self.type)
 
 
 # Createed model for Cell. One Cell always belongs to only one CellPanel.
@@ -32,7 +32,7 @@ class Cell(models.Model):
         unique_together = ('number', 'cell_panel')
 
     def __str__(self):
-        return "My cell number %s in %s" % (self.number, self.type)
+        return "Cell number %s in %s" % (self.number, self.type)
 
 
 # Createed model for Reagent.
@@ -49,7 +49,7 @@ class Reagent(models.Model):
         unique_together = ('type', 'manufacturer', 'lot')
 
     def __str__(self):
-        return "Reagent %s by %s" % (self.type, self.manufacturer)
+        return "Reagent %s" % (self.type)
 
 
 # Createed model for IDcard.
@@ -63,6 +63,8 @@ class IdCard(models.Model):
     class Meta:
         unique_together = ('type', 'manufacturer', 'lot')
 
+    def __str__(self):
+        return "IdCard %s" % (self.type)
 
 # Createed model for Essey specificity.
 class Essey(models.Model):
@@ -74,6 +76,9 @@ class Essey(models.Model):
     class Meta:
         unique_together = ('type', 'created_at')
 
+    def __str__(self):
+        return "Essey %s with reagent %s" % (self.type, self.reagent)
+
 # Created model for Control.
 class Control(models.Model):
     type = models.CharField(max_length=1, choices=[('P', 'PK'), ('N', 'NK')], blank=False)
@@ -81,6 +86,9 @@ class Control(models.Model):
     result = models.IntegerField(choices=[(0, '0'), (1, '+1'), (2, '+2'), (3, '+3'), (4, '+4')], blank=False)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     essey = models.ForeignKey(Essey, related_name='essey_control')
+
+    def __str__(self):
+        return "Control type %s in essey %s" % (self.type, self.essey.type)
 
 
 # Created model for VAlidation.
@@ -92,7 +100,12 @@ class Validation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     essey = models.ForeignKey(Essey, related_name='essey_validation')
 
+    def __str__(self):
+        return "validation for %s" % (self.essey.type)
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     roles = models.CharField(max_length=1, choices=[('T', 'Technician'), ('D', 'Doctor'), ('A', 'Admin')])
+
+    def __str__(self):
+        return "user %s as %s" % (self.user, self.roles)
