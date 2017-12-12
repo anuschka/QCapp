@@ -79,7 +79,7 @@ class RegisterView(FormView):
             login(self.request, user)
             messages.success(
                 self.request, 'You registered successfully!')
-        return HttpResponseRedirect('/portal/')
+        return HttpResponseRedirect('/essey/')
 register_view = RegisterView.as_view()
 
 

@@ -104,7 +104,11 @@ class Validation(models.Model):
         return "validation for %s" % (self.essey.type)
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        primary_key=True, 
+        )
     roles = models.CharField(max_length=1, choices=[('T', 'Technician'), ('D', 'Doctor'), ('A', 'Admin')])
 
     def __str__(self):
