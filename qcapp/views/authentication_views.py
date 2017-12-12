@@ -213,7 +213,7 @@ class PasswordConfirmView(FormView):
             messages.success(
                 self.request, 'Password has been reset for '
                 'user: {0}'.format(user))
-            return super().form_valid(form)
+            return super(PasswordConfirmView,self).form_valid(form)
 
 
 password_confirm_view = PasswordConfirmView.as_view()
